@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2dd4bf"/>
+      <stop offset="60%" stop-color="#14b8a6"/>
+      <stop offset="100%" stop-color="#f472b6"/>
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="42" fill="#0d1b2a"/>
+  <rect width="192" height="192" rx="42" fill="url(#g)" opacity="0.18"/>
+  <path d="M96 142s-44 -28 -44 -68a32 32 0 0 1 57 -19 32 32 0 0 1 57 19c0 40 -44 68 -44 68z" transform="translate(-25 -8)" fill="none" stroke="url(#g)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(96 92)">
+    <rect x="-14" y="-5" width="28" height="10" rx="2.5" fill="#fff"/>
+    <rect x="-5" y="-14" width="10" height="28" rx="2.5" fill="#fff"/>
+  </g>
+  <text x="96" y="160" font-family="Inter, sans-serif" font-size="22" font-weight="800" text-anchor="middle" fill="#fff">DosisPed</text>
+</svg>
