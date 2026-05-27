@@ -2465,6 +2465,52 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
 }
 .btn-modal-principal:hover { filter: brightness(1.08); box-shadow: 0 4px 20px var(--cyan-glow); }
 
+.modal-bloque--manual {
+  border-left: 3px solid var(--pink);
+}
+.btn-descargar-manual {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 9px 14px;
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--pink) 100%);
+  color: #fff !important;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none !important;
+  transition: all 0.15s;
+  box-shadow: 0 2px 12px var(--cyan-glow);
+  letter-spacing: 0.01em;
+}
+.btn-descargar-manual:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 18px var(--cyan-glow);
+  transform: translateY(-1px);
+}
+.manual-botones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.btn-descargar-manual--secundario {
+  background: var(--bg-4) !important;
+  color: var(--text-2) !important;
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+.btn-descargar-manual--secundario:hover {
+  border-color: var(--cyan);
+  color: var(--cyan) !important;
+  background: var(--cyan-dim) !important;
+  box-shadow: none;
+  filter: none;
+}
+
 .modal-meta {
   padding: 10px 4px 0;
   text-align: center;

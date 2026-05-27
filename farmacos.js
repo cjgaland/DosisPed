@@ -39,13 +39,23 @@ const farmacos = [
     fuente: "Pediamécum (AEP)",
     intermitente: [
       {
-        indicacion: "Infección herpética grave / VVZ inmunodeprimido",
+        indicacion: "Infección herpética grave / VVZ inmunodeprimido (IV)",
         via: "iv",
         dosis_mg_kg: 10,
         intervalo_h: 8,
-        dosis_max_mg: 500,
+        dosis_max_mg: 800,
         duracion: "7-14 días según indicación",
-        nota: "Diluir y administrar en 1 hora. Asegurar buena hidratación (riesgo de nefrotoxicidad por cristaluria). En encefalitis herpética: 20 mg/kg/dosis cada 8 h en < 12 años (14-21 días). En neonatos: 20 mg/kg/dosis cada 8 h (14-21 días).",
+        nota: "Pediamécum: 10 mg/kg/dosis cada 8 h en infecciones herpéticas graves y VVZ en inmunodeprimido (no encefalitis). Diluir y administrar en 1 hora. Asegurar buena hidratación (riesgo de nefrotoxicidad por cristaluria).",
+        preparados: []
+      },
+      {
+        indicacion: "Encefalitis herpética / Neonatos (IV)",
+        via: "iv",
+        dosis_mg_kg: 20,
+        intervalo_h: 8,
+        dosis_max_mg: 1200,
+        duracion: "14-21 días",
+        nota: "Pediamécum: 20 mg/kg/dosis cada 8 h durante 14-21 días en encefalitis herpética (< 12 años) y en infecciones por VHS en neonatos. Diluir y administrar en 1 hora. Vigilar función renal, asegurar hidratación. En ≥ 12 años: 10-15 mg/kg/dosis cada 8 h en encefalitis.",
         preparados: []
       },
       {
@@ -303,12 +313,12 @@ const farmacos = [
         ]
       },
       {
-        indicacion: "Infección grave IV",
+        indicacion: "Infección moderada-grave IV",
         via: "iv",
-        dosis_mg_kg: 50,
-        intervalo_h: 6,
-        dosis_max_mg: 2000,
-        nota: "Diluir y administrar en 30 min. En meningitis no es de elección.",
+        dosis_mg_kg_dia: 100,
+        intervalo_h: 8,
+        dosis_max_dia_mg: 6000,
+        nota: "Pediamécum: 100 mg/kg/día divididos cada 6-8 h en infecciones moderadas-graves IV. En infecciones graves (sepsis, neumonía complicada) puede aumentarse a 150-200 mg/kg/día divididos cada 4-6 h (consultar protocolos locales). Diluir y administrar en 30 min. NO es de elección en meningitis (usar cefotaxima/ceftriaxona).",
         preparados: []
       }
     ],
@@ -358,12 +368,12 @@ const farmacos = [
         ]
       },
       {
-        indicacion: "Infección grave IV",
+        indicacion: "Infección moderada-grave IV",
         via: "iv",
-        dosis_mg_kg: 100,
+        dosis_mg_kg_dia: 100,
         intervalo_h: 8,
-        dosis_max_mg: 2000,
-        nota: "Dosis expresada en amoxicilina (relación 10:1). Indicado en infecciones graves de partes blandas, abdominales, neumonía complicada. Administrar en 30-40 min."
+        dosis_max_dia_mg: 6000,
+        nota: "Pediamécum: 100 mg/kg/día (expresados en componente amoxicilina) divididos cada 6-8 h, máx. 6 g/día. En infecciones graves puede aumentarse a 150 mg/kg/día divididos cada 6 h. Administrar en 30-40 min. Relación amoxicilina:clavulánico 10:1 en presentación IV."
       }
     ],
     info: {
@@ -1113,11 +1123,10 @@ const farmacos = [
       {
         indicacion: "Infección invasiva grave (IV)",
         via: "iv",
-        dosis_mg_kg: 10,
+        dosis_mg_kg_dia: 40,
         intervalo_h: 8,
-        dosis_max_mg: 900,
         dosis_max_dia_mg: 2700,
-        nota: "25-40 mg/kg/día divididos cada 6-8 h. En síndrome del shock tóxico estreptocócico o estafilocócico, asociar a betalactámico/vancomicina por su efecto sobre la producción de toxinas."
+        nota: "Pediamécum: 25-40 mg/kg/día IV divididos cada 6-8 h, máx. 2,7 g/día. En shock tóxico estreptocócico/estafilocócico: dosis altas (40 mg/kg/día c/6 h) asociadas a betalactámico/vancomicina por efecto antitoxina. Administrar en 30-60 min para evitar reacción tipo eritrodisestésica."
       }
     ],
     info: {
@@ -1464,7 +1473,7 @@ const farmacos = [
         dosis_mg: 250, dilucion_ml: 250, suero: "Dx5%",
         concUgMl: (250 * 1000) / 250,           // 1000 mcg/ml
         dosisRange: "2,5 – 20 mcg/kg/min",
-        dosisMin: 2.5, softMax: 20, hardMax: 40,
+        dosisMin: 2.5, softMax: 20, hardMax: 25,
         unidad: "mcg/kg/min", calcTipo: "mcg_kg_min"
       },
       {
@@ -1472,7 +1481,7 @@ const farmacos = [
         dosis_mg: 500, dilucion_ml: 250, suero: "Dx5%",
         concUgMl: (500 * 1000) / 250,           // 2000 mcg/ml
         dosisRange: "2,5 – 20 mcg/kg/min",
-        dosisMin: 2.5, softMax: 20, hardMax: 40,
+        dosisMin: 2.5, softMax: 20, hardMax: 25,
         unidad: "mcg/kg/min", calcTipo: "mcg_kg_min"
       }
     ],
@@ -1509,7 +1518,7 @@ const farmacos = [
         dosis_mg: 200, dilucion_ml: 250, suero: "Dx5%",
         concUgMl: (200 * 1000) / 250,           // 800 mcg/ml
         dosisRange: "5 – 20 mcg/kg/min",
-        dosisMin: 2, softMax: 20, hardMax: 30,
+        dosisMin: 2, softMax: 20, hardMax: 25,
         unidad: "mcg/kg/min", calcTipo: "mcg_kg_min"
       },
       {
@@ -1517,7 +1526,7 @@ const farmacos = [
         dosis_mg: 200, dilucion_ml: 100, suero: "Dx5%",
         concUgMl: (200 * 1000) / 100,           // 2000 mcg/ml
         dosisRange: "5 – 20 mcg/kg/min",
-        dosisMin: 2, softMax: 20, hardMax: 30,
+        dosisMin: 2, softMax: 20, hardMax: 25,
         unidad: "mcg/kg/min", calcTipo: "mcg_kg_min"
       }
     ],
@@ -2454,11 +2463,11 @@ const farmacos = [
     modos: ["puntual", "intermitente"],
     fuente: "Pediamécum / SEUP",
     puntual: {
-      descripcion: "Insuficiencia suprarrenal aguda / Estado asmático grave / Anafilaxia",
-      dosis_mg_kg: 10,
-      dosis_max_mg: 500,
-      via: "IV/IM. Crisis adrenal: 50-100 mg/m² o 1-2 mg/kg en bolo. Asma grave: 2-4 mg/kg cada 6 h. Anafilaxia (tras adrenalina): 4-8 mg/kg.",
-      nota: "Inicio acción 1-2 h. En crisis adrenal seguir con perfusión a 25-50 mg/m²/día. En lactantes: dosis fijas según edad (lactante 25 mg, escolar 50 mg, adolescente 100 mg)."
+      descripcion: "Anafilaxia / Estado asmático grave / Insuficiencia suprarrenal aguda",
+      dosis_mg_kg: 4,
+      dosis_max_mg: 200,
+      via: "IV/IM. Anafilaxia (tras adrenalina): 4-8 mg/kg (máx. 200 mg). Asma grave: 2-4 mg/kg cada 6 h (máx. 100-125 mg/dosis). Crisis adrenal: 1-2 mg/kg en bolo (50-100 mg/m²).",
+      nota: "Dosis por defecto calculada para anafilaxia/asma grave (4 mg/kg, máx. 200 mg). Inicio acción 1-2 h. En crisis adrenal: 1-2 mg/kg en bolo, después perfusión a 25-50 mg/m²/día. Dosis fijas alternativas por edad: lactante 25 mg, escolar 50 mg, adolescente 100 mg."
     },
     intermitente: [
       {
@@ -4163,8 +4172,8 @@ const farmacos = [
         label: "5 mg / 50 ml SG5% (UCIP)",
         dosis_mg: 5, dilucion_ml: 50, suero: "Dx5%",
         concUgMl: (5 * 1000) / 50,              // 100 mcg/ml
-        dosisRange: "0,1 – 10 mcg/kg/min",
-        dosisMin: 0.1, softMax: 10, hardMax: 15,
+        dosisRange: "0,1 – 4 mcg/kg/min (hasta 10 en refractario)",
+        dosisMin: 0.1, softMax: 4, hardMax: 10,
         unidad: "mcg/kg/min", calcTipo: "mcg_kg_min"
       }
     ],
