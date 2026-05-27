@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editores e IDEs
+.vscode/
+.idea/
+*.swp
+*~
+
+# Claude Code
+.claude/
+**/.claude/
+
+# Node (por si en el futuro se añade tooling)
+node_modules/
+package-lock.json
+
+# Backups y logs
+*.bak
+*.log

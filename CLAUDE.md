@@ -567,6 +567,76 @@ El usuario trabaja en un hospital concreto con fórmulas magistrales específica
 
 ---
 
+## 12bis. Despliegue automatizado (GitHub Pages)
+
+El proyecto está publicado en **https://cjgaland.github.io/DosisPed/** desde el repositorio **github.com/cjgaland/DosisPed** (rama `main`).
+
+El working directory local (`/Users/Trabajo/Desktop/Pediatría/DosisPed/`) está conectado al remoto `origin` (`https://github.com/cjgaland/DosisPed.git`).
+
+### Comando "despliega"
+
+Cuando el usuario diga **"despliega"**, **"sube los cambios"**, **"actualiza el repo"**, **"publica"** o equivalente, Claude debe ejecutar el siguiente flujo:
+
+1. **Comprobar estado**:
+   ```bash
+   git status --short
+   git diff --stat
+   ```
+   Mostrar al usuario lo que va a subir.
+
+2. **Bumpear el Service Worker** si han cambiado `app.js`, `farmacos.js`, `styles.css`, `index.html` o `sw.js`. Incrementar `CACHE_NAME` en `sw.js` (de `dosisped-vN` a `dosisped-v(N+1)`) — esto fuerza a los navegadores instalados a recoger la nueva versión.
+
+3. **Validar sintaxis**:
+   ```bash
+   node -c app.js && node -c farmacos.js
+   ```
+   Abortar si hay errores.
+
+4. **Stage selectivo** (importante: NO tocar `Perfusiones/`):
+   ```bash
+   git add app.js farmacos.js styles.css index.html sw.js manifest.json README.md CLAUDE.md DESPLIEGUE.md .gitignore icon-*.svg
+   ```
+   Si hay archivos nuevos relevantes, añadirlos también. NO usar `git add -A` (podría arrastrar archivos no deseados o modificaciones de Perfusiones).
+
+5. **Commit** con mensaje descriptivo (resumir los cambios reales del turno):
+   ```bash
+   git commit -m "Mensaje descriptivo de los cambios"
+   ```
+   El mensaje debe ser breve (1 línea ≤ 72 chars). NO incluir co-autor de Claude a menos que el usuario lo pida.
+
+6. **Push**:
+   ```bash
+   git push origin main
+   ```
+
+7. **Confirmar al usuario**: indicar que se ha desplegado, recordarle que GitHub Pages tarda 30-60 s en propagar, y que en la PWA instalada el SW se actualizará en la siguiente apertura (o forzarlo con Cmd+Shift+R).
+
+### Reglas estrictas para el despliegue
+
+- **Nunca tocar `Perfusiones/`**: es otro proyecto. Si aparece como modificado en `git status`, ejecutar `git checkout -- Perfusiones/` antes del commit.
+- **Nunca hacer `git add -A`** ni `git add .` sin verificar previamente con `git status --short`.
+- **Nunca hacer `git push --force`** ni `--force-with-lease` salvo petición explícita.
+- **Nunca commitear `.DS_Store`**, archivos del editor, ni `.claude/` (cubierto por `.gitignore`).
+- **Siempre bumpear `CACHE_NAME` del SW** si cambia código de la app. Comprobar el número actual con `grep CACHE_NAME sw.js`.
+- **Antes de cualquier push**, ejecutar `node -c` en `app.js` y `farmacos.js`. Si fallan, no continuar.
+- **Si el repo remoto tiene commits que no están en local** (raro pero posible), hacer `git pull --rebase origin main` primero. Resolver conflictos si los hay.
+
+### Verificación post-despliegue
+
+Tras un push exitoso, indicar al usuario:
+- URL del despliegue: https://cjgaland.github.io/DosisPed/
+- Tiempo estimado de propagación: 30-60 s
+- Si tiene la PWA instalada en móvil: cerrar y reabrir para que el SW recoja la nueva versión
+
+### Si el push falla por autenticación
+
+GitHub puede pedir credenciales en la primera vez. Indicarle al usuario que:
+- En macOS suele usar el Keychain — la primera vez puede pedir login del navegador
+- Si no funciona: configurar un Personal Access Token en github.com → Settings → Developer settings → Personal access tokens (scope: `repo`)
+- Avisar al usuario y dejarle que intervenga; NO intentar configurar credenciales sin permiso.
+
+---
+
 ## 13. Estado actual (mayo 2026)
 
 - **91 fármacos** en `farmacos.js`, orden alfabético

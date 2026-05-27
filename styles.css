@@ -827,8 +827,13 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
 .farm-via-badge--io    { background: var(--red-dim);    color: var(--red);   border-color: transparent; }
 .farm-via-badge--rectal{ background: var(--amber-dim);  color: var(--amber); border-color: transparent; }
 .farm-via-badge--neb   { background: rgba(168,85,247,0.13); color: #a855f7; border-color: transparent; }
-.farm-via-badge--sc    { background: var(--amber-dim);  color: var(--amber); border-color: transparent; }
+.farm-via-badge--sc    { background: rgba(217,119,6,0.13); color: #d97706; border-color: transparent; }
 .farm-via-badge--sl    { background: var(--pink-dim);   color: var(--pink);  border-color: transparent; }
+.farm-via-badge--it    { background: rgba(220,38,38,0.13); color: var(--red); border-color: transparent; } /* intratraqueal */
+.farm-via-badge--oft   { background: rgba(14,165,233,0.13); color: #0ea5e9; border-color: transparent; } /* oftálmica */
+.farm-via-badge--top   { background: rgba(132,204,22,0.13); color: #84cc16; border-color: transparent; } /* tópica */
+.farm-via-badge--inh   { background: rgba(168,85,247,0.13); color: #a855f7; border-color: transparent; } /* inhalada */
+.farm-via-badge--in    { background: var(--pink-dim);   color: var(--pink);  border-color: transparent; } /* intranasal */
 
 .farm-card-right {
   display: flex;
@@ -2117,6 +2122,147 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
   font-family: var(--mono);
 }
 
+/* ── Vista de impresión ────────────────────────────────── */
+.print-view { display: none; }
+
+@media print {
+  /* Ocultar todo lo que no es la prescripción */
+  body > *:not(.print-view) { display: none !important; }
+  .print-view {
+    display: block !important;
+    color: #000;
+    background: #fff;
+    font-family: 'Inter', sans-serif;
+    padding: 24px 28px;
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  .print-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+  }
+  .print-titulo {
+    font-size: 20pt;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .print-subtitulo {
+    font-size: 10pt;
+    color: #555;
+    margin-top: 2px;
+  }
+  .print-fecha {
+    font-size: 10pt;
+    color: #333;
+    text-align: right;
+  }
+  .print-paciente {
+    background: #f5f5f5;
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 11pt;
+  }
+  .print-paciente strong { font-weight: 700; }
+  .print-paciente-label {
+    font-size: 9pt;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 6px;
+  }
+  .print-rx-lista { display: flex; flex-direction: column; gap: 14px; }
+  .print-rx-item {
+    padding: 12px 14px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    border-left: 5px solid #333;
+    page-break-inside: avoid;
+  }
+  .print-rx-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .print-rx-numero {
+    font-weight: 800;
+    font-size: 14pt;
+    color: #555;
+  }
+  .print-rx-nombre {
+    font-weight: 800;
+    font-size: 13pt;
+    flex: 1;
+    letter-spacing: -0.01em;
+  }
+  .print-rx-via {
+    background: #e8e8e8;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .print-rx-lineas {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 4px 14px;
+    font-size: 11pt;
+  }
+  .print-rx-label {
+    font-size: 9pt;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    padding-top: 1px;
+  }
+  .print-rx-val { font-weight: 500; }
+  .print-rx-val--dosis { font-weight: 800; font-size: 12pt; }
+  .print-rx-extra { color: #666; font-size: 10pt; }
+  .print-rx-aviso {
+    margin-top: 8px;
+    padding: 6px 8px;
+    background: #fff4e6;
+    border-radius: 4px;
+    font-size: 10pt;
+    color: #92400e;
+  }
+  .print-disclaimer {
+    margin-top: 22px;
+    padding-top: 12px;
+    border-top: 1px dashed #999;
+    font-size: 9.5pt;
+    color: #555;
+    line-height: 1.5;
+  }
+  .print-firma {
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10pt;
+    color: #555;
+  }
+  .print-firma-bloque { border-top: 1px solid #999; padding-top: 4px; width: 220px; text-align: center; }
+  .print-autor {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 8.5pt;
+    color: #888;
+    font-style: italic;
+  }
+  @page { margin: 12mm; }
+}
+
 /* ── Modales ───────────────────────────────────────────── */
 .modal-overlay {
   position: fixed;
@@ -2325,6 +2471,29 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
   font-size: 10.5px;
   color: var(--text-3);
   font-family: var(--mono);
+}
+.modal-autor {
+  margin-top: 6px;
+  font-family: var(--font);
+  font-size: 11px;
+  color: var(--text-3);
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+.modal-autor b {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.app-autor {
+  margin-top: 8px;
+  font-size: 10px;
+  color: var(--text-3);
+  text-align: center;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  opacity: 0.7;
 }
 
 @media (max-width: 640px) {

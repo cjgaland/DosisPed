@@ -110,6 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   document.getElementById("btn-paciente-nuevo").addEventListener("click", nuevoPaciente);
+  document.getElementById("btn-paciente-imprimir").addEventListener("click", imprimirPrescripcion);
+  document.getElementById("btn-paciente-compartir").addEventListener("click", compartirPrescripcionUrl);
   document.getElementById("btn-add-paciente").addEventListener("click", () => {
     if (!farmSeleccionado) return;
     agregarAPaciente();
@@ -177,6 +179,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   actualizarBadgePaciente();
+
+  // Si la URL trae ?rx=... cargar prescripción compartida
+  importarPrescripcionDesdeUrl();
 });
 
 // ============================================================
@@ -627,6 +632,171 @@ function calcularDosisEspecialPeso(d, peso) {
     dosisTexto = dosisVal < 1 ? `${formatNum(dosisVal * 1000, 0)} mcg` : `${formatNum(dosisVal, dosisVal < 10 ? 2 : 0)} mg`;
   }
   return { dosisVal, dosisTexto, dosisCalc };
+}
+
+function imprimirPrescripcion() {
+  const rx = leerPacienteRx();
+  if (rx.length === 0) { mostrarToast("No hay prescripciones para imprimir", "error"); return; }
+
+  const partes = [];
+  if (pesoActual !== null) partes.push(`<span class="print-paciente-label">Peso</span> <strong>${pesoActual} kg</strong>`);
+  if (edadValor !== null) partes.push(`<span class="print-paciente-label">Edad</span> <strong>${edadValor} ${edadUnidad === "anios" ? "años" : edadUnidad}</strong>`);
+  if (modoNeonato && egSemanas) partes.push(`<span class="print-paciente-label">EG</span> <strong>${egSemanas} sem</strong>`);
+  if (modoNeonato && epnDias !== null) partes.push(`<span class="print-paciente-label">EPN</span> <strong>${epnDias} d</strong>`);
+
+  const fecha = new Date();
+  const fechaFmt = fecha.toLocaleDateString("es-ES", { day: "2-digit", month: "long", year: "numeric" });
+  const horaFmt = fecha.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+
+  const itemsHtml = rx.map((item, i) => {
+    const f = farmacos.find(x => x.nombre === item.nombre);
+    if (!f) return "";
+    const resumen = calcularResumenRx(f, item);
+    return `<div class="print-rx-item" style="border-left-color:${f.isoColor || "#333"};">
+      <div class="print-rx-head">
+        <span class="print-rx-numero">${i + 1}.</span>
+        <span class="print-rx-nombre">${f.nombre}</span>
+        ${resumen.via ? `<span class="print-rx-via">${resumen.via.toUpperCase()}</span>` : ""}
+      </div>
+      <div class="print-rx-lineas">
+        ${resumen.lineas.map(l => `
+          <div class="print-rx-label">${l.label}</div>
+          <div><span class="print-rx-val${l.dosis ? " print-rx-val--dosis" : ""}">${l.val}</span>${l.extra ? ` <span class="print-rx-extra">${l.extra}</span>` : ""}</div>
+        `).join("")}
+      </div>
+      ${resumen.alerta ? `<div class="print-rx-aviso">${resumen.alerta}</div>` : ""}
+    </div>`;
+  }).join("");
+
+  const html = `
+    <div class="print-header">
+      <div>
+        <h1 class="print-titulo">Prescripción pediátrica</h1>
+        <div class="print-subtitulo">Generada con DosisPed</div>
+      </div>
+      <div class="print-fecha">
+        <div><strong>${fechaFmt}</strong></div>
+        <div>${horaFmt}</div>
+      </div>
+    </div>
+    <div class="print-paciente">
+      ${partes.length ? partes.join(" &nbsp;·&nbsp; ") : "<em>Sin datos del paciente</em>"}
+    </div>
+    <div class="print-rx-lista">
+      ${itemsHtml}
+    </div>
+    <div class="print-disclaimer">
+      <strong>Aviso:</strong> Esta prescripción ha sido generada con DosisPed, una herramienta de apoyo clínico basada en Pediamécum (AEP), SEUP, Neofax/SEN y AEMPS. Los cálculos son orientativos y deben ser verificados por un profesional sanitario antes de su aplicación. La situación clínica individual del paciente puede modificar la dosis adecuada.
+    </div>
+    <div class="print-firma">
+      <div class="print-firma-bloque">Firma del facultativo</div>
+      <div class="print-firma-bloque">Fecha y nº de colegiado</div>
+    </div>
+    <div class="print-autor">DosisPed · Diseñada por Carlos J. Galán Doval</div>
+  `;
+
+  document.getElementById("print-view").innerHTML = html;
+  // Cerrar modal antes de imprimir para evitar conflictos
+  document.getElementById("modal-paciente").style.display = "none";
+  setTimeout(() => window.print(), 100);
+}
+
+// ── Compartir prescripción por URL ────────────────────
+function compartirPrescripcionUrl() {
+  const rx = leerPacienteRx();
+  if (rx.length === 0) { mostrarToast("No hay prescripciones para compartir", "error"); return; }
+
+  // Formato compacto para minimizar tamaño URL
+  const payload = {
+    p: pesoActual,
+    e: edadValor,
+    eu: edadUnidad,
+    n: modoNeonato ? 1 : 0,
+    eg: egSemanas,
+    en: epnDias,
+    r: rx.map(item => ({
+      n: item.nombre,
+      m: item.modoAdmin,
+      i: item.intIndex,
+      pi: item.presIndex,
+      px: item.prepIndex,
+      f: item.factor
+    }))
+  };
+  try {
+    const json = JSON.stringify(payload);
+    const b64 = btoa(encodeURIComponent(json));
+    const baseUrl = window.location.href.split("?")[0].split("#")[0];
+    const url = `${baseUrl}?rx=${b64}`;
+    if (!navigator.clipboard) {
+      prompt("Copia este enlace:", url);
+      return;
+    }
+    navigator.clipboard.writeText(url)
+      .then(() => mostrarToast(`Enlace copiado (${rx.length} fármacos)`, "ok"))
+      .catch(() => prompt("Copia este enlace:", url));
+  } catch (e) {
+    mostrarToast("Error al generar el enlace", "error");
+  }
+}
+
+function importarPrescripcionDesdeUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const b64 = params.get("rx");
+  if (!b64) return;
+  try {
+    const json = decodeURIComponent(atob(b64));
+    const data = JSON.parse(json);
+
+    const tienePresc = data.r && data.r.length > 0;
+    const msg = tienePresc
+      ? `Vas a cargar una prescripción compartida con ${data.r.length} fármaco${data.r.length > 1 ? "s" : ""}${data.p ? ` para un paciente de ${data.p} kg` : ""}. ¿Continuar?\n\nSe reemplazarán los datos del paciente actual.`
+      : "El enlace está vacío.";
+    if (!tienePresc || !confirm(msg)) {
+      history.replaceState({}, "", window.location.pathname);
+      return;
+    }
+
+    // Restaurar paciente
+    if (typeof data.p === "number") { pesoActual = data.p; localStorage.setItem(KEY_PESO, String(data.p)); }
+    if (typeof data.e === "number") { edadValor = data.e; localStorage.setItem(KEY_EDAD, String(data.e)); }
+    if (data.eu) { edadUnidad = data.eu; localStorage.setItem(KEY_EDAD_UN, data.eu); }
+    if (data.n) {
+      modoNeonato = true;
+      localStorage.setItem(KEY_NEONATO, "true");
+      document.getElementById("btn-neonato").classList.add("btn-neonato--activo");
+      document.getElementById("neonato-panel").style.display = "block";
+      if (data.eg) { egSemanas = data.eg; localStorage.setItem(KEY_EG, String(data.eg)); document.getElementById("eg-input").value = String(data.eg).replace(".",","); }
+      if (data.en !== null && data.en !== undefined) { epnDias = data.en; localStorage.setItem(KEY_EPN, String(data.en)); document.getElementById("epn-input").value = String(data.en).replace(".",","); }
+    }
+    // Pintar inputs
+    if (pesoActual !== null) ["peso-input","peso-panel-input"].forEach(id => { const e = document.getElementById(id); if (e) e.value = String(pesoActual).replace(".",","); });
+    if (edadValor !== null) ["edad-input","edad-panel-input"].forEach(id => { const e = document.getElementById(id); if (e) e.value = String(edadValor).replace(".",","); });
+    ["edad-unidad","edad-panel-unidad"].forEach(id => { const e = document.getElementById(id); if (e) e.value = edadUnidad; });
+
+    // Restaurar Rx
+    const rxRestaurada = data.r.map(item => ({
+      nombre: item.n,
+      modoAdmin: item.m,
+      intIndex: item.i || 0,
+      presIndex: item.pi || 0,
+      prepIndex: item.px || 0,
+      factor: item.f || 1,
+      pesoSnapshot: pesoActual,
+      edadSnapshot: edadValor !== null ? `${edadValor} ${edadUnidad}` : null,
+      ts: Date.now()
+    }));
+    localStorage.setItem(KEY_PAC_RX, JSON.stringify(rxRestaurada));
+    actualizarBadgePaciente();
+    mostrarToast(`Prescripción cargada: ${rxRestaurada.length} fármacos`, "ok");
+    // Limpiar la URL para que un reload no recargue de nuevo
+    history.replaceState({}, "", window.location.pathname);
+    // Abrir directamente la vista paciente
+    setTimeout(() => abrirModalPaciente(), 300);
+  } catch (e) {
+    mostrarToast("El enlace está corrupto o es inválido", "error");
+    history.replaceState({}, "", window.location.pathname);
+  }
 }
 
 function copiarPrescripcion() {

@@ -132,6 +132,7 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <span>Herramienta de apoyo clínico. Las dosis pediátricas siguen Pediamécum (AEP) y SEUP. Los cálculos deben ser siempre verificados por un facultativo antes de su aplicación.</span>
         </div>
+        <div class="app-autor">por Carlos J. Galán Doval</div>
       </div>
     </main>
 
@@ -148,6 +149,9 @@
 
   <!-- OVERLAY (móvil) -->
   <div id="panel-overlay"></div>
+
+  <!-- VISTA DE IMPRESIÓN (oculta en pantalla, visible al imprimir) -->
+  <div id="print-view" class="print-view"></div>
 
   <!-- PANEL DE DETALLE -->
   <aside id="panel-detalle">
@@ -297,9 +301,11 @@
         <!-- Renderizado dinámico -->
       </div>
       <div class="modal-footer modal-footer--paciente">
-        <button class="btn-paciente-accion btn-paciente-accion--ghost" id="btn-paciente-nuevo">Nuevo paciente</button>
-        <button class="btn-paciente-accion btn-paciente-accion--ghost" id="btn-paciente-vaciar">Vaciar Rx</button>
-        <button class="btn-paciente-accion btn-paciente-accion--primary" id="btn-paciente-copiar">📋 Copiar Rx</button>
+        <button class="btn-paciente-accion btn-paciente-accion--ghost" id="btn-paciente-nuevo" title="Iniciar un nuevo paciente">Nuevo paciente</button>
+        <button class="btn-paciente-accion btn-paciente-accion--ghost" id="btn-paciente-vaciar" title="Vaciar la prescripción">Vaciar</button>
+        <button class="btn-paciente-accion btn-paciente-accion--ghost" id="btn-paciente-imprimir" title="Imprimir o guardar como PDF">🖨 Imprimir</button>
+        <button class="btn-paciente-accion btn-paciente-accion--ghost" id="btn-paciente-compartir" title="Compartir como enlace">🔗 Enlace</button>
+        <button class="btn-paciente-accion btn-paciente-accion--primary" id="btn-paciente-copiar" title="Copiar prescripción al portapapeles">📋 Copiar</button>
       </div>
     </div>
   </div>
@@ -363,7 +369,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             <span>Qué es</span>
           </div>
-          <p>Calculadora clínica de dosis y perfusiones pediátricas. Diseñada para uso a pie de cama en <b>urgencias pediátricas, planta de hospitalización, UCI pediátrica y neonatología</b>.</p>
+          <p>Calculadora clínica de dosis y perfusiones pediátricas. Diseñada para uso a pie de cama en <b>urgencias pediátricas, planta de hospitalización, UCI pediátrica, Neonatología y Consultas de Pediatría</b>.</p>
         </div>
 
         <div class="modal-bloque">
@@ -406,6 +412,7 @@
 
         <div class="modal-meta">
           <span>DosisPed</span> · v0.1 · <span id="modal-version-fecha">2026</span>
+          <div class="modal-autor">Diseñada y desarrollada por <b>Carlos J. Galán Doval</b></div>
         </div>
       </div>
     </div>

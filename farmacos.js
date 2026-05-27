@@ -4110,7 +4110,7 @@ const farmacos = [
     sinonimos: ["surfactante", "curosurf", "poractant", "beractant", "survanta"],
     isoColor: ISO.neonatal,
     icono: "👶",
-    vias: ["io"],
+    vias: ["it"],
     modos: ["puntual"],
     fuente: "Neofax / SEN",
     puntual: {
