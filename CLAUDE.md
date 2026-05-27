@@ -584,7 +584,7 @@ Cuando el usuario diga **"despliega"**, **"sube los cambios"**, **"actualiza el 
    ```
    Mostrar al usuario lo que va a subir.
 
-2. **Bumpear el Service Worker** si han cambiado `app.js`, `farmacos.js`, `styles.css`, `index.html` o `sw.js`. Incrementar `CACHE_NAME` en `sw.js` (de `dosisped-vN` a `dosisped-v(N+1)`) — esto fuerza a los navegadores instalados a recoger la nueva versión.
+2. **Bumpear el Service Worker** si han cambiado `app.js`, `farmacos.js`, `styles.css`, `index.html` o `sw.js`. Incrementar `CACHE_NAME` en `sw.js` (de `dosisped-vN` a `dosisped-v(N+1)`) — esto es lo que hace que los usuarios vean el banner **"Nueva versión disponible"** en su próxima apertura y puedan actualizar con un toque sin vaciar la caché manualmente.
 
 3. **Validar sintaxis**:
    ```bash
@@ -609,7 +609,7 @@ Cuando el usuario diga **"despliega"**, **"sube los cambios"**, **"actualiza el 
    git push origin main
    ```
 
-7. **Confirmar al usuario**: indicar que se ha desplegado, recordarle que GitHub Pages tarda 30-60 s en propagar, y que en la PWA instalada el SW se actualizará en la siguiente apertura (o forzarlo con Cmd+Shift+R).
+7. **Confirmar al usuario**: indicar que se ha desplegado. GitHub Pages tarda 30-60 s en propagar. Los usuarios que tengan la PWA instalada verán automáticamente el banner **"Nueva versión disponible"** con el botón **"Actualizar"** en su próxima apertura — al pulsarlo la app se recarga con la nueva versión sin necesidad de vaciar la caché.
 
 ### Reglas estrictas para el despliegue
 

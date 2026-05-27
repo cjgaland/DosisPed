@@ -160,10 +160,52 @@ document.addEventListener("DOMContentLoaded", () => {
     renderContenidoClinica();
   });
 
-  // Service Worker (PWA)
+  // Service Worker (PWA) + banner de actualización automático
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
-    navigator.serviceWorker.addEventListener("controllerchange", () => window.location.reload());
+    navigator.serviceWorker.register("sw.js").then(reg => {
+      reg.addEventListener("updatefound", () => {
+        const newWorker = reg.installing;
+        if (!newWorker) return;
+        newWorker.addEventListener("statechange", () => {
+          // Mostrar banner solo si ya había una versión activa (no en la primera instalación)
+          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+            mostrarBannerActualizacion(reg);
+          }
+        });
+      });
+    }).catch(() => {});
+
+    let recargando = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (recargando) return;
+      recargando = true;
+      window.location.reload();
+    });
+  }
+
+  function mostrarBannerActualizacion(reg) {
+    const b = document.createElement("div");
+    b.id = "update-banner";
+    b.style.cssText = [
+      "position:fixed", "bottom:24px", "left:50%",
+      "transform:translateX(-50%)",
+      "background:var(--cyan)", "color:#fff",
+      "padding:12px 18px", "border-radius:24px",
+      "font:600 0.88rem var(--font,system-ui,sans-serif)",
+      "box-shadow:0 8px 24px rgba(0,0,0,.35)",
+      "z-index:9999", "display:flex", "gap:12px", "align-items:center",
+      "max-width:calc(100vw - 32px)", "white-space:nowrap"
+    ].join(";");
+    b.innerHTML =
+      "<span>Nueva versión disponible</span>" +
+      "<button style=\"background:rgba(255,255,255,0.22);color:#fff;border:1px solid rgba(255,255,255,0.35);" +
+      "border-radius:14px;padding:6px 14px;font:700 0.82rem inherit;cursor:pointer;" +
+      "-webkit-appearance:none;appearance:none;\">Actualizar</button>";
+    b.querySelector("button").onclick = function () {
+      if (reg.waiting) reg.waiting.postMessage({ type: "SKIP_WAITING" });
+      b.remove();
+    };
+    document.body.appendChild(b);
   }
 
   // Modal de bienvenida (primer arranque)

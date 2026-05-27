@@ -17,10 +17,10 @@ const ASSETS = [
 ];
 
 self.addEventListener("install", event => {
+  // NO llamamos a skipWaiting() aquí: el SW queda en espera hasta que
+  // el usuario confirme la actualización desde el banner de la app.
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
 });
 
@@ -32,6 +32,11 @@ self.addEventListener("activate", event => {
       ))
       .then(() => self.clients.claim())
   );
+});
+
+// Mensaje desde la app: el usuario pulsó "Actualizar" en el banner
+self.addEventListener("message", event => {
+  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
 });
 
 self.addEventListener("fetch", event => {
