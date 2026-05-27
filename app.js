@@ -16,6 +16,8 @@ const KEY_EG        = "dosisped-eg";
 const KEY_EPN       = "dosisped-epn";
 const KEY_FAV       = "dosisped-favoritos";
 const KEY_BIENV     = "dosisped-bienvenida-vista";
+const KEY_ULTIMO    = "dosisped-ultimo-farmaco";
+const KEY_HIST      = "dosisped-historial";
 
 // ── Tema claro/oscuro ──────────────────────────────────────
 (function () {
@@ -65,6 +67,7 @@ let intIndex          = 0;        // índice de pauta intermitente
 let prepIndex         = 0;        // índice de preparado comercial activo
 let modoCalculo       = "dosis";
 let modoAdmin         = "intermitente";
+let factorInt         = 1.0;       // factor de ajuste fino (0.5–1.5) en modo intermitente
 let categoriaFiltro   = "Todos";
 let clinicaTab        = "indicaciones";
 let clinicaAbierta    = false;
@@ -86,6 +89,24 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btn-favorito").addEventListener("click", () => {
     if (!farmSeleccionado) return;
     toggleFavorito(farmSeleccionado.nombre);
+  });
+
+  // Historial
+  document.getElementById("btn-historial").addEventListener("click", e => {
+    e.stopPropagation();
+    toggleHistorial();
+  });
+  document.getElementById("historial-clear").addEventListener("click", e => {
+    e.stopPropagation();
+    sessionStorage.removeItem(KEY_HIST);
+    renderHistorial();
+  });
+  document.addEventListener("click", e => {
+    const drop = document.getElementById("historial-dropdown");
+    const btn  = document.getElementById("btn-historial");
+    if (drop.style.display === "block" && !drop.contains(e.target) && e.target !== btn) {
+      drop.style.display = "none";
+    }
   });
 
   document.getElementById("valor-input").addEventListener("keydown", e => {
@@ -122,6 +143,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Modal de bienvenida (primer arranque)
   if (!localStorage.getItem(KEY_BIENV)) {
     document.getElementById("modal-bienvenida").style.display = "flex";
+  }
+
+  // Restaurar último fármaco abierto
+  const ultimoNombre = localStorage.getItem(KEY_ULTIMO);
+  if (ultimoNombre) {
+    const f = farmacos.find(x => x.nombre === ultimoNombre);
+    if (f) seleccionarFarmaco(f);
   }
 });
 
@@ -301,6 +329,58 @@ function bindModales() {
 }
 
 // ============================================================
+//  HISTORIAL DE SESIÓN (sessionStorage)
+// ============================================================
+function leerHistorial() {
+  try { return JSON.parse(sessionStorage.getItem(KEY_HIST) || "[]"); }
+  catch { return []; }
+}
+function registrarHistorial(f) {
+  const lista = leerHistorial().filter(x => x.nombre !== f.nombre);
+  lista.unshift({
+    nombre: f.nombre,
+    categoria: f.categoria,
+    icono: f.icono || "💊",
+    ts: Date.now()
+  });
+  if (lista.length > 15) lista.length = 15;
+  sessionStorage.setItem(KEY_HIST, JSON.stringify(lista));
+  renderHistorial();
+}
+function toggleHistorial() {
+  const drop = document.getElementById("historial-dropdown");
+  const open = drop.style.display === "block";
+  if (open) { drop.style.display = "none"; return; }
+  renderHistorial();
+  drop.style.display = "block";
+}
+function renderHistorial() {
+  const cont = document.getElementById("historial-lista");
+  const lista = leerHistorial();
+  if (!lista.length) {
+    cont.innerHTML = `<div class="historial-vacio">Sin cálculos en esta sesión todavía.</div>`;
+    return;
+  }
+  cont.innerHTML = lista.map(item => {
+    const min = Math.round((Date.now() - item.ts) / 60000);
+    const tiempo = min < 1 ? "ahora" : min < 60 ? `hace ${min} min` : `hace ${Math.floor(min/60)} h`;
+    return `<div class="historial-item" onclick="abrirDesdeHistorial('${item.nombre.replace(/'/g, "\\'")}')">
+      <span class="historial-item-icono">${item.icono}</span>
+      <div class="historial-item-info">
+        <span class="historial-item-nombre">${item.nombre}</span>
+        <span class="historial-item-cat">${item.categoria}</span>
+      </div>
+      <span class="historial-item-time">${tiempo}</span>
+    </div>`;
+  }).join("");
+}
+function abrirDesdeHistorial(nombre) {
+  document.getElementById("historial-dropdown").style.display = "none";
+  const f = farmacos.find(x => x.nombre === nombre);
+  if (f) seleccionarFarmaco(f);
+}
+
+// ============================================================
 //  FAVORITOS
 // ============================================================
 function toggleFavorito(nombre) {
@@ -427,10 +507,13 @@ function seleccionarFarmaco(f) {
   presIndex   = 0;
   intIndex    = 0;
   prepIndex   = 0;
+  factorInt   = 1.0;
   modoCalculo = "dosis";
   modoAdmin   = (f.modos && f.modos.length > 0) ? f.modos[0] : "intermitente";
   clinicaTab  = "indicaciones";
   clinicaAbierta = false;
+  localStorage.setItem(KEY_ULTIMO, f.nombre);
+  registrarHistorial(f);
   abrirPanel();
   renderPanel();
   renderizarLista(document.getElementById("busqueda").value);
@@ -449,6 +532,7 @@ function cerrarPanel() {
   document.getElementById("panel-detalle").classList.remove("abierto");
   document.querySelector(".app-content").classList.remove("con-panel");
   farmSeleccionado = null;
+  localStorage.removeItem(KEY_ULTIMO);
   renderizarLista(document.getElementById("busqueda").value);
 }
 
@@ -533,6 +617,11 @@ function renderTabsSegunModo(f) {
     activeIdx = presIndex;
     onClick = (i) => { presIndex = i; renderPanel(); };
   }
+  if (modoAdmin === "intermitente") {
+    // Reset factor cuando cambia la pauta activa
+    const tabsCambiados = (window._lastIntKey !== `${f.nombre}-${intIndex}`);
+    if (tabsCambiados) { factorInt = 1.0; window._lastIntKey = `${f.nombre}-${intIndex}`; }
+  }
 
   if (items.length === 0) { cont.style.display = "none"; return; }
   cont.style.display = "flex";
@@ -587,10 +676,17 @@ function renderIntermitenteBox(f, pauta) {
     ? `<span class="dosis-int-via-badge farm-via-badge--${pauta.via.toLowerCase()}">${pauta.via.toUpperCase()}</span>`
     : "";
 
-  // Valor con tope aplicado
+  // Aplicar factor de ajuste fino
   let dosisFinal = calc.dosis;
+  if (dosisFinal !== null) dosisFinal = dosisFinal * factorInt;
+  let dosisDiaConFactor = calc.dosisDiaFinal;
+  if (dosisDiaConFactor !== null) dosisDiaConFactor = dosisDiaConFactor * factorInt;
+
+  // Aplicar tope absoluto tras factor
+  let topeAplicado = false;
   if (dosisFinal !== null && pauta.dosis_max_mg && dosisFinal > pauta.dosis_max_mg) {
     dosisFinal = pauta.dosis_max_mg;
+    topeAplicado = true;
   }
 
   // Selector de preparado (si hay)
@@ -625,19 +721,43 @@ function renderIntermitenteBox(f, pauta) {
   if (pauta.dosis_max_dia_mg) detalles.push({ l: "Máx/día",   v: `${formatNum(pauta.dosis_max_dia_mg, 0)} mg` });
   if (pauta.duracion)         detalles.push({ l: "Duración",  v: pauta.duracion });
 
+  // Slider de ajuste fino (solo si hay dosis calculada por peso)
+  const muestraSlider = calc.dosis !== null && (pauta.dosis_mg_kg || pauta.dosis_mcg_kg || pauta.dosis_mg_kg_dia);
+  let sliderHtml = "";
+  if (muestraSlider) {
+    const pct = Math.round(factorInt * 100);
+    const sliderColor = factorInt < 0.85 ? "var(--cyan)" : factorInt > 1.15 ? "var(--amber)" : "var(--green)";
+    sliderHtml = `
+      <div class="ajuste-fino-wrap">
+        <div class="ajuste-fino-header">
+          <span class="ajuste-fino-label">Ajuste fino</span>
+          <span class="ajuste-fino-valor" style="color:${sliderColor}">${pct}%${factorInt === 1 ? " (estándar)" : ""}</span>
+        </div>
+        <input type="range" class="ajuste-fino-slider"
+          min="0.5" max="1.5" step="0.05"
+          value="${factorInt}"
+          oninput="onAjusteFinoInput(this)"
+          onchange="onAjusteFino(this)">
+        <div class="ajuste-fino-marcas">
+          <span>0,5×</span><span>1×</span><span>1,5×</span>
+        </div>
+      </div>`;
+  }
+
   let resHtml;
   if (calc.dosis !== null) {
     resHtml = `
       <div class="dosis-int-resultado">
         <span class="dosis-int-val${estado === "max" ? " dosis-int-val--alerta" : ""}">${formatNum(dosisFinal, dosisFinal < 1 ? 3 : dosisFinal < 10 ? 2 : 1)}</span>
-        <span class="dosis-int-unidad">mg / toma</span>
-        ${calc.calcTexto ? `<span class="dosis-int-calc">${calc.calcTexto}</span>` : ""}
+        <span class="dosis-int-unidad">mg / toma${factorInt !== 1 ? ` <span style="color:${factorInt < 1 ? 'var(--cyan)' : 'var(--amber)'};font-weight:600;">· ${Math.round(factorInt*100)}%</span>` : ""}</span>
+        ${calc.calcTexto ? `<span class="dosis-int-calc">${calc.calcTexto}${factorInt !== 1 ? ` × ${factorInt.toFixed(2).replace(".",",")}` : ""}</span>` : ""}
         ${calc.dosisDia !== null ? `
           <div class="dosis-int-vol">
             <span class="dosis-int-vol-label">Total día</span>
-            <span class="dosis-int-vol-val">${formatNum(calc.dosisDiaFinal, 1)}</span>
+            <span class="dosis-int-vol-val">${formatNum(dosisDiaConFactor, 1)}</span>
             <span class="dosis-int-vol-unidad">mg/día · ${calc.tomasDia ? calc.tomasDia + " tomas" : ""}</span>
           </div>` : ""}
+        ${sliderHtml}
       </div>`;
   } else {
     resHtml = `<div class="dosis-int-resultado"><span class="dosis-int-val" style="font-size:18px;color:var(--text-3);">Introduce el peso</span></div>`;
@@ -696,6 +816,54 @@ function calcularDosisIntermitente(pauta) {
 function seleccionarPreparado(i) {
   prepIndex = i;
   renderPanel();
+}
+
+function onAjusteFinoInput(slider) {
+  // Live update parcial sin re-renderizar el slider (perdería el arrastre)
+  factorInt = parseFloat(slider.value);
+  if (!farmSeleccionado || modoAdmin !== "intermitente") return;
+  const pauta = farmSeleccionado.intermitente[intIndex];
+  if (!pauta) return;
+  const calc = calcularDosisIntermitente(pauta);
+  if (calc.dosis === null) return;
+  let dosisFinal = calc.dosis * factorInt;
+  let topeOk = true;
+  if (pauta.dosis_max_mg && dosisFinal > pauta.dosis_max_mg) { dosisFinal = pauta.dosis_max_mg; topeOk = false; }
+  const dosisDia = calc.dosisDiaFinal !== null ? calc.dosisDiaFinal * factorInt : null;
+
+  // Actualizar header del slider
+  const pct = Math.round(factorInt * 100);
+  const color = factorInt < 0.85 ? "var(--cyan)" : factorInt > 1.15 ? "var(--amber)" : "var(--green)";
+  const valorEl = document.querySelector(".ajuste-fino-valor");
+  if (valorEl) {
+    valorEl.style.color = color;
+    valorEl.textContent = `${pct}%${factorInt === 1 ? " (estándar)" : ""}`;
+  }
+
+  // Actualizar valor de dosis
+  const valEl = document.querySelector(".dosis-int-val");
+  if (valEl) {
+    valEl.textContent = formatNum(dosisFinal, dosisFinal < 1 ? 3 : dosisFinal < 10 ? 2 : 1);
+    valEl.classList.toggle("dosis-int-val--alerta", !topeOk);
+  }
+
+  // Actualizar total/día
+  const totDia = document.querySelector(".dosis-int-vol-val");
+  if (totDia && dosisDia !== null) totDia.textContent = formatNum(dosisDia, 1);
+
+  // Actualizar volúmenes de preparados
+  const preps = pauta.preparados || [];
+  document.querySelectorAll(".dosis-int-prep-item").forEach((item, i) => {
+    const p = preps[i];
+    if (!p) return;
+    const volEl = item.querySelector(".dosis-int-prep-vol");
+    if (volEl) volEl.textContent = `${formatNum(dosisFinal / p.conc_mg_ml, 2)} ml`;
+  });
+}
+function onAjusteFino(slider) {
+  factorInt = parseFloat(slider.value);
+  // Al soltar: re-render completo para actualizar el resto de la UI (calc text, etc.)
+  if (farmSeleccionado && modoAdmin === "intermitente") renderPanel();
 }
 
 // ============================================================

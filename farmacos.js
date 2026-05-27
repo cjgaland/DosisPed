@@ -82,6 +82,58 @@ const farmacos = [
   },
 
   {
+    nombre: "ÁCIDO FÓLICO",
+    categoria: "Hematología",
+    sinonimos: ["acido folico", "folato", "vitamina b9", "acfol"],
+    isoColor: ISO.neutral,
+    icono: "💊",
+    vias: ["oral", "iv", "im"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum",
+    intermitente: [
+      {
+        indicacion: "Anemia megaloblástica / Déficit nutricional",
+        via: "oral",
+        dosis_fija_mg: 1,
+        intervalo_h: 24,
+        dosis_max_dia_mg: 5,
+        nota: "Lactantes: 0,1 mg/día. Niños 1-10 años: 1 mg/día. > 10 años: 1-5 mg/día. Continuar 3-4 meses hasta reposición.",
+        preparados: [
+          { nombre: "Acfol comp. 5 mg", conc_mg_ml: null },
+          { nombre: "Ácido fólico comp. 5 mg", conc_mg_ml: null }
+        ]
+      },
+      {
+        indicacion: "Profilaxis (anemia hemolítica crónica, MTX, antiepilépticos)",
+        via: "oral",
+        dosis_fija_mg: 5,
+        intervalo_h: 168,
+        nota: "5 mg/semana en pacientes con metotrexato o tratamiento antiepiléptico crónico (fenitoína, valproato). En anemias hemolíticas crónicas: 1-5 mg/día.",
+        preparados: [
+          { nombre: "Acfol comp. 5 mg", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Anemia megaloblástica por déficit de folato",
+        "Profilaxis en pacientes con anemias hemolíticas crónicas",
+        "Profilaxis del déficit en tratamientos prolongados con metotrexato o antiepilépticos",
+        "Prevención de defectos del tubo neural (en gestación, no aplicable aquí)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad",
+        "Anemia perniciosa no tratada (puede enmascarar déficit de B12)"
+      ],
+      precauciones: [
+        "Descartar déficit de B12 antes de iniciar tratamiento prolongado",
+        "Muy bien tolerado; efectos adversos raros",
+        "No reemplaza el tratamiento etiológico de la anemia"
+      ]
+    }
+  },
+
+  {
     nombre: "ADENOSINA",
     categoria: "Reanimación / UCIP",
     sinonimos: ["adenocor", "adenosina"],
@@ -394,6 +446,52 @@ const farmacos = [
   },
 
   {
+    nombre: "ANFOTERICINA B",
+    categoria: "Antibiótico",
+    sinonimos: ["anfotericina", "ambisome", "amphocil", "fungizone"],
+    isoColor: ISO.antibiotico,
+    icono: "🦠",
+    vias: ["iv"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum",
+    intermitente: [
+      {
+        indicacion: "Infección fúngica invasiva — formulación liposomal (AmBisome)",
+        via: "iv",
+        dosis_mg_kg: 3,
+        intervalo_h: 24,
+        nota: "Formulación liposomal: 3-5 mg/kg/día IV en 1-2 h. Mejor perfil renal y tolerancia que el desoxicolato. Indicada en candidiasis invasiva, aspergilosis, criptococosis, leishmaniasis. Infusión en 2 h con monitor (reacción infusional).",
+        preparados: []
+      },
+      {
+        indicacion: "Formulación desoxicolato (Fungizone) — uso limitado",
+        via: "iv",
+        dosis_mg_kg: 1,
+        intervalo_h: 24,
+        nota: "Desoxicolato: 0,25 mg/kg/día con escalada hasta 1-1,5 mg/kg/día. Mayor nefrotoxicidad y reacciones infusionales. Premedicar con paracetamol +/- antihistamínico +/- hidrocortisona. Diluir en G5%, NO en SSF (precipita)."
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Candidiasis invasiva y candidemia",
+        "Aspergilosis invasiva",
+        "Criptococosis (meningoencefalitis)",
+        "Leishmaniasis visceral",
+        "Tratamiento empírico en neutropenia febril refractaria a antibióticos"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a anfotericina"
+      ],
+      precauciones: [
+        "Nefrotoxicidad significativa — especialmente con desoxicolato; vigilar creatinina, K+, Mg2+",
+        "Reacciones infusionales: fiebre, escalofríos, broncoespasmo — premedicar",
+        "Hipopotasemia, hipomagnesemia (suplementar)",
+        "La forma liposomal (AmBisome) reduce nefrotoxicidad pero es más costosa"
+      ]
+    }
+  },
+
+  {
     nombre: "ATROPINA",
     categoria: "Reanimación / UCIP",
     sinonimos: ["atropina"],
@@ -429,6 +527,43 @@ const farmacos = [
   },
 
   // ── B ─────────────────────────────────────────────────────
+  {
+    nombre: "BICARBONATO SÓDICO 1M",
+    categoria: "Reanimación / UCIP",
+    sinonimos: ["bicarbonato", "bicarbonato sodico", "bicarbonato 1m"],
+    isoColor: ISO.rea,
+    icono: "⚗️",
+    vias: ["iv", "io"],
+    modos: ["puntual"],
+    fuente: "SEUP / Pediamécum",
+    puntual: {
+      descripcion: "Acidosis metabólica grave / Hiperpotasemia con cambios ECG / Intoxicaciones específicas",
+      dosis_mg_kg: 84,
+      via: "IV lenta (en 1-2 min en parada; en 30 min fuera de parada). Diluir 1:1 con SG5% si vía periférica para reducir osmolaridad.",
+      nota: "1 mEq/kg = 1 mL/kg de bicarbonato 1M (= 84 mg/kg). Máx. 50 mEq/dosis (50 mL). En PCR: NO uso rutinario; considerar si parada prolongada con acidosis confirmada, hiperpotasemia o intoxicación por antidepresivos tricíclicos. Corrección de acidosis fuera de PCR: déficit de bicarbonato (mEq) = 0,3 × peso × EB. Reponer ½ déficit lentamente. En neonatos: usar 1/2 M (4,2%) o diluir 1:1 para reducir riesgo de hemorragia intraventricular."
+    },
+    info: {
+      indicaciones: [
+        "PCR refractaria con acidosis confirmada, hiperpotasemia o intoxicación por antidepresivos tricíclicos",
+        "Acidosis metabólica grave (pH < 7,1) con compromiso hemodinámico",
+        "Hiperpotasemia grave con cambios ECG",
+        "Intoxicación por antidepresivos tricíclicos (alcalinización plasmática)",
+        "Intoxicación por salicilatos (alcalinización urinaria)"
+      ],
+      contraindicaciones: [
+        "Alcalosis metabólica o respiratoria",
+        "Hipernatremia",
+        "Hipocloremia, hipopotasemia, hipocalcemia significativas sin corrección concomitante"
+      ],
+      precauciones: [
+        "Hiperosmolaridad: en neonatos y lactantes pequeños diluir y administrar lento",
+        "No mezclar en misma vía con calcio (precipitación), adrenalina (inactivación), dopamina o atropina",
+        "Riesgo de hemorragia intraventricular en prematuros con bolos rápidos",
+        "Vigilar pH, Na+, K+, Ca2+ post-infusión"
+      ]
+    }
+  },
+
   {
     nombre: "BUDESONIDA",
     categoria: "Respiratorio",
@@ -514,6 +649,52 @@ const farmacos = [
         "Vigilar diuresis aumentada",
         "Acumulación en hepatopatía o insuficiencia renal: ajustar dosis",
         "Interacción con teofilina (sumar efectos): no combinar"
+      ]
+    }
+  },
+
+  {
+    nombre: "CAPTOPRIL",
+    categoria: "Cardiología",
+    sinonimos: ["captopril", "capoten"],
+    isoColor: ISO.cardio,
+    icono: "💊",
+    vias: ["oral", "sl"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum",
+    intermitente: [
+      {
+        indicacion: "HTA / Insuficiencia cardíaca",
+        via: "oral",
+        dosis_mg_kg: 0.3,
+        intervalo_h: 8,
+        dosis_max_mg: 50,
+        dosis_max_dia_mg: 150,
+        nota: "Lactantes: 0,15-0,3 mg/kg/dosis iniciar, titular hasta 6 mg/kg/día. Niños: 0,3-0,5 mg/kg/dosis (máx. 6 mg/kg/día). Dosis test inicial con monitorización TA (riesgo de hipotensión 1.ª dosis). Administrar 1 h antes o 2 h después de comidas.",
+        preparados: [
+          { nombre: "Captopril comp. 12,5 / 25 / 50 mg", conc_mg_ml: null },
+          { nombre: "Captopril fórmula magistral 1 mg/ml", conc_mg_ml: 1 }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Hipertensión arterial pediátrica",
+        "Insuficiencia cardíaca congestiva (reducción de postcarga)",
+        "Cardiopatías congénitas con sobrecarga ventricular izquierda",
+        "Nefropatía con proteinuria significativa"
+      ],
+      contraindicaciones: [
+        "Estenosis bilateral de arteria renal o riñón único con estenosis",
+        "Hipersensibilidad a IECA",
+        "Antecedente de angioedema con IECA",
+        "Insuficiencia renal aguda"
+      ],
+      precauciones: [
+        "Hipotensión de primera dosis: iniciar con dosis baja y monitorizar TA",
+        "Tos seca persistente (puede requerir cambio a ARA-II)",
+        "Hiperpotasemia (vigilar K+, evitar suplementos)",
+        "Empeoramiento de la función renal en estenosis arterial renal"
       ]
     }
   },
@@ -730,6 +911,44 @@ const farmacos = [
         "Sedación leve (menor que antihistamínicos de 1.ª generación)",
         "Sequedad de boca",
         "Ajuste de dosis en insuficiencia renal"
+      ]
+    }
+  },
+
+  {
+    nombre: "CLORURO CÁLCICO / GLUCONATO CÁLCICO",
+    categoria: "Reanimación / UCIP",
+    sinonimos: ["cloruro calcico", "gluconato calcico", "calcio"],
+    isoColor: ISO.rea,
+    icono: "⚡",
+    vias: ["iv", "io"],
+    modos: ["puntual"],
+    fuente: "SEUP / Pediamécum",
+    puntual: {
+      descripcion: "Hipocalcemia sintomática / Hiperpotasemia con cambios ECG / Toxicidad por Ca-antagonistas / Hipermagnesemia",
+      dosis_mg_kg: 100,
+      dosis_max_mg: 2000,
+      via: "IV/IO lenta (en 5-10 min, vía central preferente para cloruro). Diluir 1:1 con SSF si vía periférica.",
+      nota: "DOS PREPARACIONES con dosis diferentes: ⚠️ NO confundir. Gluconato cálcico 10%: 0,5-1 ml/kg (50-100 mg/kg de la sal; equivale a 4,6-9,2 mg/kg de calcio elemental). Cloruro cálcico 10%: 0,2 ml/kg (20 mg/kg de la sal; aporta 3x más calcio elemental que el gluconato — preferido en PCR/colapso). Máx. 20 ml gluconato o 10 ml cloruro por dosis. Vigilar bradicardia/asistolia durante infusión. Vía central preferente para cloruro (irritante)."
+    },
+    info: {
+      indicaciones: [
+        "Hipocalcemia sintomática (tetania, convulsiones, prolongación QT)",
+        "Hiperpotasemia con cambios ECG (estabilización de membrana)",
+        "Intoxicación por calcio-antagonistas",
+        "Hipermagnesemia sintomática (antídoto)",
+        "PCR con hipocalcemia confirmada (no rutinario)"
+      ],
+      contraindicaciones: [
+        "Hipercalcemia",
+        "Toxicidad digitálica (potencia)",
+        "Fibrilación ventricular (no usar como rutina)"
+      ],
+      precauciones: [
+        "Extravasación: necrosis tisular grave — preferir vía central (sobre todo cloruro)",
+        "Bradicardia y asistolia con infusión rápida — administrar lento y monitorizar ECG",
+        "Precipitación con bicarbonato, fosfato y ceftriaxona en neonatos (no compartir vía)",
+        "Cloruro cálcico es 3x más potente que gluconato a igual volumen — diferenciar claramente al prescribir"
       ]
     }
   },
@@ -1007,6 +1226,60 @@ const farmacos = [
   },
 
   {
+    nombre: "DEXMEDETOMIDINA",
+    categoria: "Analgesia / Sedación",
+    sinonimos: ["dexdor", "dexmedetomidina", "precedex"],
+    isoColor: ISO.neuro,
+    icono: "💉",
+    vias: ["iv", "neb"],
+    modos: ["carga_mantenimiento", "puntual"],
+    fuente: "Pediamécum / UCIP",
+    carga: {
+      descripcion: "Sedación en UCIP / Procedimientos",
+      dosis_mcg_kg: 1,
+      tiempo_min: 10,
+      via: "IV en 10 min (o sin carga si ya se prevé perfusión prolongada para evitar hipotensión)",
+      nota: "Carga 0,5-1 mcg/kg en 10 min. Mantenimiento: 0,2-1,4 mcg/kg/h. Sedante α2 sin depresión respiratoria significativa. Vía intranasal en procedimientos: 2-4 mcg/kg (inicio 25-30 min). Ahorra opioides y benzodiacepinas en UCIP."
+    },
+    puntual: {
+      descripcion: "Sedación intranasal para procedimientos no dolorosos",
+      dosis_mcg_kg: 3,
+      dosis_max_mg: 0.2,
+      via: "Intranasal (atomizador)",
+      nota: "2-4 mcg/kg intranasal. Inicio del efecto en 25-30 min, duración 60-90 min. Útil para TAC, RMN, ecocardiograma. No requiere ayuno estricto. Vigilar bradicardia leve."
+    },
+    presentaciones: [
+      {
+        label: "200 mcg / 50 ml SSF (UCIP)",
+        dosis_mg: 0.2, dilucion_ml: 50, suero: "SSF",
+        concUgMl: (0.2 * 1000) / 50,            // 4 mcg/ml
+        dosisRange: "0,2 – 1,4 mcg/kg/h",
+        dosisMin: 0.2, softMax: 1.4, hardMax: 2,
+        unidad: "mcg/kg/h", calcTipo: "mcg_kg_h"
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Sedación en UCIP (especialmente en weaning de ventilación)",
+        "Sedación para procedimientos no dolorosos en niños (RMN, TAC)",
+        "Sedoanalgesia coadyuvante (ahorra opioides y benzodiacepinas)",
+        "Síndrome de abstinencia neonatal (uso emergente)"
+      ],
+      contraindicaciones: [
+        "Bradiarritmias graves, bloqueo AV avanzado",
+        "Hipotensión no controlada",
+        "Hipovolemia significativa no corregida"
+      ],
+      precauciones: [
+        "Bradicardia e hipotensión (especialmente con bolo de carga rápido)",
+        "Síndrome de abstinencia con uso prolongado > 5 días (retirar gradualmente)",
+        "Sin efecto sobre vía aérea: ventaja en sedaciones sin intubación",
+        "Sequedad de boca"
+      ]
+    }
+  },
+
+  {
     nombre: "DIAZEPAM",
     categoria: "Antiepiléptico / Sedante",
     sinonimos: ["valium", "diazepam", "stesolid"],
@@ -1182,6 +1455,59 @@ const farmacos = [
 
   // ── E ─────────────────────────────────────────────────────
   {
+    nombre: "ENALAPRIL",
+    categoria: "Cardiología",
+    sinonimos: ["enalapril", "renitec", "naprilene"],
+    isoColor: ISO.cardio,
+    icono: "💊",
+    vias: ["oral", "iv"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum",
+    intermitente: [
+      {
+        indicacion: "HTA / Insuficiencia cardíaca (oral)",
+        via: "oral",
+        dosis_mg_kg: 0.1,
+        intervalo_h: 24,
+        dosis_max_mg: 40,
+        nota: "Iniciar 0,08-0,1 mg/kg/día en 1-2 tomas (máx. 5 mg/día inicial). Titular semanal hasta 0,6 mg/kg/día (máx. 40 mg/día). Inicio del efecto en 1 h, pico 4-6 h. Más cómodo que captopril por dosificación diaria/12 h.",
+        preparados: [
+          { nombre: "Enalapril comp. 5 / 20 mg", conc_mg_ml: null },
+          { nombre: "Enalapril fórmula magistral 1 mg/ml", conc_mg_ml: 1 }
+        ]
+      },
+      {
+        indicacion: "Crisis hipertensiva (IV, enalaprilato)",
+        via: "iv",
+        dosis_mg_kg: 0.01,
+        intervalo_h: 6,
+        dosis_max_mg: 1.25,
+        nota: "Enalaprilato 5-10 mcg/kg/dosis IV en 5-10 min (máx. 1,25 mg). Repetir cada 8-24 h. Efecto en 15 min, máximo a 1-4 h. Uso restringido a UCIP."
+      }
+    ],
+    info: {
+      indicaciones: [
+        "HTA pediátrica (alternativa más cómoda al captopril)",
+        "Insuficiencia cardíaca con disfunción sistólica",
+        "Nefropatía con proteinuria",
+        "Cardiopatías congénitas con disfunción ventricular"
+      ],
+      contraindicaciones: [
+        "Estenosis bilateral de arteria renal",
+        "Hipersensibilidad a IECA, angioedema previo",
+        "Embarazo (no aplicable en este contexto pero relevante en adolescentes)",
+        "Insuficiencia renal aguda"
+      ],
+      precauciones: [
+        "Hipotensión de primera dosis: iniciar dosis baja",
+        "Tos seca, hiperpotasemia",
+        "Deterioro de función renal — vigilar creatinina e iones",
+        "No combinar con suplementos de potasio o diuréticos ahorradores sin monitorización"
+      ]
+    }
+  },
+
+  {
     nombre: "ENOXAPARINA",
     categoria: "Hematología",
     sinonimos: ["clexane", "enoxaparina"],
@@ -1284,6 +1610,56 @@ const farmacos = [
   },
 
   // ── F ─────────────────────────────────────────────────────
+  {
+    nombre: "FAMOTIDINA",
+    categoria: "Digestivo",
+    sinonimos: ["famotidina", "pepcid", "tamin"],
+    isoColor: ISO.digestivo,
+    icono: "💊",
+    vias: ["oral", "iv"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum",
+    intermitente: [
+      {
+        indicacion: "ERGE / Úlcera péptica (oral)",
+        via: "oral",
+        dosis_mg_kg: 0.5,
+        intervalo_h: 12,
+        dosis_max_mg: 40,
+        nota: "0,5-1 mg/kg/dosis cada 12 h (máx. 40 mg/dosis, 80 mg/día). 3 meses-1 año: 0,5 mg/kg c/12 h. Alternativa a omeprazol cuando éste no se tolera o se prefiere antiH2. La ranitidina fue retirada en 2020 (contaminación con NDMA); famotidina es la alternativa actual.",
+        preparados: [
+          { nombre: "Famotidina comp. 20 / 40 mg", conc_mg_ml: null },
+          { nombre: "Famotidina fórmula magistral susp. 8 mg/ml", conc_mg_ml: 8 }
+        ]
+      },
+      {
+        indicacion: "Profilaxis úlcera de estrés (IV)",
+        via: "iv",
+        dosis_mg_kg: 0.25,
+        intervalo_h: 12,
+        dosis_max_mg: 20,
+        nota: "0,25-0,5 mg/kg/dosis cada 12 h IV (máx. 40 mg/día). Administrar en 15-30 min."
+      }
+    ],
+    info: {
+      indicaciones: [
+        "ERGE con esofagitis",
+        "Úlcera péptica gástrica o duodenal",
+        "Profilaxis de úlcera de estrés en críticos",
+        "Coadyuvante en anafilaxia (efecto antiH2)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a antiH2"
+      ],
+      precauciones: [
+        "Ajustar dosis en insuficiencia renal moderada-grave",
+        "Bien tolerado, efectos adversos raros",
+        "Taquifilaxia rápida con uso prolongado (menos eficaz que IBP en ERGE grave)",
+        "Sustituye a la ranitidina (retirada por contaminación con NDMA)"
+      ]
+    }
+  },
+
   {
     nombre: "FENITOÍNA",
     categoria: "Antiepiléptico / Sedante",
@@ -1479,6 +1855,62 @@ const farmacos = [
   },
 
   {
+    nombre: "FLUCONAZOL",
+    categoria: "Antibiótico",
+    sinonimos: ["fluconazol", "diflucan", "loitin"],
+    isoColor: ISO.antibiotico,
+    icono: "🦠",
+    vias: ["iv", "oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum",
+    intermitente: [
+      {
+        indicacion: "Candidiasis invasiva (carga + mantenimiento)",
+        via: "iv",
+        dosis_mg_kg: 12,
+        intervalo_h: 24,
+        dosis_max_mg: 800,
+        nota: "Carga 25 mg/kg el primer día, después 12 mg/kg/día (máx. 800 mg/día). Administrar en 1-2 h. Indicada en candidemia, candidiasis invasiva en > 1 mes. En neonatos: 12 mg/kg/dosis pero intervalo según EG y EPN (24-72 h).",
+        preparados: [
+          { nombre: "Diflucan susp. 50 mg/5 ml (10 mg/ml)", conc_mg_ml: 10 },
+          { nombre: "Diflucan susp. 200 mg/5 ml (40 mg/ml)", conc_mg_ml: 40 },
+          { nombre: "Diflucan cápsulas 50 / 100 / 150 / 200 mg", conc_mg_ml: null }
+        ]
+      },
+      {
+        indicacion: "Candidiasis orofaríngea / esofágica",
+        via: "oral",
+        dosis_mg_kg: 6,
+        intervalo_h: 24,
+        dosis_max_mg: 400,
+        duracion: "7-14 días",
+        nota: "Carga 6 mg/kg primer día, después 3-6 mg/kg/día (máx. 400 mg). Candidiasis mucocutánea: 3 mg/kg/día × 7-14 días.",
+        preparados: [
+          { nombre: "Diflucan susp. 50 mg/5 ml (10 mg/ml)", conc_mg_ml: 10 }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Candidemia y candidiasis invasiva no resistente",
+        "Candidiasis orofaríngea, esofágica, mucocutánea",
+        "Profilaxis antifúngica en hospedador inmunocomprometido seleccionado",
+        "Meningitis criptocócica (mantenimiento tras fase inicial con anfo)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a azoles",
+        "Uso concomitante con QT-prolongadores potentes (cisaprida, terfenadina)"
+      ],
+      precauciones: [
+        "Hepatotoxicidad: vigilar transaminasas con uso prolongado",
+        "Prolongación del QTc",
+        "Múltiples interacciones (inhibidor CYP2C9, 2C19, 3A4): warfarina, fenitoína, ciclosporina",
+        "Ajuste de dosis en insuficiencia renal (intervalo más largo)"
+      ]
+    }
+  },
+
+  {
     nombre: "FOSFOMICINA",
     categoria: "Antibiótico",
     sinonimos: ["monurol", "fosfomicina"],
@@ -1611,6 +2043,41 @@ const farmacos = [
   },
 
   {
+    nombre: "GLUCONATO CÁLCICO 10%",
+    categoria: "Reanimación / UCIP",
+    sinonimos: ["gluconato calcico", "calcio gluconato"],
+    isoColor: ISO.rea,
+    icono: "⚡",
+    vias: ["iv", "io"],
+    modos: ["puntual"],
+    fuente: "SEUP / Pediamécum",
+    puntual: {
+      descripcion: "Hipocalcemia neonatal / pediátrica (preparación específica)",
+      dosis_mg_kg: 100,
+      dosis_max_mg: 2000,
+      via: "IV lenta (en 10-30 min) por vía central o periférica grande",
+      nota: "Gluconato cálcico 10%: 100 mg/kg (1 ml/kg) lento. Máx. 20 ml/dosis. Aporta 9,3 mg de calcio elemental por ml. Hipocalcemia neonatal: 1-2 ml/kg/dosis. Preferido sobre cloruro cálcico en vía periférica (menos irritante). Ver entrada combinada CLORURO CÁLCICO / GLUCONATO CÁLCICO para comparativa de presentaciones."
+    },
+    info: {
+      indicaciones: [
+        "Hipocalcemia sintomática del neonato y lactante (primera elección por vía periférica)",
+        "Hiperpotasemia con cambios ECG",
+        "Tetania por hipocalcemia"
+      ],
+      contraindicaciones: [
+        "Hipercalcemia",
+        "Toxicidad digitálica"
+      ],
+      precauciones: [
+        "Extravasación: necrosis (menos grave que con cloruro)",
+        "Bradicardia con infusión rápida",
+        "No mezclar con bicarbonato o fosfato (precipita)",
+        "Lavar la vía con SSF antes y después si se administra junto a otros fármacos"
+      ]
+    }
+  },
+
+  {
     nombre: "GLUCOSA HIPERTÓNICA",
     categoria: "Reanimación / UCIP",
     sinonimos: ["glucosa 10%", "glucosa 25%", "glucosa 50%", "dextrosa", "suero glucosado"],
@@ -1639,6 +2106,55 @@ const farmacos = [
         "Hiperglucemia mantenida en sepsis: evitar bolos repetidos sin medir glucemia",
         "Soluciones > 10% (12,5% o más): vía central preferente (riesgo de flebitis severa)",
         "En neonatos: NUNCA bolo de G25% o más; usar G10% en bolo y G12,5% por vía periférica como máximo"
+      ]
+    }
+  },
+
+  // ── H ─────────────────────────────────────────────────────
+  {
+    nombre: "HEPARINA SÓDICA",
+    categoria: "Hematología",
+    sinonimos: ["heparina", "heparina sodica"],
+    isoColor: ISO.neutral,
+    icono: "💉",
+    vias: ["iv", "sc"],
+    modos: ["carga_mantenimiento"],
+    fuente: "Pediamécum / UCIP",
+    carga: {
+      descripcion: "Anticoagulación terapéutica (TVP, TEP, trombosis aguda)",
+      dosis_mcg_kg: 75,
+      tiempo_min: 10,
+      via: "IV en 10 min",
+      nota: "Dosis carga 75 UI/kg en 10 min. Mantenimiento: < 1 año 28 UI/kg/h, > 1 año 20 UI/kg/h (ajustar según TTPa o anti-Xa cada 4-6 h). Objetivo TTPa 60-85 s o anti-Xa 0,35-0,7 UI/ml. Antídoto: sulfato de protamina (1 mg neutraliza ~100 UI heparina si < 30 min)."
+    },
+    presentaciones: [
+      {
+        label: "20000 UI / 100 ml SSF (UCIP)",
+        dosis_mg: 20000, dilucion_ml: 100, suero: "SSF",
+        concMgMl: 20000 / 100,                  // 200 UI/ml (UI tratadas como mg)
+        dosisRange: "10 – 28 UI/kg/h",
+        dosisMin: 10, softMax: 28, hardMax: 40,
+        unidad: "UI/kg/h", calcTipo: "mg_kg_h"
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Trombosis venosa profunda y tromboembolismo pulmonar agudos",
+        "Trombosis arterial aguda",
+        "Anticoagulación en circulación extracorpórea (cirugía cardíaca, ECMO, diálisis)",
+        "Profilaxis de trombosis de catéter central"
+      ],
+      contraindicaciones: [
+        "Hemorragia activa significativa",
+        "Trombocitopenia inducida por heparina (HIT) previa",
+        "Coagulopatía no corregida",
+        "Cirugía reciente del SNC u oftalmológica"
+      ],
+      precauciones: [
+        "Monitorización estrecha de TTPa o anti-Xa",
+        "Trombocitopenia (vigilar plaquetas, descartar HIT si caída > 50%)",
+        "Antídoto: sulfato de protamina",
+        "Osteoporosis con uso prolongado (> 1 mes)"
       ]
     }
   },
@@ -1695,7 +2211,6 @@ const farmacos = [
     }
   },
 
-  // ── H ─────────────────────────────────────────────────────
   {
     nombre: "HIDROCORTISONA",
     categoria: "Corticoide",
@@ -1737,6 +2252,63 @@ const farmacos = [
         "Hiperglucemia, HTA",
         "Hipocalemia con dosis altas",
         "No retirar bruscamente tras > 7 días"
+      ]
+    }
+  },
+
+  {
+    nombre: "HIERRO ORAL",
+    categoria: "Hematología",
+    sinonimos: ["hierro", "ferroglicina", "sulfato ferroso", "ferro-sanol", "ferplex"],
+    isoColor: ISO.neutral,
+    icono: "💊",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum / AEP",
+    intermitente: [
+      {
+        indicacion: "Tratamiento de anemia ferropénica",
+        via: "oral",
+        dosis_mg_kg: 3,
+        intervalo_h: 24,
+        dosis_max_mg: 200,
+        duracion: "3-6 meses (continuar 2-3 m tras normalización Hb)",
+        nota: "Dosis expresada en hierro elemental: 3-6 mg/kg/día en 1-3 tomas. Administrar con el estómago vacío y con vitamina C (zumo cítrico) para mejorar absorción. Evitar leche y derivados en la toma. Heces oscuras esperadas. La pauta de 1 dosis/día en ayunas es tan eficaz como múltiples dosis y mejor tolerada.",
+        preparados: [
+          { nombre: "Ferroglicina sulfato susp. 30 mg/ml (Ferro Sanol gotas, hierro elemental)", conc_mg_ml: 30 },
+          { nombre: "Ferroprotinato susp. (Ferplex/Profer 40 mg/15 ml hierro elemental)", conc_mg_ml: 2.7 },
+          { nombre: "Lactato ferroso solución (Cromatonbic ferro 37,5 mg/5 ml)", conc_mg_ml: 7.5 }
+        ]
+      },
+      {
+        indicacion: "Profilaxis en prematuros y lactantes de riesgo",
+        via: "oral",
+        dosis_mg_kg: 2,
+        intervalo_h: 24,
+        nota: "Prematuros: 2-4 mg/kg/día desde las 4-8 semanas de vida hasta los 12 meses. Lactantes nacidos a término con LM exclusiva: 1 mg/kg/día desde los 4 meses hasta inicio de alimentación complementaria con hierro.",
+        preparados: [
+          { nombre: "Ferroglicina sulfato gotas (30 mg/ml hierro elemental)", conc_mg_ml: 30 }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Anemia ferropénica (primera elección)",
+        "Profilaxis en prematuros, BPEG, lactancia materna exclusiva > 4-6 meses",
+        "Suplementación en adolescentes con menarquia abundante",
+        "Depleción ferropénica sin anemia (ferritina baja)"
+      ],
+      contraindicaciones: [
+        "Anemia no ferropénica (hemolítica, sideroblástica, talasemia mayor sin déficit)",
+        "Hemocromatosis",
+        "Intolerancia previa demostrada",
+        "Enfermedad inflamatoria intestinal activa (relativa)"
+      ],
+      precauciones: [
+        "Intolerancia digestiva muy frecuente (epigastralgia, náuseas, estreñimiento o diarrea)",
+        "Tinción dental reversible (administrar con jeringa al fondo de la boca y enjuagar)",
+        "Sobredosis muy peligrosa (> 60 mg/kg de hierro elemental): mantener fuera del alcance",
+        "Interacciones: leche, calcio, antiácidos, antibióticos (tetraciclinas, quinolonas) — espaciar 2 h"
       ]
     }
   },
@@ -2013,6 +2585,50 @@ const farmacos = [
   },
 
   // ── M ─────────────────────────────────────────────────────
+  {
+    nombre: "MELATONINA",
+    categoria: "Antiepiléptico / Sedante",
+    sinonimos: ["melatonina", "circadin"],
+    isoColor: ISO.neuro,
+    icono: "🌙",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum / Consenso AEP",
+    intermitente: [
+      {
+        indicacion: "Insomnio de conciliación (especialmente TEA/TDAH)",
+        via: "oral",
+        dosis_fija_mg: 1,
+        intervalo_h: 24,
+        dosis_max_mg: 10,
+        nota: "Iniciar 0,5-1 mg 30-60 min antes de acostarse. Titular cada 1-2 sem hasta 3-5 mg. Máx. 10 mg/noche (uso especializado). Lactantes/preescolares: no recomendado de rutina. Niños 6-12 años con TEA o TDAH: 1-5 mg habitualmente eficaz. Mantener higiene de sueño como base.",
+        preparados: [
+          { nombre: "Melatonina comp. 1 / 2 / 3 / 5 mg (suplementos)", conc_mg_ml: null },
+          { nombre: "Melatonina gotas 1 mg/ml (algunos preparados)", conc_mg_ml: 1 },
+          { nombre: "Circadin 2 mg liberación prolongada (uso ≥ 6 años, TEA)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Insomnio de conciliación en niños con TEA",
+        "Insomnio de conciliación en TDAH",
+        "Trastornos del ritmo circadiano (jet lag, retraso de fase en adolescentes)",
+        "Insomnio refractario a medidas conductuales"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad",
+        "Enfermedad autoinmune (uso prudente — datos limitados)"
+      ],
+      precauciones: [
+        "Higiene de sueño y medidas conductuales son la base — la melatonina es coadyuvante",
+        "Cefalea, somnolencia residual matutina (poco frecuente)",
+        "Datos de seguridad a largo plazo limitados en pediatría",
+        "Suplemento en España (mayoría) — la calidad varía según marca; preferir comp. farmacéuticos"
+      ]
+    }
+  },
+
   {
     nombre: "MEROPENEM",
     categoria: "Antibiótico",
@@ -2393,6 +3009,52 @@ const farmacos = [
 
   // ── O ─────────────────────────────────────────────────────
   {
+    nombre: "OCTREOTIDO",
+    categoria: "Endocrino",
+    sinonimos: ["octreotido", "sandostatin"],
+    isoColor: ISO.endocrino,
+    icono: "💉",
+    vias: ["iv", "sc"],
+    modos: ["carga_mantenimiento"],
+    fuente: "Pediamécum / Neofax",
+    carga: {
+      descripcion: "Quilotórax / Hipoglucemia hiperinsulinémica / Hemorragia digestiva variceal",
+      dosis_mcg_kg: 1,
+      tiempo_min: 5,
+      via: "IV/SC en bolo lento",
+      nota: "Bolo inicial 1 mcg/kg IV (máx. 50 mcg). Perfusión continua: iniciar 1 mcg/kg/h y titular hasta 5-10 mcg/kg/h según respuesta (máx. 10 mcg/kg/h). En hipoglucemia hiperinsulinémica neonatal: 5-25 mcg/kg/día SC en 3-4 dosis. Quilotórax: 1-10 mcg/kg/h IV continuo."
+    },
+    presentaciones: [
+      {
+        label: "500 mcg / 50 ml SSF",
+        dosis_mg: 0.5, dilucion_ml: 50, suero: "SSF",
+        concUgMl: (0.5 * 1000) / 50,            // 10 mcg/ml
+        dosisRange: "1 – 10 mcg/kg/h",
+        dosisMin: 0.5, softMax: 10, hardMax: 15,
+        unidad: "mcg/kg/h", calcTipo: "mcg_kg_h"
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Quilotórax persistente (postoperatorio cirugía cardíaca, congénito)",
+        "Hipoglucemia por hiperinsulinismo congénito",
+        "Hemorragia digestiva variceal (varices esofágicas)",
+        "Diarrea secretora refractaria",
+        "Síndrome carcinoide (raro en pediatría)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a octreotido"
+      ],
+      precauciones: [
+        "Hiperglucemia o hipoglucemia (inhibición de insulina/glucagón) — vigilar glucemia",
+        "Bradicardia, alteraciones de la conducción",
+        "Litiasis biliar con uso prolongado",
+        "Reducción de absorción intestinal con uso prolongado"
+      ]
+    }
+  },
+
+  {
     nombre: "OMEPRAZOL",
     categoria: "Digestivo",
     sinonimos: ["omeprazol", "losec"],
@@ -2757,6 +3419,71 @@ const farmacos = [
   },
 
   {
+    nombre: "PROPRANOLOL",
+    categoria: "Cardiología",
+    sinonimos: ["propranolol", "sumial", "hemangiol"],
+    isoColor: ISO.cardio,
+    icono: "💊",
+    vias: ["oral", "iv"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum",
+    intermitente: [
+      {
+        indicacion: "Hemangioma infantil (Hemangiol)",
+        via: "oral",
+        dosis_mg_kg: 1,
+        intervalo_h: 12,
+        nota: "Iniciar 1 mg/kg/día dividido en 2 dosis (titular semanal hasta 3 mg/kg/día). Hemangiol 3,75 mg/ml solución pediátrica. Iniciar con monitorización TA y FC; vigilar hipoglucemia. Continuar 6-12 meses según evolución.",
+        preparados: [
+          { nombre: "Hemangiol solución 3,75 mg/ml (hemangiomas)", conc_mg_ml: 3.75 },
+          { nombre: "Sumial comp. 10 / 40 mg", conc_mg_ml: null }
+        ]
+      },
+      {
+        indicacion: "Cardiología pediátrica / Profilaxis migraña / Temblor",
+        via: "oral",
+        dosis_mg_kg_dia: 1,
+        intervalo_h: 8,
+        dosis_max_dia_mg: 240,
+        nota: "1-4 mg/kg/día divididos cada 6-8 h. Indicaciones: arritmias, tetralogía de Fallot (crisis hipoxémicas), HTA, profilaxis migraña en adolescentes, temblor esencial, tirotoxicosis.",
+        preparados: [
+          { nombre: "Sumial comp. 10 / 40 mg", conc_mg_ml: null }
+        ]
+      },
+      {
+        indicacion: "Crisis hipoxémica en TOF / Taquiarritmia (IV)",
+        via: "iv",
+        dosis_mg_kg: 0.05,
+        intervalo_h: 6,
+        dosis_max_mg: 1,
+        nota: "0,02-0,1 mg/kg IV lento en 5 min (máx. 1 mg en lactantes, 3 mg en niños mayores). Monitorización ECG y TA. Útil en crisis hipoxémica de tetralogía de Fallot."
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Hemangioma infantil (primera línea)",
+        "Tetralogía de Fallot (prevención de crisis hipoxémicas)",
+        "Arritmias supraventriculares",
+        "HTA",
+        "Profilaxis de migraña en adolescentes",
+        "Tirotoxicosis"
+      ],
+      contraindicaciones: [
+        "Asma activo / hiperreactividad bronquial",
+        "Bloqueo AV 2.º-3.er grado, bradicardia significativa",
+        "Insuficiencia cardíaca descompensada",
+        "Hipoglucemia o riesgo de hipoglucemia (lactantes en ayuno)"
+      ],
+      precauciones: [
+        "Hipoglucemia (especialmente lactantes): administrar con alimentos, no en ayuno",
+        "Broncoespasmo (β no selectivo)",
+        "Bradicardia, bloqueo AV",
+        "Enmascara síntomas adrenérgicos de hipoglucemia en diabéticos"
+      ]
+    }
+  },
+
+  {
     nombre: "PROSTAGLANDINA E1 (ALPROSTADIL)",
     categoria: "Neonatos",
     sinonimos: ["alprostadil", "prostaglandina e1", "prostin"],
@@ -2790,6 +3517,89 @@ const farmacos = [
         "Hipotensión, taquicardia, bradicardia, fiebre, rubor",
         "Iniciar con 0,01-0,05 mcg/kg/min e ir subiendo según respuesta",
         "Una vez abierto el ductus, reducir a la mínima dosis efectiva (0,01-0,02 mcg/kg/min)"
+      ]
+    }
+  },
+
+  // ── R ─────────────────────────────────────────────────────
+  {
+    nombre: "RANITIDINA",
+    categoria: "Digestivo",
+    sinonimos: ["ranitidina", "zantac"],
+    isoColor: ISO.digestivo,
+    icono: "⚠️",
+    vias: ["oral", "iv"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (histórico)",
+    intermitente: [
+      {
+        indicacion: "⚠ Retirada en España (NDMA) — sustituir por famotidina u omeprazol",
+        via: "oral",
+        dosis_mg_kg: 2,
+        intervalo_h: 12,
+        dosis_max_mg: 150,
+        nota: "RETIRADA del mercado en España y la UE desde 2020 por contaminación con N-nitrosodimetilamina (NDMA, posible carcinógeno). Si se encuentra en literatura antigua: 2-4 mg/kg/dosis c/12 h oral; 0,75-1,5 mg/kg/dosis c/6-8 h IV. SUSTITUIR por famotidina (misma indicación, perfil similar) o por un IBP (omeprazol).",
+        preparados: []
+      }
+    ],
+    info: {
+      indicaciones: [
+        "FÁRMACO RETIRADO en España. Se mantiene aquí únicamente como referencia histórica.",
+        "Si encuentra prescripción previa de ranitidina, sustituir por famotidina equivalente o IBP."
+      ],
+      contraindicaciones: [
+        "No comercializada actualmente"
+      ],
+      precauciones: [
+        "Contaminación con NDMA (N-nitrosodimetilamina): posible riesgo carcinogénico",
+        "Alternativa preferente: famotidina (mismo mecanismo, no afectada por el problema NDMA)",
+        "Alternativa preferente: IBP (omeprazol) cuando se busca un efecto antisecretor más potente"
+      ]
+    }
+  },
+
+  {
+    nombre: "ROCURONIO",
+    categoria: "Analgesia / Sedación",
+    sinonimos: ["rocuronio", "esmeron"],
+    isoColor: ISO.neuro,
+    icono: "💉",
+    vias: ["iv", "io"],
+    modos: ["puntual", "perfusion"],
+    fuente: "Pediamécum / SEUP",
+    puntual: {
+      descripcion: "Bloqueo neuromuscular para intubación de secuencia rápida",
+      dosis_mg_kg: 1,
+      dosis_max_mg: 100,
+      via: "IV/IO en bolo rápido (15-30 s)",
+      nota: "Dosis ISR: 1-1,2 mg/kg IV en bolo. Inicio acción 30-60 s (más rápido a mayor dosis), duración 30-60 min. Antídoto: sugammadex 16 mg/kg IV en reversión inmediata, 2-4 mg/kg en reversión rutinaria. Alternativa a la succinilcolina en ISR, especialmente si hay contraindicación (hipertermia maligna, hiperpotasemia, distrofias)."
+    },
+    presentaciones: [
+      {
+        label: "100 mg / 100 ml SSF (UCIP)",
+        dosis_mg: 100, dilucion_ml: 100, suero: "SSF",
+        concMgMl: 100 / 100,                    // 1 mg/ml
+        dosisRange: "0,3 – 0,6 mg/kg/h",
+        dosisMin: 0.3, softMax: 0.6, hardMax: 1,
+        unidad: "mg/kg/h", calcTipo: "mg_kg_h"
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Intubación orotraqueal de secuencia rápida (ISR)",
+        "Bloqueo neuromuscular para ventilación mecánica prolongada en UCIP",
+        "Cirugía electiva con relajación muscular",
+        "Estatus asmático refractario (rara vez, para sincronía con ventilador)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a rocuronio o bromuro",
+        "Sin alternativa de vía aérea segura (sin posibilidad de intubar/ventilar)"
+      ],
+      precauciones: [
+        "Vía aérea protegida obligatoria — apnea/paralización tras administración",
+        "Sin efecto sedante o analgésico — asociar siempre sedoanalgesia",
+        "Antídoto disponible: sugammadex (revierte el bloqueo rápidamente)",
+        "Vigilar tren-de-4 para titulación en perfusión"
       ]
     }
   },
@@ -2892,6 +3702,46 @@ const farmacos = [
   },
 
   {
+    nombre: "SUCCINILCOLINA",
+    categoria: "Analgesia / Sedación",
+    sinonimos: ["succinilcolina", "suxametonio", "anectine"],
+    isoColor: ISO.neuro,
+    icono: "💉",
+    vias: ["iv", "im", "io"],
+    modos: ["puntual"],
+    fuente: "Pediamécum / SEUP",
+    puntual: {
+      descripcion: "Bloqueo neuromuscular para intubación de secuencia rápida",
+      dosis_mg_kg: 1.5,
+      dosis_max_mg: 150,
+      via: "IV/IO en bolo rápido. Vía IM si no acceso IV: 3-4 mg/kg (máx. 150 mg).",
+      nota: "IV: lactantes 2 mg/kg, niños 1-1,5 mg/kg, adolescentes 1 mg/kg. Inicio acción 30-60 s, duración 4-10 min (más corta que rocuronio). Premedicar con atropina 0,02 mg/kg en lactantes/niños pequeños (bradicardia). El rocuronio se prefiere en muchos protocolos pediátricos por mejor perfil de seguridad."
+    },
+    info: {
+      indicaciones: [
+        "Intubación orotraqueal de secuencia rápida (ISR) cuando se desea corta duración",
+        "Laringoespasmo grave",
+        "Inducción anestésica para procedimientos cortos"
+      ],
+      contraindicaciones: [
+        "Antecedente personal o familiar de hipertermia maligna",
+        "Hiperpotasemia conocida o riesgo (quemados > 24 h, lesión medular, denervación, distrofias musculares)",
+        "Distrofia muscular de Duchenne/Becker (hiperpotasemia letal — uso restringido al fallo de vía aérea)",
+        "Déficit de pseudocolinesterasa",
+        "Glaucoma agudo de ángulo cerrado, lesión ocular abierta",
+        "Quemados o trauma muscular extenso entre 24 h y varios meses"
+      ],
+      precauciones: [
+        "Bradicardia (especialmente en niños y con repetición) — premedicar con atropina",
+        "Hiperpotasemia (efecto despolarizante) — vigilar en grupos de riesgo",
+        "Hipertermia maligna: emergencia médica (dantroleno)",
+        "Mialgias postoperatorias frecuentes",
+        "Aumento de presión intracraneal e intragástrica"
+      ]
+    }
+  },
+
+  {
     nombre: "SULFATO DE MAGNESIO",
     categoria: "Reanimación / UCIP",
     sinonimos: ["sulfato magnesio", "magnesio"],
@@ -2923,6 +3773,52 @@ const farmacos = [
         "Toxicidad: arreflexia, depresión respiratoria, paro cardíaco (con magnesemia muy alta)",
         "Antídoto: gluconato cálcico 100 mg/kg IV",
         "Monitorización ECG y TA continuas durante infusión"
+      ]
+    }
+  },
+
+  {
+    nombre: "SUMATRIPTÁN",
+    categoria: "Analgesia / Antitérmico",
+    sinonimos: ["sumatriptan", "imigran", "imitrex"],
+    isoColor: ISO.analgesia,
+    icono: "💊",
+    vias: ["oral", "sl", "sc", "neb"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum",
+    intermitente: [
+      {
+        indicacion: "Migraña con/sin aura — adolescentes ≥ 12 años",
+        via: "oral",
+        dosis_fija_mg: 25,
+        intervalo_h: 2,
+        dosis_max_mg: 50,
+        dosis_max_dia_mg: 100,
+        nota: "≥ 12 años: 25-50 mg al inicio de la cefalea (máx. 100 mg/día). Repetir tras 2 h si no respuesta (máx. 2 dosis/24 h). Mejor en la fase precoz del ataque. Forma intranasal: 5-20 mg/dosis (Imigran nasal 10 / 20 mg).",
+        preparados: [
+          { nombre: "Imigran comp. 50 mg", conc_mg_ml: null },
+          { nombre: "Imigran nasal 10 / 20 mg (1 nebulización)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Tratamiento agudo de migraña con o sin aura en adolescentes ≥ 12 años",
+        "Cefalea en racimos en adolescentes (forma SC, uso especializado)"
+      ],
+      contraindicaciones: [
+        "< 12 años (datos limitados)",
+        "Cardiopatía isquémica o riesgo cardiovascular elevado",
+        "HTA no controlada",
+        "Migraña hemipléjica o basilar",
+        "ACV o AIT previos",
+        "Uso concomitante con ergotamínicos o IMAO"
+      ],
+      precauciones: [
+        "Vasoconstricción coronaria: dolor torácico opresivo posible (vigilar)",
+        "Sensación de calor, parestesias, sensación de presión en cuello/tórax",
+        "Cefalea de rebote con uso frecuente (> 10 días/mes): evitar uso excesivo",
+        "No usar como profilaxis (es tratamiento agudo)"
       ]
     }
   },
@@ -3073,8 +3969,69 @@ const farmacos = [
         "Ajuste en insuficiencia renal"
       ]
     }
-  }
+  },
 
+  {
+    nombre: "VITAMINA D",
+    categoria: "Endocrino",
+    sinonimos: ["vitamina d", "colecalciferol", "vitamina d3", "calcifediol", "hidroferol"],
+    isoColor: ISO.endocrino,
+    icono: "☀️",
+    vias: ["oral", "im"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum / AEP",
+    intermitente: [
+      {
+        indicacion: "Profilaxis del raquitismo (universal en < 1 año)",
+        via: "oral",
+        dosis_fija_mg: 0.01,
+        intervalo_h: 24,
+        nota: "400 UI/día en TODOS los lactantes durante el primer año de vida (1 mcg = 40 UI; 400 UI = 10 mcg). Continuar 400-600 UI/día en niños y adolescentes con escasa exposición solar o ingesta dietética inadecuada. Prematuros: 400-800 UI/día.",
+        preparados: [
+          { nombre: "Vitamina D3 Kern Pharma 2000 UI/ml (1 gota ≈ 66 UI)", conc_mg_ml: 0.05 },
+          { nombre: "Deltius / Hidroferol gotas (varias concentraciones)", conc_mg_ml: null },
+          { nombre: "Vitamina D3 (colecalciferol) 1000 UI/cápsula", conc_mg_ml: null }
+        ]
+      },
+      {
+        indicacion: "Tratamiento de déficit de vitamina D",
+        via: "oral",
+        dosis_fija_mg: 0.05,
+        intervalo_h: 24,
+        nota: "Lactantes < 1 año: 2000 UI/día × 6-12 sem, después 400 UI/día mantenimiento. 1-18 años: 2000-4000 UI/día × 6-12 sem, después 600-1000 UI/día. Alternativa: dosis única alta (stoss) 50.000 UI en > 1 año bajo supervisión. Monitorizar 25-OH-vit D, calcio, fósforo y PTH."
+      },
+      {
+        indicacion: "Calcifediol (Hidroferol) — formulación equivalente",
+        via: "oral",
+        dosis_fija_mg: 0.266,
+        intervalo_h: 720,
+        nota: "Hidroferol 0,266 mg (= 16.000 UI de calcifediol) bisemanal o quincenal según pauta. Activa más rápidamente que colecalciferol en hepatopatía o malabsorción. Adolescentes y adultos.",
+        preparados: [
+          { nombre: "Hidroferol ampolla bebible 0,266 mg (calcifediol)", conc_mg_ml: null },
+          { nombre: "Hidroferol gotas 0,1 mg/ml", conc_mg_ml: 0.1 }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Profilaxis universal del raquitismo en < 1 año (recomendación AEP)",
+        "Profilaxis en niños con escasa exposición solar, piel oscura, obesidad, antiepilépticos crónicos",
+        "Tratamiento del déficit confirmado (25-OH-vit D < 20 ng/ml)",
+        "Raquitismo carencial",
+        "Hipocalcemia por hipoparatiroidismo (con calcitriol)"
+      ],
+      contraindicaciones: [
+        "Hipercalcemia",
+        "Hipervitaminosis D",
+        "Síndromes de hipersensibilidad a vitamina D"
+      ],
+      precauciones: [
+        "Sobredosis crónica: hipercalcemia, hipercalciuria, nefrocalcinosis",
+        "Vigilar calcemia en tratamientos a dosis altas",
+        "Las formulaciones comerciales tienen concentraciones muy variables: leer prospecto detenidamente",
+        "El cálculo en mg suele ser confuso — pensar siempre en UI"
+      ]
+    }
   },
 
   {
