@@ -223,6 +223,49 @@ const farmacos = [
   },
 
   {
+    nombre: "AMLODIPINO",
+    categoria: "Cardiología",
+    sinonimos: ["amlodipino", "norvas", "astudal"],
+    isoColor: ISO.cardio,
+    icono: "💊",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum",
+    intermitente: [
+      {
+        indicacion: "HTA pediátrica crónica",
+        via: "oral",
+        dosis_mg_kg: 0.1,
+        intervalo_h: 24,
+        dosis_max_mg: 10,
+        nota: "Iniciar 0,05-0,1 mg/kg/día en 1 toma (máx. 5 mg/día inicial). Titular cada 1-2 sem hasta 0,6 mg/kg/día (máx. 10 mg/día). Inicio del efecto en 1-2 sem (acción gradual). Bien tolerado, alternativa a IECA cuando éstos no se pueden usar.",
+        preparados: [
+          { nombre: "Amlodipino comp. 5 / 10 mg", conc_mg_ml: null },
+          { nombre: "Amlodipino fórmula magistral susp. 1 mg/ml", conc_mg_ml: 1 }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Hipertensión arterial pediátrica esencial o secundaria",
+        "HTA refractaria a IECA o ARA-II",
+        "Vasoespasmo coronario / Raynaud (uso poco frecuente en pediatría)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a dihidropiridinas",
+        "Shock cardiogénico",
+        "Estenosis aórtica grave"
+      ],
+      precauciones: [
+        "Edemas maleolares frecuentes (no relacionados con balance hídrico — no responden a diuréticos)",
+        "Rubor, cefalea, palpitaciones",
+        "Hipertrofia gingival (similar a antiepilépticos)",
+        "Ajuste innecesario en insuficiencia renal moderada"
+      ]
+    }
+  },
+
+  {
     nombre: "AMOXICILINA",
     categoria: "Antibiótico",
     sinonimos: ["amoxicilina", "amoxi"],
@@ -560,6 +603,48 @@ const farmacos = [
         "No mezclar en misma vía con calcio (precipitación), adrenalina (inactivación), dopamina o atropina",
         "Riesgo de hemorragia intraventricular en prematuros con bolos rápidos",
         "Vigilar pH, Na+, K+, Ca2+ post-infusión"
+      ]
+    }
+  },
+
+  {
+    nombre: "BROMURO DE IPRATROPIO",
+    categoria: "Respiratorio",
+    sinonimos: ["ipratropio", "atrovent"],
+    isoColor: ISO.respiratorio,
+    icono: "🌬️",
+    vias: ["neb"],
+    modos: ["intermitente"],
+    fuente: "SEUP",
+    intermitente: [
+      {
+        indicacion: "Crisis asmática moderada-grave — combinado con salbutamol",
+        via: "neb",
+        dosis_fija_mg: 0.25,
+        intervalo_h: 6,
+        nota: "< 6 años (< 20 kg): 250 mcg/dosis. > 6 años: 250-500 mcg/dosis. Nebulización combinada con salbutamol cada 20 min × 3 dosis en la primera hora si crisis moderada-grave. Después según respuesta cada 4-6 h. Aporta beneficio limitado en crisis leves. Cámara espaciadora: 2-4 puffs de Atrovent 20 mcg/puff.",
+        preparados: [
+          { nombre: "Atrovent monodosis 250 mcg/2 ml (125 mcg/ml)", conc_mg_ml: 0.125 },
+          { nombre: "Atrovent monodosis 500 mcg/2 ml (250 mcg/ml)", conc_mg_ml: 0.25 },
+          { nombre: "Atrovent MDI 20 mcg/puff (con cámara)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Crisis asmática moderada-grave (combinado con β2 agonista en la 1.ª hora)",
+        "Bronquiolitis con sospecha de broncoespasmo (uso individualizado, no rutinario)",
+        "Rinorrea profusa (uso intranasal, menos habitual)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a atropina o derivados",
+        "Glaucoma de ángulo cerrado (uso nebulizado puede precipitar crisis si mal sellado)"
+      ],
+      precauciones: [
+        "Boca seca, sabor metálico",
+        "Midriasis si entra en contacto con los ojos: usar mascarilla ajustada o boquilla en niños",
+        "Beneficio limitado a la primera hora de la crisis (sumar a salbutamol); después poca evidencia",
+        "Sin papel demostrado en bronquiolitis"
       ]
     }
   },
@@ -1562,6 +1647,62 @@ const farmacos = [
   },
 
   {
+    nombre: "ERITROMICINA",
+    categoria: "Antibiótico",
+    sinonimos: ["eritromicina", "pantomicina"],
+    isoColor: ISO.antibiotico,
+    icono: "💊",
+    vias: ["oral", "iv"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum / AEP",
+    intermitente: [
+      {
+        indicacion: "Tos ferina / Conjuntivitis neonatal por Chlamydia",
+        via: "oral",
+        dosis_mg_kg_dia: 50,
+        intervalo_h: 6,
+        dosis_max_dia_mg: 2000,
+        duracion: "Tos ferina 14 días; conjuntivitis/neumonía por C. trachomatis 14 días",
+        nota: "40-50 mg/kg/día divididos cada 6 h (máx. 2 g/día). Alternativa: azitromicina (preferida en lactantes < 1 mes por riesgo de estenosis hipertrófica del píloro con eritromicina). Profilaxis postexposición tos ferina: misma pauta × 14 días.",
+        preparados: [
+          { nombre: "Pantomicina suspensión 250 mg/5 ml (50 mg/ml)", conc_mg_ml: 50 },
+          { nombre: "Pantomicina suspensión 500 mg/5 ml (100 mg/ml)", conc_mg_ml: 100 },
+          { nombre: "Pantomicina comp. 500 mg", conc_mg_ml: null }
+        ]
+      },
+      {
+        indicacion: "Estimulación de la motilidad gastrointestinal (uso especializado)",
+        via: "oral",
+        dosis_mg_kg: 3,
+        intervalo_h: 8,
+        dosis_max_mg: 250,
+        nota: "Dosis bajas (3-5 mg/kg/dosis c/6-8 h) como procinético en gastroparesia o intolerancia a la alimentación enteral. Uso especializado en neonatología y UCIP. Evitar uso prolongado por taquifilaxia y desarrollo de resistencias bacterianas."
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Tos ferina (alternativa a azitromicina, especialmente > 1 mes)",
+        "Conjuntivitis y neumonía neonatal por Chlamydia trachomatis",
+        "Faringoamigdalitis o infecciones cutáneas en alérgicos a betalactámicos (alternativa)",
+        "Procinético en gastroparesia (uso a dosis bajas)",
+        "Profilaxis ocular del recién nacido (pomada 0,5%, no IV/oral)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a macrólidos",
+        "Hepatopatía grave",
+        "Uso concomitante con QT-prolongadores potentes",
+        "Lactantes < 2 semanas (riesgo de estenosis hipertrófica del píloro — usar azitromicina)"
+      ],
+      precauciones: [
+        "Estenosis hipertrófica del píloro en < 2 semanas (asociación clara, riesgo 8-10x)",
+        "Prolongación QTc, arritmias ventriculares",
+        "Hepatotoxicidad (hepatitis colestásica)",
+        "Múltiples interacciones (inhibidor CYP3A4: aumenta niveles de teofilina, carbamazepina, ciclosporina)"
+      ]
+    }
+  },
+
+  {
     nombre: "ESMOLOL",
     categoria: "Cardiología",
     sinonimos: ["brevibloc", "esmolol"],
@@ -1605,6 +1746,52 @@ const farmacos = [
         "Broncoespasmo en asmáticos (más cardioselectivo que otros betabloqueantes pero precaución)",
         "Vida media muy corta: el efecto desaparece en 10-20 min al suspender",
         "Hipoglucemia (especialmente en lactantes/desnutridos)"
+      ]
+    }
+  },
+
+  {
+    nombre: "ESPIRONOLACTONA",
+    categoria: "Diurético",
+    sinonimos: ["aldactone", "espironolactona"],
+    isoColor: ISO.cardio,
+    icono: "💧",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum",
+    intermitente: [
+      {
+        indicacion: "Insuficiencia cardíaca / Edema / Hiperaldosteronismo",
+        via: "oral",
+        dosis_mg_kg_dia: 2,
+        intervalo_h: 12,
+        dosis_max_dia_mg: 200,
+        nota: "1-3 mg/kg/día divididos en 1-2 tomas (máx. 100-200 mg/día). Diurético ahorrador de potasio: vigilar K+. Inicio del efecto en 2-3 días. Útil en ICC con disfunción ventricular (reduce mortalidad), ascitis por hepatopatía, hiperaldosteronismo, displasia broncopulmonar (asociado a clorotiazida).",
+        preparados: [
+          { nombre: "Aldactone comp. 25 / 100 mg", conc_mg_ml: null },
+          { nombre: "Espironolactona fórmula magistral susp. 5 mg/ml", conc_mg_ml: 5 }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Insuficiencia cardíaca con disfunción sistólica (reduce mortalidad)",
+        "Edema/ascitis por hepatopatía o síndrome nefrótico",
+        "Hiperaldosteronismo primario o secundario",
+        "Displasia broncopulmonar (en asociación con clorotiazida)",
+        "Acné moderado-grave en adolescentes (uso androgénico)"
+      ],
+      contraindicaciones: [
+        "Hiperpotasemia",
+        "Insuficiencia renal grave (anuria, FG < 30 ml/min)",
+        "Enfermedad de Addison",
+        "Uso concomitante con eplerenona u otros antagonistas de aldosterona"
+      ],
+      precauciones: [
+        "Hiperpotasemia (vigilar K+, evitar suplementos de potasio o IECA sin monitorización)",
+        "Ginecomastia, mastodinia (efecto antiandrogénico)",
+        "Acidosis metabólica hiperclorémica leve",
+        "Inicio de acción lento (2-3 días)"
       ]
     }
   },
@@ -2212,6 +2399,52 @@ const farmacos = [
   },
 
   {
+    nombre: "HIDROCLOROTIAZIDA",
+    categoria: "Diurético",
+    sinonimos: ["hidroclorotiazida", "esidrex"],
+    isoColor: ISO.cardio,
+    icono: "💧",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum",
+    intermitente: [
+      {
+        indicacion: "HTA / Edema / Displasia broncopulmonar (con espironolactona)",
+        via: "oral",
+        dosis_mg_kg_dia: 2,
+        intervalo_h: 12,
+        dosis_max_dia_mg: 50,
+        nota: "1-3 mg/kg/día divididos en 1-2 tomas (máx. 50 mg/día en niños, 100 mg/día adolescentes). Lactantes < 6 meses pueden requerir hasta 3 mg/kg/día. Eficacia limitada en FG < 30 ml/min. Asociar a espironolactona en DBP para limitar pérdida de K+.",
+        preparados: [
+          { nombre: "Esidrex comp. 25 / 50 mg", conc_mg_ml: null },
+          { nombre: "Hidroclorotiazida fórmula magistral susp. 5 mg/ml", conc_mg_ml: 5 }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Hipertensión arterial pediátrica (diurético de inicio en algunos protocolos)",
+        "Edema/sobrecarga de volumen leve-moderada",
+        "Displasia broncopulmonar (con espironolactona)",
+        "Hipercalciuria idiopática (reduce calciuria)",
+        "Diabetes insípida nefrogénica (paradójicamente reduce poliuria)"
+      ],
+      contraindicaciones: [
+        "Anuria",
+        "Insuficiencia renal grave (FG < 30 ml/min — eficacia muy reducida)",
+        "Hipersensibilidad a sulfamidas",
+        "Hipopotasemia o hiponatremia grave no corregidas"
+      ],
+      precauciones: [
+        "Hipopotasemia, hiponatremia, hipomagnesemia, hipercalcemia, hiperuricemia",
+        "Hiperglucemia, dislipidemia",
+        "Fotosensibilidad",
+        "Sin efecto natriurético si FG muy bajo"
+      ]
+    }
+  },
+
+  {
     nombre: "HIDROCORTISONA",
     categoria: "Corticoide",
     sinonimos: ["actocortina", "hidrocortisona"],
@@ -2372,6 +2605,54 @@ const farmacos = [
         "Vigilar función renal en deshidratación",
         "Evitar en sospecha de dengue u otras enfermedades hemorrágicas",
         "Cuidado en niños con asma severa sensible a AINE"
+      ]
+    }
+  },
+
+  {
+    nombre: "INDOMETACINA",
+    categoria: "Neonatos",
+    sinonimos: ["indometacina", "indocid"],
+    isoColor: ISO.neonatal,
+    icono: "👶",
+    vias: ["iv", "oral"],
+    modos: ["intermitente"],
+    fuente: "Neofax / SEN",
+    intermitente: [
+      {
+        indicacion: "Cierre farmacológico del ductus arterioso persistente (DAP)",
+        via: "iv",
+        dosis_mg_kg: 0.2,
+        intervalo_h: 12,
+        nota: "Pauta clásica 3 dosis: 0,2 mg/kg → 0,1 mg/kg a las 12 h → 0,1 mg/kg a las 36 h (intervalos según edad postnatal). En neonatos > 7 días: 0,2 mg/kg cada 12-24 h × 3 dosis. Diluir en SSF e infundir en 30 min. Vigilar diuresis, función renal, plaquetas y signos de sangrado/perforación. Alternativa: ibuprofeno IV (Pedea), de uso preferente en muchas unidades por mejor perfil renal.",
+        preparados: []
+      },
+      {
+        indicacion: "Profilaxis de hemorragia intraventricular en prematuros extremos",
+        via: "iv",
+        dosis_mg_kg: 0.1,
+        intervalo_h: 24,
+        duracion: "3 días",
+        nota: "0,1 mg/kg/día × 3 días iniciado en las primeras 6-12 h de vida en prematuros extremos. Indicación específica con evidencia controvertida; valorar protocolos locales."
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Cierre farmacológico del ductus arterioso persistente en prematuros",
+        "Profilaxis de hemorragia intraventricular grave en prematuros extremos (uso seleccionado)"
+      ],
+      contraindicaciones: [
+        "Insuficiencia renal significativa (creatinina > 1,5 mg/dl, oliguria < 1 ml/kg/h)",
+        "Hemorragia activa (digestiva, intracraneal)",
+        "Plaquetas < 50.000",
+        "Enterocolitis necrotizante (sospechada o confirmada)",
+        "Hiperbilirrubinemia severa (desplaza bilirrubina)"
+      ],
+      precauciones: [
+        "Vasoconstricción renal con oliguria — vigilar diuresis estrictamente",
+        "Riesgo de hemorragia (digestiva, intracraneal) y perforación intestinal",
+        "Disminuye flujo mesentérico y cerebral",
+        "Vigilar plaquetas, función renal e hidratación durante el tratamiento"
       ]
     }
   },
@@ -3819,6 +4100,43 @@ const farmacos = [
         "Sensación de calor, parestesias, sensación de presión en cuello/tórax",
         "Cefalea de rebote con uso frecuente (> 10 días/mes): evitar uso excesivo",
         "No usar como profilaxis (es tratamiento agudo)"
+      ]
+    }
+  },
+
+  {
+    nombre: "SURFACTANTE PULMONAR (PORACTANT ALFA)",
+    categoria: "Neonatos",
+    sinonimos: ["surfactante", "curosurf", "poractant", "beractant", "survanta"],
+    isoColor: ISO.neonatal,
+    icono: "👶",
+    vias: ["io"],
+    modos: ["puntual"],
+    fuente: "Neofax / SEN",
+    puntual: {
+      descripcion: "Síndrome de distrés respiratorio del recién nacido (EMH)",
+      dosis_mg_kg: 200,
+      via: "Intratraqueal a través del tubo endotraqueal o por técnica LISA/INSURE",
+      nota: "Curosurf (poractant alfa) — dosis inicial 100-200 mg/kg intratraqueal. Repetir 100 mg/kg cada 6-12 h si persiste necesidad de FiO2 > 30% y/o ventilación mecánica (máx. 3 dosis). Beractant (Survanta): 100 mg/kg (4 ml/kg). Técnicas: INSURE (intubación-surfactante-extubación a CPAP) o LISA (administración con catéter fino sin intubación). Vigilar SpO2 durante la administración: reajustar FiO2 y parámetros del respirador tras el bolo."
+    },
+    info: {
+      indicaciones: [
+        "Síndrome de distrés respiratorio neonatal (enfermedad de membrana hialina) — primera línea",
+        "Profilaxis en prematuros extremos < 27-28 semanas (uso muy precoz)",
+        "Síndrome de aspiración meconial grave (uso seleccionado)",
+        "Hemorragia pulmonar masiva neonatal (rescate)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad al producto (excipientes)",
+        "Hemorragia pulmonar activa (precaución)",
+        "Inestabilidad hemodinámica grave"
+      ],
+      precauciones: [
+        "Desaturación transitoria durante la administración: reajustar FiO2 según SpO2",
+        "Reflujo del surfactante por el TET (reintubar o reposicionar)",
+        "Riesgo de hemorragia pulmonar (controvertido, mayor en prematuros con DAP)",
+        "Ajustar parámetros del ventilador tras la administración (mejoría rápida de la compliance)",
+        "Mantener al paciente sin aspirar el TET durante 1-2 h tras la dosis (salvo necesidad)"
       ]
     }
   },

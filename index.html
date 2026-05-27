@@ -58,6 +58,11 @@
         </button>
       </div>
 
+      <button class="btn-paciente" id="btn-paciente" title="Vista paciente — prescripción actual" aria-label="Vista paciente">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="btn-paciente-badge" id="btn-paciente-badge" style="display:none;">0</span>
+      </button>
+
       <button class="btn-historial" id="btn-historial" title="Historial de la sesión" aria-label="Historial">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.05 11a9 9 0 1 1 .5 4M3 4v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
@@ -154,6 +159,9 @@
           <span class="panel-farm-titulo" id="panel-titulo">—</span>
           <span class="panel-farm-cat" id="panel-categoria"></span>
         </div>
+        <button class="btn-add-paciente" id="btn-add-paciente" title="Añadir a la prescripción del paciente" aria-label="Añadir al paciente">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </button>
         <button class="btn-favorito" id="btn-favorito" title="Añadir a favoritos" aria-label="Marcar como favorito">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -274,6 +282,27 @@
   </aside>
 
   <div id="toast-container" class="toast-container"></div>
+
+  <!-- MODAL VISTA PACIENTE -->
+  <div class="modal-overlay" id="modal-paciente" style="display:none;">
+    <div class="modal modal--paciente">
+      <div class="modal-header modal-header--compacto">
+        <div>
+          <h2 class="modal-titulo">Prescripción del paciente</h2>
+          <p class="modal-paciente-sub" id="modal-paciente-sub">—</p>
+        </div>
+        <button class="modal-cerrar" id="btn-cerrar-paciente" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-body" id="modal-paciente-body">
+        <!-- Renderizado dinámico -->
+      </div>
+      <div class="modal-footer modal-footer--paciente">
+        <button class="btn-paciente-accion btn-paciente-accion--ghost" id="btn-paciente-nuevo">Nuevo paciente</button>
+        <button class="btn-paciente-accion btn-paciente-accion--ghost" id="btn-paciente-vaciar">Vaciar Rx</button>
+        <button class="btn-paciente-accion btn-paciente-accion--primary" id="btn-paciente-copiar">📋 Copiar Rx</button>
+      </div>
+    </div>
+  </div>
 
   <!-- MODAL DE BIENVENIDA (primer arranque) -->
   <div class="modal-overlay" id="modal-bienvenida" style="display:none;">

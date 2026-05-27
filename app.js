@@ -18,6 +18,7 @@ const KEY_FAV       = "dosisped-favoritos";
 const KEY_BIENV     = "dosisped-bienvenida-vista";
 const KEY_ULTIMO    = "dosisped-ultimo-farmaco";
 const KEY_HIST      = "dosisped-historial";
+const KEY_PAC_RX    = "dosisped-paciente-rx";
 
 // ── Tema claro/oscuro ──────────────────────────────────────
 (function () {
@@ -91,6 +92,29 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleFavorito(farmSeleccionado.nombre);
   });
 
+  // Vista paciente
+  document.getElementById("btn-paciente").addEventListener("click", abrirModalPaciente);
+  document.getElementById("btn-cerrar-paciente").addEventListener("click", () => {
+    document.getElementById("modal-paciente").style.display = "none";
+  });
+  document.getElementById("modal-paciente").addEventListener("click", e => {
+    if (e.target.id === "modal-paciente") document.getElementById("modal-paciente").style.display = "none";
+  });
+  document.getElementById("btn-paciente-copiar").addEventListener("click", copiarPrescripcion);
+  document.getElementById("btn-paciente-vaciar").addEventListener("click", () => {
+    if (leerPacienteRx().length === 0) return;
+    if (confirm("¿Vaciar toda la prescripción actual? Los datos del paciente (peso, edad) se mantienen.")) {
+      localStorage.removeItem(KEY_PAC_RX);
+      actualizarBadgePaciente();
+      renderModalPaciente();
+    }
+  });
+  document.getElementById("btn-paciente-nuevo").addEventListener("click", nuevoPaciente);
+  document.getElementById("btn-add-paciente").addEventListener("click", () => {
+    if (!farmSeleccionado) return;
+    agregarAPaciente();
+  });
+
   // Historial
   document.getElementById("btn-historial").addEventListener("click", e => {
     e.stopPropagation();
@@ -151,6 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const f = farmacos.find(x => x.nombre === ultimoNombre);
     if (f) seleccionarFarmaco(f);
   }
+
+  actualizarBadgePaciente();
 });
 
 // ============================================================
@@ -326,6 +352,314 @@ function bindModales() {
     fuentes.style.display = "none";
   });
   fuentes.addEventListener("click", e => { if (e.target === fuentes) fuentes.style.display = "none"; });
+}
+
+// ============================================================
+//  VISTA PACIENTE (prescripción multi-fármaco)
+// ============================================================
+function leerPacienteRx() {
+  try { return JSON.parse(localStorage.getItem(KEY_PAC_RX) || "[]"); }
+  catch { return []; }
+}
+function guardarPacienteRx(rx) {
+  localStorage.setItem(KEY_PAC_RX, JSON.stringify(rx));
+  actualizarBadgePaciente();
+}
+function actualizarBadgePaciente() {
+  const rx = leerPacienteRx();
+  const badge = document.getElementById("btn-paciente-badge");
+  const btnAdd = document.getElementById("btn-add-paciente");
+  if (badge) {
+    if (rx.length === 0) badge.style.display = "none";
+    else { badge.style.display = "flex"; badge.textContent = rx.length; }
+  }
+  // Marcar el botón "+ paciente" si el fármaco actual está en la Rx
+  if (btnAdd && farmSeleccionado) {
+    const yaGuardado = rx.some(r =>
+      r.nombre === farmSeleccionado.nombre &&
+      r.modoAdmin === modoAdmin &&
+      r.intIndex === intIndex &&
+      r.presIndex === presIndex
+    );
+    btnAdd.classList.toggle("btn-add-paciente--guardado", yaGuardado);
+    btnAdd.title = yaGuardado ? "Ya añadido al paciente — pulsa para actualizar" : "Añadir a la prescripción del paciente";
+  }
+}
+
+function agregarAPaciente() {
+  if (!farmSeleccionado) return;
+  const rx = leerPacienteRx();
+  // Reemplazar si ya existe con misma combinación pauta/presentación
+  const idx = rx.findIndex(r =>
+    r.nombre === farmSeleccionado.nombre &&
+    r.modoAdmin === modoAdmin &&
+    r.intIndex === intIndex &&
+    r.presIndex === presIndex
+  );
+  const nuevo = {
+    nombre: farmSeleccionado.nombre,
+    modoAdmin,
+    intIndex,
+    presIndex,
+    prepIndex,
+    factor: modoAdmin === "intermitente" ? factorInt : 1,
+    pesoSnapshot: pesoActual,
+    edadSnapshot: edadValor !== null ? `${edadValor} ${edadUnidad}` : null,
+    ts: Date.now()
+  };
+  if (idx >= 0) {
+    rx[idx] = nuevo;
+    mostrarToast(`${farmSeleccionado.nombre}: prescripción actualizada`, "ok");
+  } else {
+    rx.push(nuevo);
+    mostrarToast(`${farmSeleccionado.nombre} añadido al paciente`, "ok");
+  }
+  guardarPacienteRx(rx);
+}
+
+function quitarDePaciente(i) {
+  const rx = leerPacienteRx();
+  rx.splice(i, 1);
+  guardarPacienteRx(rx);
+  renderModalPaciente();
+}
+
+function nuevoPaciente() {
+  if (!confirm("¿Iniciar un nuevo paciente? Se borrarán peso, edad, modo neonato y la prescripción actual.")) return;
+  // Reset de paciente
+  pesoActual = null;
+  edadValor = null;
+  edadUnidad = "anios";
+  modoNeonato = false;
+  egSemanas = null;
+  epnDias = null;
+  ["dosisped-peso","dosisped-edad","dosisped-edad-unidad","dosisped-neonato","dosisped-eg","dosisped-epn",KEY_PAC_RX].forEach(k => localStorage.removeItem(k));
+  // Limpiar inputs visibles
+  ["peso-input","peso-panel-input","edad-input","edad-panel-input","eg-input","epn-input"].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = "";
+  });
+  ["edad-unidad","edad-panel-unidad"].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = "anios";
+  });
+  document.getElementById("btn-neonato").classList.remove("btn-neonato--activo");
+  document.getElementById("neonato-panel").style.display = "none";
+  actualizarBadgePaciente();
+  document.getElementById("modal-paciente").style.display = "none";
+  if (farmSeleccionado) renderPanel();
+  mostrarToast("Nuevo paciente iniciado", "ok");
+}
+
+function abrirModalPaciente() {
+  renderModalPaciente();
+  document.getElementById("modal-paciente").style.display = "flex";
+}
+
+function renderModalPaciente() {
+  const sub = document.getElementById("modal-paciente-sub");
+  const body = document.getElementById("modal-paciente-body");
+  const partes = [];
+  if (pesoActual !== null) partes.push(`${pesoActual} kg`);
+  if (edadValor !== null) partes.push(`${edadValor} ${edadUnidad === "anios" ? "años" : edadUnidad}`);
+  if (modoNeonato) {
+    if (egSemanas) partes.push(`EG ${egSemanas} sem`);
+    if (epnDias !== null) partes.push(`EPN ${epnDias} d`);
+  }
+  sub.textContent = partes.length ? partes.join(" · ") : "Sin datos del paciente";
+
+  const rx = leerPacienteRx();
+  if (rx.length === 0) {
+    body.innerHTML = `
+      <div class="paciente-vacio">
+        <strong>Aún no hay prescripciones</strong>
+        Abre un fármaco y pulsa el botón <b>+</b> en la cabecera del panel para añadirlo a esta lista.
+      </div>`;
+    return;
+  }
+  body.innerHTML = rx.map((item, i) => renderTarjetaRx(item, i)).join("");
+}
+
+function renderTarjetaRx(item, idx) {
+  const f = farmacos.find(x => x.nombre === item.nombre);
+  if (!f) {
+    return `<div class="paciente-rx-card">
+      <div class="paciente-rx-head">
+        <span class="paciente-rx-nombre">${item.nombre}</span>
+        <button class="paciente-rx-quitar" onclick="quitarDePaciente(${idx})">✕</button>
+      </div>
+      <div class="paciente-rx-aviso">⚠ Fármaco no encontrado en la base actual</div>
+    </div>`;
+  }
+
+  const stale = item.pesoSnapshot !== null && pesoActual !== null && Math.abs(item.pesoSnapshot - pesoActual) > 0.01;
+  const calculado = calcularResumenRx(f, item);
+
+  const viaBadge = calculado.via
+    ? `<span class="paciente-rx-via-badge farm-via-badge--${calculado.via.toLowerCase()}">${calculado.via.toUpperCase()}</span>`
+    : "";
+
+  return `<div class="paciente-rx-card${stale ? " paciente-rx-card--stale" : ""}" style="--card-iso-color:${f.isoColor || "var(--cyan)"};">
+    <div class="paciente-rx-head">
+      <span class="paciente-rx-icono">${f.icono || "💊"}</span>
+      <span class="paciente-rx-nombre">${f.nombre}</span>
+      ${viaBadge}
+      <button class="paciente-rx-quitar" onclick="quitarDePaciente(${idx})" title="Quitar">✕</button>
+    </div>
+    <div class="paciente-rx-body">
+      ${calculado.lineas.map(l => `<div class="paciente-rx-linea">
+        <span class="paciente-rx-linea-label">${l.label}</span>
+        <span class="paciente-rx-linea-val${l.dosis ? " paciente-rx-linea-val--dosis" : ""}">${l.val}</span>
+        ${l.extra ? `<span class="paciente-rx-linea-extra">${l.extra}</span>` : ""}
+      </div>`).join("")}
+    </div>
+    ${stale ? `<div class="paciente-rx-aviso">⚠ Calculado con peso ${item.pesoSnapshot} kg; ahora es ${pesoActual} kg. Re-añade el fármaco para actualizar.</div>` : ""}
+    ${calculado.alerta ? `<div class="paciente-rx-aviso">${calculado.alerta}</div>` : ""}
+  </div>`;
+}
+
+function calcularResumenRx(f, item) {
+  const lineas = [];
+  let via = "";
+  let alerta = "";
+  const pesoUsado = item.pesoSnapshot !== null ? item.pesoSnapshot : pesoActual;
+
+  if (item.modoAdmin === "intermitente" && f.intermitente && f.intermitente[item.intIndex]) {
+    const pauta = f.intermitente[item.intIndex];
+    via = pauta.via || "";
+    // Calcular dosis con el snapshot
+    const calc = calcularDosisIntermitenteRx(pauta, pesoUsado);
+    const factor = item.factor || 1;
+    let dosisFinal = calc.dosis !== null ? calc.dosis * factor : null;
+    if (dosisFinal !== null && pauta.dosis_max_mg && dosisFinal > pauta.dosis_max_mg) {
+      dosisFinal = pauta.dosis_max_mg;
+      alerta = `⚠ Tope aplicado: ${formatNum(pauta.dosis_max_mg,0)} mg/dosis`;
+    }
+    let dosisDia = calc.dosisDia !== null ? calc.dosisDia * factor : null;
+    if (dosisDia !== null && pauta.dosis_max_dia_mg && dosisDia > pauta.dosis_max_dia_mg) {
+      dosisDia = pauta.dosis_max_dia_mg;
+    }
+    if (dosisFinal !== null) {
+      lineas.push({ label: "Dosis", val: `${formatNum(dosisFinal, dosisFinal < 1 ? 3 : dosisFinal < 10 ? 2 : 1)} mg/toma`, dosis: true });
+    }
+    if (pauta.intervalo_h) {
+      lineas.push({ label: "Pauta", val: `cada ${pauta.intervalo_h} h${calc.tomasDia ? ` · ${calc.tomasDia} tomas/día` : ""}` });
+    }
+    if (dosisDia !== null) {
+      lineas.push({ label: "Total día", val: `${formatNum(dosisDia, 1)} mg/día` });
+    }
+    // Volumen de preparado si hay
+    const prep = pauta.preparados && pauta.preparados[item.prepIndex];
+    if (prep && prep.conc_mg_ml && dosisFinal !== null) {
+      lineas.push({
+        label: "Volumen",
+        val: `${formatNum(dosisFinal / prep.conc_mg_ml, 2)} ml`,
+        extra: prep.nombre
+      });
+    }
+    if (factor !== 1) {
+      lineas.push({ label: "Ajuste", val: `${Math.round(factor*100)}% (estándar = 100%)` });
+    }
+    if (pauta.indicacion) lineas.push({ label: "Indicación", val: pauta.indicacion });
+  } else if (item.modoAdmin === "perfusion" && f.presentaciones && f.presentaciones[item.presIndex]) {
+    const pres = f.presentaciones[item.presIndex];
+    via = "iv";
+    lineas.push({ label: "Dilución", val: pres.label });
+    lineas.push({ label: "Rango", val: pres.dosisRange });
+    lineas.push({ label: "Concentración", val: calcConcentracion(pres).texto });
+    if (pesoUsado && pres.dosisMin) {
+      const mlh = calcMlH(pres, pres.dosisMin, pesoUsado);
+      lineas.push({ label: "Ej. dosis mín.", val: `${formatNum(mlh, 2)} ml/h`, extra: `(${pres.dosisMin} ${pres.unidad})`, dosis: true });
+    }
+  } else if (item.modoAdmin === "carga_mantenimiento") {
+    via = f.carga?.via?.toLowerCase().includes("iv") ? "iv" : "";
+    if (f.carga && pesoUsado) {
+      const { dosisTexto, dosisCalc } = calcularDosisEspecialPeso(f.carga, pesoUsado);
+      if (dosisTexto) lineas.push({ label: "Carga", val: dosisTexto, extra: dosisCalc, dosis: true });
+      if (f.carga.tiempo_min) lineas.push({ label: "Duración", val: `${f.carga.tiempo_min} min` });
+      if (f.carga.via) lineas.push({ label: "Vía", val: f.carga.via });
+    }
+  } else if (item.modoAdmin === "puntual" && f.puntual) {
+    via = f.puntual.via?.toLowerCase().includes("im") ? "im" : f.puntual.via?.toLowerCase().includes("iv") ? "iv" : "";
+    if (pesoUsado || f.puntual.dosis_fija_mg !== undefined) {
+      const { dosisTexto, dosisCalc } = calcularDosisEspecialPeso(f.puntual, pesoUsado);
+      if (dosisTexto) lineas.push({ label: "Dosis", val: dosisTexto, extra: dosisCalc, dosis: true });
+    }
+    if (f.puntual.via) lineas.push({ label: "Vía", val: f.puntual.via });
+    if (f.puntual.descripcion) lineas.push({ label: "Indicación", val: f.puntual.descripcion });
+  }
+  return { lineas, via, alerta };
+}
+
+// Versión helper para Vista paciente: calcula con un peso explícito sin tocar el estado global
+function calcularDosisIntermitenteRx(pauta, peso) {
+  if (!peso) return { dosis: null, dosisDia: null, tomasDia: null };
+  let dosis = null, dosisDia = null;
+  const tomasDia = pauta.intervalo_h ? Math.round(24 / pauta.intervalo_h) : null;
+  if (pauta.dosis_mg_kg) {
+    dosis = pauta.dosis_mg_kg * peso;
+    if (tomasDia) dosisDia = dosis * tomasDia;
+  } else if (pauta.dosis_mcg_kg) {
+    dosis = (pauta.dosis_mcg_kg * peso) / 1000;
+    if (tomasDia) dosisDia = dosis * tomasDia;
+  } else if (pauta.dosis_mg_kg_dia) {
+    dosisDia = pauta.dosis_mg_kg_dia * peso;
+    if (tomasDia) dosis = dosisDia / tomasDia;
+  } else if (pauta.dosis_fija_mg !== undefined) {
+    dosis = pauta.dosis_fija_mg;
+    if (tomasDia) dosisDia = dosis * tomasDia;
+  }
+  return { dosis, dosisDia, tomasDia };
+}
+
+function calcularDosisEspecialPeso(d, peso) {
+  let dosisVal = null, dosisTexto = "", dosisCalc = "";
+  if (d.dosis_mcg_kg && peso) {
+    dosisVal = d.dosis_mcg_kg * peso;
+    const enMg = dosisVal / 1000;
+    dosisTexto = enMg >= 1 ? `${formatNum(enMg, 2)} mg` : `${formatNum(dosisVal, 0)} mcg`;
+    dosisCalc = `${d.dosis_mcg_kg} mcg/kg × ${peso} kg`;
+  } else if (d.dosis_mg_kg && peso) {
+    dosisVal = d.dosis_mg_kg * peso;
+    if (d.dosis_max_mg && dosisVal > d.dosis_max_mg) dosisVal = d.dosis_max_mg;
+    dosisTexto = `${formatNum(dosisVal, 2)} mg`;
+    dosisCalc = `${d.dosis_mg_kg} mg/kg × ${peso} kg${d.dosis_max_mg ? ` · máx. ${d.dosis_max_mg}` : ""}`;
+  } else if (d.dosis_fija_mg !== undefined) {
+    dosisVal = d.dosis_fija_mg;
+    dosisTexto = dosisVal < 1 ? `${formatNum(dosisVal * 1000, 0)} mcg` : `${formatNum(dosisVal, dosisVal < 10 ? 2 : 0)} mg`;
+  }
+  return { dosisVal, dosisTexto, dosisCalc };
+}
+
+function copiarPrescripcion() {
+  const rx = leerPacienteRx();
+  if (rx.length === 0) { mostrarToast("No hay prescripciones para copiar", "error"); return; }
+
+  let texto = "PRESCRIPCIÓN PEDIÁTRICA — DosisPed\n";
+  texto += "═══════════════════════════════\n";
+  const partes = [];
+  if (pesoActual !== null) partes.push(`Peso: ${pesoActual} kg`);
+  if (edadValor !== null) partes.push(`Edad: ${edadValor} ${edadUnidad === "anios" ? "años" : edadUnidad}`);
+  if (modoNeonato && egSemanas) partes.push(`EG: ${egSemanas} sem`);
+  if (modoNeonato && epnDias !== null) partes.push(`EPN: ${epnDias} d`);
+  texto += partes.join(" · ") + "\n\n";
+
+  rx.forEach((item, i) => {
+    const f = farmacos.find(x => x.nombre === item.nombre);
+    if (!f) return;
+    const resumen = calcularResumenRx(f, item);
+    texto += `${i + 1}. ${f.nombre}\n`;
+    if (resumen.via) texto += `   Vía: ${resumen.via.toUpperCase()}\n`;
+    resumen.lineas.forEach(l => {
+      texto += `   ${l.label}: ${l.val}${l.extra ? ` (${l.extra})` : ""}\n`;
+    });
+    if (resumen.alerta) texto += `   ${resumen.alerta}\n`;
+    texto += "\n";
+  });
+  texto += "─────────\nHerramienta de apoyo clínico. Verificar antes de prescribir.";
+
+  if (!navigator.clipboard) { mostrarToast("Copia no disponible en este navegador", "error"); return; }
+  navigator.clipboard.writeText(texto)
+    .then(() => mostrarToast(`Prescripción copiada (${rx.length} fármacos)`, "ok"))
+    .catch(() => mostrarToast("No se pudo copiar", "error"));
 }
 
 // ============================================================
@@ -556,6 +890,7 @@ function renderPanel() {
   catEl.textContent = f.categoria;
   catEl.style.color = f.isoColor || "var(--cyan)";
   actualizarBtnFavorito();
+  actualizarBadgePaciente();
 
   renderAdminModos(f);
   renderTabsSegunModo(f);

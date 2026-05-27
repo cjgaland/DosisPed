@@ -130,6 +130,7 @@ Todo el estado relevante se persiste en `localStorage` con claves `dosisped-*`.
 | `dosisped-favoritos` | `JSON.stringify([...nombres])` |
 | `dosisped-bienvenida-vista` | `"1"` (si el usuario marcó no repetir) |
 | `dosisped-ultimo-farmaco` | `string` (nombre del fármaco abierto — persistencia entre recargas) |
+| `dosisped-paciente-rx` | `JSON.stringify([{nombre, modoAdmin, intIndex, presIndex, prepIndex, factor, pesoSnapshot, edadSnapshot, ts}, ...])` — prescripción del paciente actual |
 
 **sessionStorage** (solo durante la sesión del navegador):
 
@@ -433,6 +434,35 @@ Botón ⏱ en el header abre un dropdown con los últimos 15 fármacos abiertos 
 
 ---
 
+## 9quater. Vista paciente (prescripción multi-fármaco)
+
+Botón 👤 en el header con badge numérico (cantidad de fármacos prescritos). Abre un modal con la prescripción consolidada del paciente actual.
+
+**Añadir un fármaco**: botón `+` en la cabecera del panel de detalle (`#btn-add-paciente`). Al pulsarlo guarda un snapshot que incluye:
+- `nombre`, `modoAdmin`, `intIndex`, `presIndex`, `prepIndex`, `factor`
+- `pesoSnapshot`: peso del paciente en el momento de añadir (para detectar staleness)
+- `edadSnapshot`: edad como string (`"8 meses"`, etc.)
+- `ts`: timestamp
+
+Si el fármaco ya está en la Rx con la misma combinación de modo/pauta/presentación, se actualiza (no se duplica). El botón cambia de color cuando el fármaco actual ya está en la Rx (`btn-add-paciente--guardado`).
+
+**Render del modal**:
+- Cabecera con datos del paciente (peso, edad, EG/EPN si neonato)
+- Tarjeta por fármaco con tira lateral de color ISO de categoría
+- Cada tarjeta muestra dosis recalculada con peso/edad actuales (no el snapshot) llamando a `calcularResumenRx(f, item)`
+- Si `pesoSnapshot ≠ pesoActual` → tarjeta marcada como **stale** (borde ámbar + aviso "Re-añade el fármaco para actualizar")
+- Helpers de cálculo independientes del estado global: `calcularDosisIntermitenteRx(pauta, peso)` y `calcularDosisEspecialPeso(d, peso)` — pasan el peso explícito en lugar de usar `pesoActual`
+
+**Acciones**:
+- **Quitar** un fármaco: botón ✕ en la tarjeta → `quitarDePaciente(i)`
+- **Copiar Rx** (📋): genera texto plano formateado con todos los datos + advertencia legal, lo copia al portapapeles
+- **Vaciar Rx**: borra todas las prescripciones, mantiene peso/edad
+- **Nuevo paciente**: borra peso, edad, modo neonato, EG, EPN y la prescripción. Limpia inputs del DOM.
+
+**Estado**: persiste en `localStorage` (`dosisped-paciente-rx`). Sobrevive a recargas. Se limpia con "Nuevo paciente".
+
+---
+
 ## 9ter. Persistencia del fármaco abierto
 
 Al seleccionar un fármaco se guarda su nombre en `localStorage` (`dosisped-ultimo-farmaco`). Al cerrar el panel (✕) se elimina. Al cargar la app, si existe la clave, se abre automáticamente el fármaco.
@@ -539,12 +569,13 @@ El usuario trabaja en un hospital concreto con fórmulas magistrales específica
 
 ## 13. Estado actual (mayo 2026)
 
-- **84 fármacos** en `farmacos.js`, orden alfabético
+- **91 fármacos** en `farmacos.js`, orden alfabético
 - **Lotes ya realizados**:
   - **Lote 1** (35): núcleo de urgencias/planta/UCIP esencial
   - **Lote 2** (24): antibióticos (gentamicina, clinda, meropenem, fosfo, cotrimoxazol), neuro (fenitoína, fenobarbital, valproato), cardio (adenosina, amiodarona, atropina, digoxina, milrinona), neonatos (cafeína, prostaglandina E1, vit K), respiratorio (montelukast), antihistamínicos (cetirizina, dexclorfeniramina), digestivo (lactulosa, polietilenglicol), hematología (enoxaparina), sedación (propofol)
   - **Lote 3** (9 + 2 actualizaciones): carbón activado, esmolol, glucagón, glucosa hipertónica, hidralazina, labetalol, metilprednisolona (jarabe magistral 1 mg/mL), sacarosa 24% (fórmula magistral), terbutalina. Actualizaciones: ondansetrón (protocolo hospital máx 4 mg + jarabe magistral 0,8 mg/mL), metamizol (Metalgial añadido).
   - **Lote 4** (20): ácido fólico, anfotericina B, bicarbonato sódico 1 M, captopril, cloruro/gluconato cálcico, dexmedetomidina, enalapril, famotidina, fluconazol, gluconato cálcico (entrada propia), heparina sódica, hierro oral, melatonina, octreotido, propranolol, ranitidina (entrada histórica con aviso de retirada), rocuronio, succinilcolina, sumatriptán, vitamina D.
+  - **Lote 5** (7): amlodipino, bromuro de ipratropio, eritromicina, espironolactona, hidroclorotiazida, indometacina IV (cierre DAP), surfactante pulmonar (poractant alfa).
 
 - **Funcionalidades implementadas**:
   - 4 modos de administración (intermitente, perfusión, carga+mant, puntual)
@@ -557,6 +588,7 @@ El usuario trabaja en un hospital concreto con fórmulas magistrales específica
   - Slider de ajuste fino en intermitente (factor 0,5× – 1,5×)
   - Persistencia del fármaco abierto entre recargas
   - Historial de sesión (sessionStorage, últimos 15 fármacos)
+  - Vista paciente (prescripción multi-fármaco) con badge contador, copia a portapapeles, "nuevo paciente"
   - Modal de bienvenida obligatorio + "Acerca de" con fuentes
   - PWA offline (manifest + service worker)
   - Modo claro/oscuro con persistencia

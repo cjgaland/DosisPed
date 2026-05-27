@@ -323,6 +323,205 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
 .btn-cerrar-neo:hover { background: var(--red-dim); color: var(--red); }
 
 /* ── Botón tema ─────────────────────────────────────────── */
+.btn-paciente {
+  position: relative;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-2);
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.btn-paciente:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+  background: var(--pink-dim);
+}
+.btn-paciente-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--pink);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--mono);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 0 0 2px var(--bg-2);
+}
+
+.btn-add-paciente {
+  background: var(--pink-dim);
+  border: 1px solid var(--pink);
+  border-radius: 8px;
+  color: var(--pink);
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.btn-add-paciente:hover { background: var(--pink); color: #fff; }
+.btn-add-paciente--guardado {
+  background: var(--green-dim);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.modal--paciente { max-width: 640px; }
+.modal-paciente-sub {
+  font-size: 11.5px;
+  color: var(--text-3);
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+.paciente-vacio {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--text-3);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.paciente-vacio strong { color: var(--text-2); display: block; margin-bottom: 8px; font-size: 14px; }
+
+.paciente-rx-card {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  position: relative;
+  border-left: 4px solid var(--card-iso-color, var(--cyan));
+}
+.paciente-rx-card--stale {
+  border-color: var(--amber);
+  background: var(--amber-dim);
+}
+.paciente-rx-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.paciente-rx-icono { font-size: 20px; flex-shrink: 0; }
+.paciente-rx-nombre {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-1);
+  flex: 1;
+  min-width: 0;
+}
+.paciente-rx-via-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+.paciente-rx-quitar {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-3);
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.paciente-rx-quitar:hover { background: var(--red-dim); color: var(--red); border-color: var(--red); }
+
+.paciente-rx-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 6px;
+}
+.paciente-rx-linea {
+  font-size: 12px;
+  color: var(--text-1);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  line-height: 1.4;
+}
+.paciente-rx-linea-label {
+  font-size: 9.5px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  min-width: 70px;
+  flex-shrink: 0;
+}
+.paciente-rx-linea-val {
+  color: var(--text-1);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.paciente-rx-linea-val--dosis { color: var(--cyan); font-size: 14px; font-weight: 700; }
+.paciente-rx-linea-extra {
+  font-size: 11px;
+  color: var(--text-3);
+  font-family: var(--mono);
+}
+.paciente-rx-aviso {
+  margin-top: 6px;
+  padding: 6px 8px;
+  background: var(--amber-dim);
+  border-radius: 6px;
+  font-size: 10.5px;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modal-footer--paciente {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+.btn-paciente-accion {
+  flex: 1;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-paciente-accion--ghost {
+  background: var(--bg-4);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+}
+.btn-paciente-accion--ghost:hover { color: var(--text-1); border-color: var(--border-lite); }
+.btn-paciente-accion--primary {
+  background: linear-gradient(135deg, var(--cyan), #14b8a6);
+  color: #fff;
+  box-shadow: 0 2px 12px var(--cyan-glow);
+}
+.btn-paciente-accion--primary:hover { filter: brightness(1.08); }
+
 .btn-historial {
   background: var(--bg-3);
   border: 1px solid var(--border);
