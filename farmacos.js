@@ -275,6 +275,75 @@ const farmacos = [
   },
 
   {
+    nombre: "ALBENDAZOL",
+    categoria: "Antibiótico",
+    sinonimos: ["eskazole", "albendazol"],
+    isoColor: ISO.antibiotico,
+    icono: "💊",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Oxiuriasis (enterobiasis)",
+        via: "oral",
+        dosis_fija_mg: 400,
+        intervalo_h: 336,
+        duracion: "Dosis única, repetir a las 2 semanas",
+        nota: "1-2 años: 200 mg dosis única. ≥ 2 años: 400 mg dosis única. Repetir a las 2 semanas para eliminar reinfecciones por huevos. Tratar simultáneamente a todos los convivientes y reforzar medidas higiénicas: lavado de manos, uñas cortas, ropa interior y sábanas a > 60 ºC. Tomar con alimentos grasos para aumentar absorción.",
+        preparados: [
+          { nombre: "Eskazole comprimidos 400 mg", conc_mg_ml: null },
+          { nombre: "Eskazole suspensión 100 mg/5 ml (20 mg/ml)", conc_mg_ml: 20 }
+        ]
+      },
+      {
+        indicacion: "Larva migrans cutánea / Ascariasis / Tricuriasis / Anquilostomiasis",
+        via: "oral",
+        dosis_fija_mg: 400,
+        intervalo_h: 24,
+        duracion: "3 días (larva migrans, ascariasis: 1-3 días; tricuriasis: 3 días)",
+        nota: "≥ 2 años: 400 mg/día durante 3 días en parasitosis intestinales por nematodos. Larva migrans cutánea: 400 mg/día × 3-7 días. Strongyloides: 400 mg c/12 h × 3 días. Tomar con alimentos grasos.",
+        preparados: [
+          { nombre: "Eskazole comprimidos 400 mg", conc_mg_ml: null },
+          { nombre: "Eskazole suspensión 100 mg/5 ml (20 mg/ml)", conc_mg_ml: 20 }
+        ]
+      },
+      {
+        indicacion: "Hidatidosis (E. granulosus / E. multilocularis)",
+        via: "oral",
+        dosis_mg_kg_dia: 10,
+        intervalo_h: 12,
+        dosis_max_dia_mg: 800,
+        duracion: "Ciclos de 28 días, repetir según protocolo",
+        nota: "10-15 mg/kg/día divididos cada 12 h (máx. 800 mg/día). Ciclos de 28 días con 14 días de descanso, durante 3-6 meses o más según localización y respuesta. Bajo supervisión especializada. Monitorizar hemograma y transaminasas en cada ciclo."
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Oxiuriasis (enterobiasis) — primera línea junto con mebendazol",
+        "Ascariasis, tricuriasis, anquilostomiasis",
+        "Larva migrans cutánea (incluye 'creeping eruption')",
+        "Estrongiloidiasis",
+        "Hidatidosis (E. granulosus, E. multilocularis) — uso especializado",
+        "Neurocisticercosis (uso especializado, con corticoide)"
+      ],
+      contraindicaciones: [
+        "< 1 año (datos limitados; valorar mebendazol)",
+        "Embarazo (primer trimestre)",
+        "Hipersensibilidad a benzimidazoles",
+        "Insuficiencia hepática grave"
+      ],
+      precauciones: [
+        "Hepatotoxicidad — vigilar transaminasas en tratamientos prolongados",
+        "Mielosupresión (leucopenia, pancitopenia) en tratamientos prolongados — hemograma cada 2-4 semanas",
+        "Dolor abdominal, cefalea, náuseas, alopecia reversible",
+        "Reacciones tipo Mazzotti en neurocisticercosis (cubrir con corticoide)",
+        "Tomar con alimentos grasos para mejorar absorción"
+      ]
+    }
+  },
+
+  {
     nombre: "AMLODIPINO",
     categoria: "Cardiología",
     sinonimos: ["amlodipino", "norvas", "astudal"],
@@ -1313,6 +1382,130 @@ const farmacos = [
         "Vía periférica: irritante, riesgo de flebitis",
         "Mala absorción oral, especialmente con alimentos",
         "Hepatotoxicidad ocasional con dosis altas prolongadas"
+      ]
+    }
+  },
+
+  {
+    nombre: "CICLOPENTOLATO",
+    categoria: "Oftalmología",
+    sinonimos: ["colircusi ciclopléjico", "ciclopléjico", "ciclopentolato"],
+    isoColor: ISO.respiratorio,
+    icono: "👁️",
+    vias: ["oft"],
+    modos: ["puntual"],
+    fuente: "Pediamécum (AEP)",
+    puntual: {
+      descripcion: "Cicloplejia para refracción / Midriasis diagnóstica",
+      dosis_fija_mg: 0,
+      via: "Colirio oftálmico — instilar 1 gota en el saco conjuntival",
+      nota: "Anticolinérgico midriático y ciclopléjico de acción media (8-24 h). **Concentraciones**: Colircusi Ciclopléjico 1% (estándar > 1 año) y 0,5% (recomendable < 1 año por menor absorción sistémica). **Pauta para refracción**: 1 gota en cada ojo y repetir a los 5-15 min (1-2 instilaciones según pigmentación iridiana). Comprimir saco lagrimal 1-2 min tras cada gota para reducir absorción sistémica. Máxima cicloplejia a los 30-45 min. **Edad mínima**: lactantes ≥ 1 mes con la presentación al 0,5% bajo control oftalmológico; en general ≥ 6 meses. **Vigilar a lactantes durante 30 min tras la instilación**: riesgo de toxicidad sistémica anticolinérgica (sequedad de mucosas, taquicardia, agitación, fiebre, alucinaciones, hasta convulsiones)."
+    },
+    info: {
+      indicaciones: [
+        "Cicloplejia para refracción objetiva en niños (uso estándar en oftalmología pediátrica)",
+        "Midriasis diagnóstica para examen del fondo de ojo (alternativa a tropicamida si se busca cicloplejia)",
+        "Uveítis anterior (cicloplejia terapéutica)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a anticolinérgicos",
+        "Glaucoma de ángulo cerrado conocido o sospechado",
+        "Lactantes < 1 mes con la formulación al 1% (preferir 0,5%)"
+      ],
+      precauciones: [
+        "Toxicidad sistémica anticolinérgica en lactantes y niños pequeños (vigilar 30 min)",
+        "Comprimir saco lagrimal tras la instilación para reducir absorción",
+        "Fotofobia y visión borrosa hasta 24 h tras la administración (advertir a la familia)",
+        "Evitar conducir o realizar tareas de precisión durante 24 h en adolescentes",
+        "Sequedad de mucosas, taquicardia, agitación: signos de toxicidad — suspender"
+      ]
+    }
+  },
+
+  {
+    nombre: "CIPROFLOXACINO ÓTICO",
+    categoria: "Otorrinolaringología",
+    sinonimos: ["cetraxal", "otex", "ciprofloxacino otico", "synalar otico"],
+    isoColor: ISO.antibiotico,
+    icono: "👂",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Otitis externa difusa / Otitis media supurada con perforación timpánica",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 12,
+        duracion: "7-10 días (otitis externa); 7 días (otorrea por DTT u OMA perforada)",
+        nota: "Gotas óticas 2 mg/ml (0,2%) o 3 mg/ml (0,3%) en monodosis. **Posología**: 4 gotas en cada oído afecto cada 8-12 h, o una monodosis (0,25 ml) c/12 h × 7-10 días. Calentar el envase entre las manos antes de instilar para evitar vértigo. Inclinar la cabeza con el oído afecto hacia arriba, tirar del pabellón auricular hacia atrás y arriba, presionar el trago para favorecer entrada al conducto. Mantener la posición 1 min. **Edad mínima**: ≥ 1 año (uso pediátrico bien establecido en ≥ 6 meses por algunos protocolos). Es **seguro con perforación timpánica** (no ototóxico).",
+        preparados: [
+          { nombre: "Cetraxal monodosis 2 mg/ml (0,25 ml)", conc_mg_ml: 2 },
+          { nombre: "Otex Hydrocortisona gotas (también con corticoide)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Otitis externa difusa bacteriana",
+        "Otitis media aguda perforada con otorrea (alternativa al sistémico en formas leves)",
+        "Otorrea por drenajes timpánicos (DTT)",
+        "Otitis externa maligna (uso especializado)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a quinolonas",
+        "Otomicosis (puede empeorar)",
+        "Otitis vírica simple"
+      ],
+      precauciones: [
+        "Picor, irritación local leve",
+        "Sobreinfección por hongos con uso prolongado",
+        "Sin ototoxicidad: seguro con perforación timpánica (a diferencia de aminoglucósidos óticos)",
+        "Si no mejora en 48-72 h: reevaluar diagnóstico (otomicosis, foliculitis del CAE)"
+      ]
+    }
+  },
+
+  {
+    nombre: "CIPROFLOXACINO + FLUOCINOLONA ÓTICO",
+    categoria: "Otorrinolaringología",
+    sinonimos: ["cetraxal plus", "cetraxal otico plus", "ciprofloxacino fluocinolona"],
+    isoColor: ISO.antibiotico,
+    icono: "👂",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Otitis externa aguda con inflamación marcada / Otorrea por DTT inflamada",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 12,
+        duracion: "7 días",
+        nota: "Combinación de ciprofloxacino 3 mg/ml + fluocinolona acetónido 0,25 mg/ml en gotas óticas. **Posología**: 6 gotas en cada oído afecto cada 12 h durante 7 días. **Edad mínima**: ≥ 6 meses. La asociación con corticoide acelera el alivio del dolor y la inflamación en otitis externa con edema importante del CAE. Calentar el envase entre las manos antes de instilar. Reposo con la cabeza inclinada 1 min tras la aplicación. Seguro con perforación timpánica.",
+        preparados: [
+          { nombre: "Cetraxal Plus gotas óticas (ciprofloxacino 3 mg/ml + fluocinolona 0,25 mg/ml)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Otitis externa aguda con edema, dolor o inflamación importante del CAE",
+        "Otorrea por DTT con inflamación marcada",
+        "Otitis externa con dermatitis del CAE"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a quinolonas o corticoides",
+        "Otomicosis",
+        "Infecciones víricas del CAE (varicela, herpes zóster ótico)",
+        "< 6 meses"
+      ],
+      precauciones: [
+        "Picor, escozor local",
+        "El corticoide puede enmascarar progresión de la infección — reevaluar en 48-72 h",
+        "Sobreinfección por hongos con uso prolongado",
+        "No prolongar más de 7 días sin evaluación",
+        "Seguro con perforación timpánica"
       ]
     }
   },
@@ -2533,6 +2726,51 @@ const farmacos = [
   },
 
   {
+    nombre: "FORMOTEROL + BUDESONIDA",
+    categoria: "Respiratorio",
+    sinonimos: ["symbicort", "rilast", "duoresp spiromax", "formoterol budesonida"],
+    isoColor: ISO.respiratorio,
+    icono: "🌬️",
+    vias: ["inh"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / GEMA",
+    intermitente: [
+      {
+        indicacion: "Asma persistente moderada-grave — Mantenimiento",
+        via: "inh",
+        dosis_fija_mg: 0,
+        intervalo_h: 12,
+        nota: "Combinación de **broncodilatador de acción larga (LABA, formoterol)** y **corticoide inhalado (budesonida)**. **Concentraciones pediátricas**: Symbicort Turbuhaler 100/6 (budesonida/formoterol mcg/inh) — uso desde 6 años; 200/6 — uso ≥ 12 años. **Posología estándar**: 1-2 inhalaciones cada 12 h. **Régimen MART (Maintenance And Reliever Therapy)**: la misma combinación se usa como rescate además de mantenimiento ≥ 12 años con 100/6 o 200/6 — máximo 8 inhalaciones/día puntualmente, máx. 12 inhalaciones/día durante < 7 días. NUNCA usar formoterol solo sin corticoide inhalado en asma. Educar en la técnica inhalatoria.",
+        preparados: [
+          { nombre: "Symbicort Turbuhaler 100/6 mcg (≥ 6 años)", conc_mg_ml: null },
+          { nombre: "Symbicort Turbuhaler 200/6 mcg (≥ 12 años)", conc_mg_ml: null },
+          { nombre: "Rilast Turbuhaler 100/6 / 200/6 / 320/9 mcg", conc_mg_ml: null },
+          { nombre: "DuoResp Spiromax 160/4,5 / 320/9 mcg", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Asma persistente moderada-grave en ≥ 6 años (control insuficiente con CI solos)",
+        "Régimen MART (mantenimiento + rescate) en ≥ 12 años",
+        "EPOC en adolescentes (uso muy raro en pediatría)"
+      ],
+      contraindicaciones: [
+        "< 6 años (datos pediátricos limitados)",
+        "Hipersensibilidad a alguno de los principios activos o lactosa",
+        "Asma intermitente (sobre-tratamiento)"
+      ],
+      precauciones: [
+        "Temblor fino, taquicardia, palpitaciones (formoterol)",
+        "Candidiasis orofaríngea, disfonía (budesonida) — enjuagar boca tras cada uso",
+        "Hipopotasemia con dosis altas",
+        "NUNCA usar el LABA en monoterapia (riesgo de muerte por asma severo)",
+        "Revisar técnica inhalatoria periódicamente"
+      ]
+    }
+  },
+
+  {
     nombre: "FOSFOMICINA",
     categoria: "Antibiótico",
     sinonimos: ["monurol", "fosfomicina"],
@@ -3287,6 +3525,68 @@ const farmacos = [
   },
 
   {
+    nombre: "LACTOBACILLUS REUTERI",
+    categoria: "Digestivo",
+    sinonimos: ["biogaia", "reuterin", "lactobacillus reuteri", "probiotico reuteri"],
+    isoColor: ISO.digestivo,
+    icono: "💧",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / ESPGHAN",
+    intermitente: [
+      {
+        indicacion: "Cólico del lactante",
+        via: "oral",
+        dosis_fija_mg: 0,
+        intervalo_h: 24,
+        duracion: "21-28 días",
+        nota: "Probiótico (Lactobacillus reuteri DSM 17938). **Posología**: 5 gotas (= 10⁸ UFC) una vez al día durante 21-28 días. Administrar antes de la toma. Algunos estudios y guías ESPGHAN sugieren beneficio en cólico del lactante alimentado al pecho. Beneficio inferior y menos consistente en lactantes alimentados con fórmula. Sin restricción de edad: utilizable desde el periodo neonatal. Considerar en familias con cólicos refractarios a medidas conservadoras (masaje, contención, lactancia a demanda).",
+        preparados: [
+          { nombre: "BioGaia ProTectis gotas (10⁸ UFC en 5 gotas)", conc_mg_ml: null },
+          { nombre: "BioGaia ProTectis comprimidos masticables 10⁸ UFC", conc_mg_ml: null },
+          { nombre: "Reuterin gotas y comp. masticables", conc_mg_ml: null }
+        ]
+      },
+      {
+        indicacion: "Diarrea aguda infecciosa (coadyuvante)",
+        via: "oral",
+        dosis_fija_mg: 0,
+        intervalo_h: 12,
+        duracion: "5-7 días",
+        nota: "5 gotas (10⁸ UFC) cada 12 h durante 5-7 días, junto con rehidratación oral. Reduce la duración de la diarrea aguda en 1 día aproximadamente (evidencia moderada). Recomendado por ESPGHAN como coadyuvante en diarrea aguda en > 1 mes, junto con S. boulardii y L. rhamnosus GG."
+      },
+      {
+        indicacion: "Reflujo gastroesofágico funcional / Regurgitación del lactante",
+        via: "oral",
+        dosis_fija_mg: 0,
+        intervalo_h: 24,
+        duracion: "4 semanas",
+        nota: "5 gotas/día durante 4 semanas. Reduce regurgitación funcional en algunos lactantes, sin sustituir las medidas posturales y dietéticas. Beneficio variable; suspender si no hay respuesta a las 4 semanas."
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Cólico del lactante (especialmente con lactancia materna)",
+        "Diarrea aguda infecciosa (coadyuvante a la rehidratación)",
+        "Prevención de diarrea asociada a antibióticos",
+        "Reflujo gastroesofágico funcional / regurgitación",
+        "Prevención de enterocolitis necrotizante en prematuros (uso en UCIN protocolizado)"
+      ],
+      contraindicaciones: [
+        "Inmunodepresión grave (riesgo teórico de bacteriemia)",
+        "Catéter venoso central (riesgo teórico de translocación)",
+        "Pancreatitis aguda grave",
+        "Síndrome de intestino corto con permeabilidad alterada"
+      ],
+      precauciones: [
+        "Excelente perfil de seguridad en lactantes sanos",
+        "Conservar refrigerado (algunas presentaciones); agitar antes del uso",
+        "Distinguir del cólico patológico: revaluar si rechazo de tomas, fallo de medro, sangre en heces o vómitos"
+      ]
+    }
+  },
+
+  {
     nombre: "LACTULOSA",
     categoria: "Digestivo",
     sinonimos: ["duphalac", "lactulosa"],
@@ -3331,6 +3631,52 @@ const farmacos = [
         "Diarrea por sobredosificación: reducir dosis",
         "Contiene azúcares (precaución en diabéticos)",
         "Efecto lento (24-48 h): no útil en estreñimiento agudo refractario"
+      ]
+    }
+  },
+
+  {
+    nombre: "LÁGRIMAS ARTIFICIALES / LUBRICANTES OCULARES",
+    categoria: "Oftalmología",
+    sinonimos: ["lagrimas artificiales", "hyabak", "systane", "optava", "lipoflavonoid", "lagrimas", "hialuronato sodico colirio", "carbomero colirio"],
+    isoColor: ISO.respiratorio,
+    icono: "👁️",
+    vias: ["oft"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Ojo seco / Irritación ocular / Lubricación",
+        via: "oft",
+        dosis_fija_mg: 0,
+        intervalo_h: 4,
+        duracion: "Según síntomas (crónica si ojo seco)",
+        nota: "Soluciones lubricantes basadas en hialuronato sódico (0,15-0,4%), carbómero (0,2%), hipromelosa o polietilenglicol. **Posología orientativa**: 1 gota en cada ojo afecto cada 4-8 h (o más frecuente en irritaciones agudas, cada 1-2 h). Sin restricción de edad: utilizable desde lactantes. **Preferir presentaciones SIN conservantes (monodosis)** en lactantes, niños pequeños y en uso > 4 veces/día. Indicaciones: ojo seco por baja humedad, exposición a pantallas, lentes de contacto, irritación tras retirar cuerpo extraño, conjuntivitis vírica como sintomático, etc. NO contienen principio activo farmacológico — son protectores y lubricantes.",
+        preparados: [
+          { nombre: "Hyabak colirio 0,15% (hialuronato), multidosis sin conservantes", conc_mg_ml: null },
+          { nombre: "Systane Ultra (polietilenglicol + propilenglicol)", conc_mg_ml: null },
+          { nombre: "Optava Fusión monodosis (hialuronato)", conc_mg_ml: null },
+          { nombre: "Lipolac gel oftálmico (carbómero) — uso nocturno", conc_mg_ml: null },
+          { nombre: "Viscofresh 0,5% / 1% (carmelosa) monodosis", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Síndrome de ojo seco (incluso en niños con pantallas o aires acondicionados)",
+        "Irritación ocular leve (humo, polvo, viento, sol)",
+        "Coadyuvante en conjuntivitis vírica y alérgica (alivio sintomático)",
+        "Tras retirar cuerpo extraño corneal",
+        "Lubricación nocturna (formulaciones en gel)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a alguno de los excipientes (raro)"
+      ],
+      precauciones: [
+        "Preferir presentaciones sin conservantes en uso prolongado o frecuente",
+        "Conservar el envase abierto según ficha técnica (habitual < 4 semanas)",
+        "Retirar lentes de contacto antes de instilar la mayoría de formulaciones",
+        "Si persiste el ojo seco crónico en un niño: descartar causas (deficiencia vitamina A, síndrome Sjögren, blefaritis, anomalías palpebrales)"
       ]
     }
   },
@@ -3435,6 +3781,57 @@ const farmacos = [
 
   // ── M ─────────────────────────────────────────────────────
   {
+    nombre: "LEVOSIMENDÁN",
+    categoria: "Reanimación / UCIP",
+    sinonimos: ["simdax", "levosimendan"],
+    isoColor: ISO.cardio,
+    icono: "🫀",
+    vias: ["iv"],
+    modos: ["carga_mantenimiento"],
+    fuente: "Pediamécum (AEP) / UCIP",
+    carga: {
+      descripcion: "Disfunción ventricular grave / bajo gasto refractario",
+      dosis_mcg_kg: 6,
+      tiempo_min: 10,
+      via: "IV en 10 min, diluido en SG5%",
+      nota: "Carga opcional: **6-12 mcg/kg en 10 min** (a menudo omitida en pediatría por hipotensión). **Mantenimiento: 0,1-0,2 mcg/kg/min durante 24 h** (única infusión, sin necesidad de prolongar). Sensibilizador del calcio en miofibrillas y vasodilatador (apertura de canales K-ATP). Inotropo NO catecolaminérgico — útil cuando hay tolerancia o resistencia a catecolaminas. Efecto sostenido 7-10 días gracias al metabolito activo. Indicado en disfunción ventricular grave, bajo gasto refractario postcirugía cardíaca y descompensación aguda de insuficiencia cardíaca crónica. Iniciar tras estabilización hemodinámica."
+    },
+    presentaciones: [
+      {
+        label: "12,5 mg / 50 ml SG5% (UCIP)",
+        dosis_mg: 12.5, dilucion_ml: 50, suero: "Dx5%",
+        concUgMl: (12.5 * 1000) / 50,         // 250 mcg/ml
+        dosisRange: "0,05 – 0,2 mcg/kg/min",
+        dosisMin: 0.05, softMax: 0.2, hardMax: 0.3,
+        unidad: "mcg/kg/min", calcTipo: "mcg_kg_min"
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Disfunción ventricular grave postcirugía cardíaca pediátrica",
+        "Bajo gasto refractario a catecolaminas",
+        "Descompensación aguda de insuficiencia cardíaca crónica",
+        "Miocarditis fulminante (uso seleccionado, con o sin ECMO)"
+      ],
+      contraindicaciones: [
+        "Hipotensión grave no corregida (PAS < percentil 3)",
+        "Estenosis valvular grave (aórtica, pulmonar)",
+        "Miocardiopatía hipertrófica obstructiva",
+        "QTc prolongado (> 500 ms)",
+        "Hipopotasemia o hipovolemia no corregidas",
+        "Insuficiencia renal o hepática grave"
+      ],
+      precauciones: [
+        "Hipotensión (mitigable con carga reducida o sin carga, ajustar volemia previa)",
+        "Taquicardia, arritmias (FA, extrasistolia)",
+        "Hipopotasemia — vigilar y reponer",
+        "Cefalea, náuseas",
+        "Efecto inotrópico sostenido 7-10 días tras la infusión por metabolito activo OR-1896"
+      ]
+    }
+  },
+
+  {
     nombre: "MALATIÓN 0,5%",
     categoria: "Dermatología",
     sinonimos: ["malation", "malatión", "filvit malation"],
@@ -3469,6 +3866,63 @@ const farmacos = [
         "Irritación del cuero cabelludo posible",
         "Evitar contacto con ojos y mucosas",
         "Examinar y tratar simultáneamente a contactos afectos"
+      ]
+    }
+  },
+
+  {
+    nombre: "MEBENDAZOL",
+    categoria: "Antibiótico",
+    sinonimos: ["lomper", "mebendazol", "vermin"],
+    isoColor: ISO.antibiotico,
+    icono: "💊",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Oxiuriasis (enterobiasis)",
+        via: "oral",
+        dosis_fija_mg: 100,
+        intervalo_h: 336,
+        duracion: "Dosis única, repetir a las 2 semanas",
+        nota: "**100 mg dosis única** (5 ml de suspensión o 1 comprimido), repetir a las 2 semanas para eliminar los huevos eclosionados tras la primera dosis. Primera línea junto con albendazol. **Edad mínima ≥ 2 años** según ficha técnica; algunos protocolos permiten uso en 6 meses-2 años con precaución (uso off-label). Tratar simultáneamente a todos los convivientes. Reforzar medidas higiénicas: lavado riguroso de manos, uñas cortas, ropa interior y sábanas a > 60 ºC, ducha matutina.",
+        preparados: [
+          { nombre: "Lomper suspensión 20 mg/ml (100 mg/5 ml)", conc_mg_ml: 20 },
+          { nombre: "Lomper comprimidos 100 mg", conc_mg_ml: null }
+        ]
+      },
+      {
+        indicacion: "Ascaridiasis / Tricuriasis / Anquilostomiasis",
+        via: "oral",
+        dosis_fija_mg: 100,
+        intervalo_h: 12,
+        duracion: "3 días",
+        nota: "100 mg c/12 h durante 3 días en cualquier edad ≥ 2 años. Útil en infestaciones mixtas. Si no hay erradicación: repetir el ciclo a las 3 semanas.",
+        preparados: [
+          { nombre: "Lomper suspensión 20 mg/ml", conc_mg_ml: 20 },
+          { nombre: "Lomper comprimidos 100 mg", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Oxiuriasis (enterobiasis) — primera línea junto con albendazol",
+        "Ascaridiasis, tricuriasis, anquilostomiasis",
+        "Tenia (uso especializado, mejor praziquantel)",
+        "Tratamiento empírico de helmintiasis intestinal en niños inmigrantes/adoptados"
+      ],
+      contraindicaciones: [
+        "< 2 años (uso off-label en 6 meses-2 años con precaución)",
+        "Embarazo (primer trimestre)",
+        "Hipersensibilidad a benzimidazoles"
+      ],
+      precauciones: [
+        "Náuseas, dolor abdominal, diarrea leve (efectos frecuentes y benignos)",
+        "Reacciones cutáneas, neutropenia y hepatitis con uso prolongado (raras)",
+        "Absorción mínima sistémica (< 10 %): mejor perfil que albendazol",
+        "Convulsiones y rabdomiólisis muy raras",
+        "Reforzar siempre las medidas higiénicas para evitar reinfección"
       ]
     }
   },
@@ -4989,6 +5443,61 @@ const farmacos = [
   },
 
   {
+    nombre: "SACCHAROMYCES BOULARDII",
+    categoria: "Digestivo",
+    sinonimos: ["ultra-levura", "ultralevura", "perenteryl", "saccharomyces boulardii", "ultra levura"],
+    isoColor: ISO.digestivo,
+    icono: "💧",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / ESPGHAN",
+    intermitente: [
+      {
+        indicacion: "Diarrea aguda infecciosa (coadyuvante)",
+        via: "oral",
+        dosis_fija_mg: 250,
+        intervalo_h: 12,
+        duracion: "5-7 días",
+        nota: "Probiótico (levadura). **Posología**: 250 mg dos veces al día durante 5-7 días, junto con rehidratación oral. Reduce la duración de la diarrea aguda en aproximadamente 1 día (evidencia ESPGHAN). Recomendado como coadyuvante en > 1 mes. Tomar con bebida fría o tibia (no caliente: el calor inactiva la levadura).",
+        preparados: [
+          { nombre: "Ultra-Levura cápsulas 50 mg / 250 mg", conc_mg_ml: null },
+          { nombre: "Ultra-Levura sobres 250 mg", conc_mg_ml: null },
+          { nombre: "Perenteryl cápsulas 250 mg", conc_mg_ml: null }
+        ]
+      },
+      {
+        indicacion: "Prevención de diarrea asociada a antibióticos",
+        via: "oral",
+        dosis_fija_mg: 250,
+        intervalo_h: 12,
+        duracion: "Durante el tratamiento antibiótico + 7 días después",
+        nota: "250 mg dos veces al día desde el inicio del antibiótico y hasta 7 días después de finalizarlo. Reduce la incidencia de diarrea asociada a antibióticos y la recurrencia de infección por C. difficile (evidencia consistente)."
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Diarrea aguda infecciosa (coadyuvante a rehidratación)",
+        "Prevención de diarrea asociada a antibióticos",
+        "Prevención de recurrencia de C. difficile (coadyuvante al tratamiento)",
+        "Diarrea del viajero (profilaxis y tratamiento)"
+      ],
+      contraindicaciones: [
+        "Inmunodepresión grave (riesgo de fungemia)",
+        "Catéter venoso central (riesgo de fungemia por translocación)",
+        "Pancreatitis aguda grave",
+        "Pacientes críticos en UCI/UCIP (notificados casos de fungemia)",
+        "Hipersensibilidad a levaduras"
+      ],
+      precauciones: [
+        "Casos esporádicos de fungemia por S. boulardii descritos: precaución estricta en pacientes inmunodeprimidos o con vía central",
+        "Manipular sin tocar el contenido si hay alguno de los anteriores en la habitación (riesgo de contaminación cruzada)",
+        "Tomar las cápsulas con bebida fría o tibia, no caliente (el calor mata la levadura)",
+        "No combinar con antifúngicos sistémicos (los inactivan)"
+      ]
+    }
+  },
+
+  {
     nombre: "SALBUTAMOL",
     categoria: "Respiratorio",
     sinonimos: ["ventolin", "salbutamol"],
@@ -5043,6 +5552,52 @@ const farmacos = [
         "Hiperglucemia transitoria",
         "Valoración periódica de la respuesta para evitar uso excesivo",
         "Falta de evidencia para uso rutinario en bronquiolitis"
+      ]
+    }
+  },
+
+  {
+    nombre: "SALMETEROL + FLUTICASONA",
+    categoria: "Respiratorio",
+    sinonimos: ["seretide", "anasma", "plusvent", "inaladuo", "salmeterol fluticasona"],
+    isoColor: ISO.respiratorio,
+    icono: "🌬️",
+    vias: ["inh"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / GEMA",
+    intermitente: [
+      {
+        indicacion: "Asma persistente moderada-grave — Mantenimiento (≥ 4 años)",
+        via: "inh",
+        dosis_fija_mg: 0,
+        intervalo_h: 12,
+        nota: "Combinación **LABA (salmeterol) + corticoide inhalado (fluticasona propionato)**. **Concentraciones pediátricas**: Seretide Accuhaler 50/100 (salmeterol 50 mcg / fluticasona 100 mcg) en ≥ 4 años; 50/250 y 50/500 en ≥ 12 años. Seretide Inhalador MDI 25/50, 25/125, 25/250 (con cámara espaciadora en niños pequeños). **Posología**: 1 inhalación cada 12 h. **NO usar como rescate** (salmeterol tiene inicio de acción más lento que formoterol). **NUNCA usar el LABA en monoterapia** (sin corticoide inhalado) en asma — riesgo de muerte por asma. Enjuagar boca tras cada uso (candidiasis). Revisar técnica inhalatoria. Si no se controla con esta combinación, escalar a dosis altas o añadir LAMA/montelukast/biológico según protocolo.",
+        preparados: [
+          { nombre: "Seretide Accuhaler 50/100 mcg (≥ 4 años)", conc_mg_ml: null },
+          { nombre: "Seretide Accuhaler 50/250 / 50/500 mcg (≥ 12 años)", conc_mg_ml: null },
+          { nombre: "Seretide Inhalador MDI 25/50 / 25/125 / 25/250 mcg", conc_mg_ml: null },
+          { nombre: "Plusvent / Anasma / Inaladuo (mismas presentaciones)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Asma persistente moderada-grave en ≥ 4 años no controlada con CI solos",
+        "Asma con sintomatología nocturna importante",
+        "Como mantenimiento en escalones 3-4 GEMA"
+      ],
+      contraindicaciones: [
+        "< 4 años (datos pediátricos limitados)",
+        "Hipersensibilidad a alguno de los principios activos o lactosa",
+        "Uso como tratamiento de rescate",
+        "Asma intermitente"
+      ],
+      precauciones: [
+        "Temblor fino, taquicardia, palpitaciones (salmeterol)",
+        "Candidiasis orofaríngea, disfonía (fluticasona) — enjuagar boca tras cada uso",
+        "Hipopotasemia con dosis altas",
+        "**Nunca usar el LABA solo sin corticoide inhalado** — riesgo de muerte por asma",
+        "Si hay empeoramiento o ausencia de mejoría: subir escalón terapéutico, no aumentar la frecuencia de uso del LABA"
       ]
     }
   },
@@ -5342,6 +5897,42 @@ const farmacos = [
     }
   },
 
+  {
+    nombre: "TROPICAMIDA",
+    categoria: "Oftalmología",
+    sinonimos: ["colircusi tropicamida", "tropicamida", "midriaticum"],
+    isoColor: ISO.respiratorio,
+    icono: "👁️",
+    vias: ["oft"],
+    modos: ["puntual"],
+    fuente: "Pediamécum (AEP)",
+    puntual: {
+      descripcion: "Midriasis diagnóstica (fondo de ojo) / Cicloplejia leve",
+      dosis_fija_mg: 0,
+      via: "Colirio oftálmico — instilar 1 gota en el saco conjuntival",
+      nota: "Anticolinérgico midriático y ciclopléjico de **acción corta** (efecto máximo a los 30 min, duración 4-8 h). Colircusi Tropicamida 1%. **Posología**: 1 gota en cada ojo, repetir a los 5 min si fuera necesario (1-2 instilaciones según pigmentación iridiana). Comprimir saco lagrimal 1-2 min tras cada gota para reducir absorción sistémica. Preferida sobre ciclopentolato cuando se busca **solo midriasis** para fondo de ojo y no cicloplejia completa para refracción. **Edad mínima ≥ 6 meses** según ficha técnica (con precaución en lactantes). Vigilar a lactantes y niños pequeños durante 30 min tras la instilación: riesgo de toxicidad anticolinérgica (taquicardia, sequedad de boca, agitación, fiebre, alucinaciones)."
+    },
+    info: {
+      indicaciones: [
+        "Midriasis diagnóstica para fondo de ojo (uso pediátrico más frecuente)",
+        "Cicloplejia leve para refracción en niños cooperadores (alternativa a ciclopentolato)",
+        "Uveítis anterior leve (cicloplejia terapéutica leve)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a anticolinérgicos",
+        "Glaucoma de ángulo cerrado conocido o sospechado",
+        "< 6 meses (datos limitados; valorar formulaciones más diluidas)"
+      ],
+      precauciones: [
+        "Toxicidad anticolinérgica sistémica en lactantes y niños pequeños (más frecuente que con ciclopentolato por absorción)",
+        "Comprimir saco lagrimal tras la instilación",
+        "Fotofobia y visión borrosa hasta 6-8 h tras la administración",
+        "Sequedad de mucosas, taquicardia, agitación, fiebre: signos de toxicidad",
+        "En refracción objetiva real preferir ciclopentolato (cicloplejia más profunda)"
+      ]
+    }
+  },
+
   // ── V ─────────────────────────────────────────────────────
   {
     nombre: "VALPROATO (ÁCIDO VALPROICO)",
@@ -5492,6 +6083,49 @@ const farmacos = [
         "Evitar fragancias y conservantes potencialmente sensibilizantes en piel atópica (revisar composición)",
         "La vaselina pura puede manchar la ropa: usar formulaciones cosméticas para el día",
         "En brote activo: combinar con corticoide tópico — primero corticoide, esperar 15-30 min, después emoliente"
+      ]
+    }
+  },
+
+  {
+    nombre: "VASOPRESINA",
+    categoria: "Reanimación / UCIP",
+    sinonimos: ["vasopresina", "adh", "arginina vasopresina"],
+    isoColor: ISO.cardio,
+    icono: "💉",
+    vias: ["iv", "io"],
+    modos: ["perfusion"],
+    fuente: "Pediamécum (AEP) / UCIP",
+    presentaciones: [
+      {
+        label: "20 UI / 50 ml SG5% (concentración estándar UCIP)",
+        dosis_mg: 20, dilucion_ml: 50, suero: "Dx5%",
+        concMgMl: 20 / 50,                       // 0,4 UI/ml (UI tratadas como mg)
+        dosisRange: "0,0003 – 0,002 UI/kg/min",
+        dosisMin: 0.0003, softMax: 0.002, hardMax: 0.003,
+        unidad: "UI/kg/min", calcTipo: "mg_kg_min"
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Shock séptico refractario a noradrenalina (coadyuvante vasopresor de segunda línea)",
+        "Shock vasodilatador postcirugía cardíaca (vasoplejia post-CEC)",
+        "Diabetes insípida central (uso en bolus o perfusión)",
+        "Hemorragia digestiva por varices esofagogástricas (uso seleccionado)",
+        "Parada cardíaca refractaria (uso anecdótico)"
+      ],
+      contraindicaciones: [
+        "Hipovolemia no corregida",
+        "Cardiopatía isquémica grave",
+        "Vasoconstricción periférica grave preexistente"
+      ],
+      precauciones: [
+        "**Vía central obligatoria** — riesgo de necrosis isquémica grave por extravasación o uso en vía periférica",
+        "Vasoconstricción periférica, mesentérica y coronaria intensa: vigilar perfusión periférica, diuresis y enzimas cardíacas",
+        "Hiponatremia con uso prolongado (efecto antidiurético)",
+        "Trombocitopenia leve, alteraciones de la coagulación",
+        "Iniciar a dosis baja y titular cuidadosamente; el rango terapéutico es estrecho",
+        "En shock séptico pediátrico, las guías más recientes (Surviving Sepsis Pediatric 2020) la incluyen como segunda línea tras noradrenalina; en algunos protocolos solo se reserva a casos refractarios"
       ]
     }
   },

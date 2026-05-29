@@ -642,7 +642,7 @@ GitHub puede pedir credenciales en la primera vez. Indicarle al usuario que:
 
 ## 13. Estado actual (mayo 2026)
 
-- **118 fármacos** en `farmacos.js`, orden alfabético
+- **131 fármacos** en `farmacos.js`, orden alfabético
 - Categorías ampliadas con **Oftalmología** y **Dermatología**
 - Nuevas vías con badge propio: `oft` (oftálmica), `top` (tópica), `in` (intranasal)
 - **Lotes ya realizados**:
@@ -653,6 +653,8 @@ GitHub puede pedir credenciales en la primera vez. Indicarle al usuario que:
   - **Lote 5** (7): amlodipino, bromuro de ipratropio, eritromicina, espironolactona, hidroclorotiazida, indometacina IV (cierre DAP), surfactante pulmonar (poractant alfa).
   - **Lote 6** (20 dermatológicos + accesorios): antihistamínicos (hidroxizina, desloratadina, levocetirizina, fexofenadina), oftálmicos (tobramicina, azitromicina, olopatadina), nasales (mometasona, fluticasona furoato), tópicos dermatología (mupirocina, ácido fusídico, hidrocortisona, permetrina 5%), corticoides tópicos potencia moderada-alta (fluticasona propionato/Cutivate, metilprednisolona aceponato/Adventan, mometasona furoato/Elocom), antifúngicos tópicos (clotrimazol/Canesten, miconazol/Daktarin, nistatina/Mycostatin cutánea y oral) y protectores cutáneos (óxido de zinc / Pasta Lassar / Halibut / Mitosyl).
   - **Lote 7** (7 dermatológicos/cuidados): tacrolimus tópico/Protopic (inmunomodulador), calamina (prurito/varicela), vaselina y emolientes (Lipikar, Atopiclair, Eucerin, etc.), antiparasitarios capilares (dimeticona/Filvit primera línea, malatión/Filvit Malation reserva), antisépticos (clorhexidina/Cristalmina, povidona yodada/Betadine con aviso AEMPS para < 6 meses).
+  - **Lote 8** (13 — antihelmínticos, inhaladores combinados, probióticos, UCIP, oftálmicos, óticos): antihelmínticos (mebendazol/Lomper, albendazol/Eskazole), inhaladores combinados LABA+ICS (formoterol+budesonida/Symbicort, salmeterol+fluticasona/Seretide), probióticos (Saccharomyces boulardii/Ultra-Levura, L. reuteri/BioGaia), UCIP avanzada (vasopresina, levosimendán), oftálmicos (lágrimas artificiales, tropicamida, ciclopentolato), óticos (ciprofloxacino/Cetraxal, ciprofloxacino+fluocinolona/Cetraxal Plus). **No incluida oximetazolina** (descartada por el usuario por riesgo de vasoconstricción no controlada).
+  - Nueva categoría añadida: **Otorrinolaringología** (gotas óticas).
 
 - **Funcionalidades implementadas**:
   - 4 modos de administración (intermitente, perfusión, carga+mant, puntual)
