@@ -575,6 +575,8 @@ El working directory local (`/Users/Trabajo/Desktop/Pediatría/DosisPed/`) está
 
 ### Comando "despliega"
 
+**REGLA IMPORTANTE (decisión del usuario, mayo 2026):** Claude **NUNCA debe ejecutar `git push` sin una confirmación explícita inmediata del usuario**, incluso si se le han hecho cambios. El motivo: el usuario puede tener otras ideas en mente que aún no ha comunicado, y un despliegue prematuro genera commits dispersos. Cuando termines un bloque de cambios, en lugar de hacer commit + push directamente, **resume lo que se ha hecho y pregunta explícitamente** algo como: «¿Despliego ahora o esperas a tener más cambios listos?». Solo desplegar si el usuario contesta «sí», «despliega», «sube», «publica» o equivalente.
+
 Cuando el usuario diga **"despliega"**, **"sube los cambios"**, **"actualiza el repo"**, **"publica"** o equivalente, Claude debe ejecutar el siguiente flujo:
 
 1. **Comprobar estado**:
@@ -613,6 +615,7 @@ Cuando el usuario diga **"despliega"**, **"sube los cambios"**, **"actualiza el 
 
 ### Reglas estrictas para el despliegue
 
+- **Nunca desplegar sin confirmación explícita del usuario en la misma vuelta** (ver regla destacada arriba).
 - **Nunca tocar `Perfusiones/`**: es otro proyecto. Si aparece como modificado en `git status`, ejecutar `git checkout -- Perfusiones/` antes del commit.
 - **Nunca hacer `git add -A`** ni `git add .` sin verificar previamente con `git status --short`.
 - **Nunca hacer `git push --force`** ni `--force-with-lease` salvo petición explícita.
@@ -639,13 +642,17 @@ GitHub puede pedir credenciales en la primera vez. Indicarle al usuario que:
 
 ## 13. Estado actual (mayo 2026)
 
-- **91 fármacos** en `farmacos.js`, orden alfabético
+- **118 fármacos** en `farmacos.js`, orden alfabético
+- Categorías ampliadas con **Oftalmología** y **Dermatología**
+- Nuevas vías con badge propio: `oft` (oftálmica), `top` (tópica), `in` (intranasal)
 - **Lotes ya realizados**:
   - **Lote 1** (35): núcleo de urgencias/planta/UCIP esencial
   - **Lote 2** (24): antibióticos (gentamicina, clinda, meropenem, fosfo, cotrimoxazol), neuro (fenitoína, fenobarbital, valproato), cardio (adenosina, amiodarona, atropina, digoxina, milrinona), neonatos (cafeína, prostaglandina E1, vit K), respiratorio (montelukast), antihistamínicos (cetirizina, dexclorfeniramina), digestivo (lactulosa, polietilenglicol), hematología (enoxaparina), sedación (propofol)
   - **Lote 3** (9 + 2 actualizaciones): carbón activado, esmolol, glucagón, glucosa hipertónica, hidralazina, labetalol, metilprednisolona (jarabe magistral 1 mg/mL), sacarosa 24% (fórmula magistral), terbutalina. Actualizaciones: ondansetrón (protocolo hospital máx 4 mg + jarabe magistral 0,8 mg/mL), metamizol (Metalgial añadido).
   - **Lote 4** (20): ácido fólico, anfotericina B, bicarbonato sódico 1 M, captopril, cloruro/gluconato cálcico, dexmedetomidina, enalapril, famotidina, fluconazol, gluconato cálcico (entrada propia), heparina sódica, hierro oral, melatonina, octreotido, propranolol, ranitidina (entrada histórica con aviso de retirada), rocuronio, succinilcolina, sumatriptán, vitamina D.
   - **Lote 5** (7): amlodipino, bromuro de ipratropio, eritromicina, espironolactona, hidroclorotiazida, indometacina IV (cierre DAP), surfactante pulmonar (poractant alfa).
+  - **Lote 6** (20 dermatológicos + accesorios): antihistamínicos (hidroxizina, desloratadina, levocetirizina, fexofenadina), oftálmicos (tobramicina, azitromicina, olopatadina), nasales (mometasona, fluticasona furoato), tópicos dermatología (mupirocina, ácido fusídico, hidrocortisona, permetrina 5%), corticoides tópicos potencia moderada-alta (fluticasona propionato/Cutivate, metilprednisolona aceponato/Adventan, mometasona furoato/Elocom), antifúngicos tópicos (clotrimazol/Canesten, miconazol/Daktarin, nistatina/Mycostatin cutánea y oral) y protectores cutáneos (óxido de zinc / Pasta Lassar / Halibut / Mitosyl).
+  - **Lote 7** (7 dermatológicos/cuidados): tacrolimus tópico/Protopic (inmunomodulador), calamina (prurito/varicela), vaselina y emolientes (Lipikar, Atopiclair, Eucerin, etc.), antiparasitarios capilares (dimeticona/Filvit primera línea, malatión/Filvit Malation reserva), antisépticos (clorhexidina/Cristalmina, povidona yodada/Betadine con aviso AEMPS para < 6 meses).
 
 - **Funcionalidades implementadas**:
   - 4 modos de administración (intermitente, perfusión, carga+mant, puntual)

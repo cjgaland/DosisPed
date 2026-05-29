@@ -144,6 +144,48 @@ const farmacos = [
   },
 
   {
+    nombre: "ÁCIDO FUSÍDICO TÓPICO",
+    categoria: "Dermatología",
+    sinonimos: ["acido fusidico", "fucidine", "fucidin"],
+    isoColor: ISO.antibiotico,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Impétigo / Infecciones cutáneas superficiales",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 8,
+        duracion: "7 días (máx. 10 días)",
+        nota: "Crema o pomada al 2%. Aplicar capa fina sobre la lesión limpia y seca 2-3 veces al día durante 7 días. Cubrir o no según preferencia. No prolongar más de 10 días para evitar resistencias. Alternativa a mupirocina; cubre S. aureus (incluido SARM en algunos centros) y estreptococo.",
+        preparados: [
+          { nombre: "Fucidine crema 20 mg/g (2%)", conc_mg_ml: null },
+          { nombre: "Fucidine pomada 20 mg/g (2%)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Impétigo no extenso (alternativa a mupirocina)",
+        "Foliculitis y otras infecciones superficiales",
+        "Eccema impetiginizado",
+        "Descolonización nasal de S. aureus (uso seleccionado)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad al ácido fusídico"
+      ],
+      precauciones: [
+        "Resistencias crecientes a S. aureus por uso indiscriminado: limitar a 7-10 días",
+        "Irritación local leve, dermatitis de contacto poco frecuente",
+        "Evitar contacto con ojos y mucosas",
+        "En infecciones extensas, recurrentes o profundas: tratamiento sistémico"
+      ]
+    }
+  },
+
+  {
     nombre: "ADENOSINA",
     categoria: "Reanimación / UCIP",
     sinonimos: ["adenocor", "adenosina"],
@@ -499,6 +541,47 @@ const farmacos = [
   },
 
   {
+    nombre: "AZITROMICINA OFTÁLMICA",
+    categoria: "Oftalmología",
+    sinonimos: ["azydrop", "azitromicina oftalmica", "azitromicina colirio"],
+    isoColor: ISO.antibiotico,
+    icono: "👁️",
+    vias: ["oft"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Conjuntivitis bacteriana — pauta corta",
+        via: "oft",
+        dosis_fija_mg: 0,
+        intervalo_h: 12,
+        duracion: "3 días",
+        nota: "Azitromicina colirio 15 mg/g (monodosis). 1 gota en cada ojo afecto cada 12 h durante 3 días. Pauta corta cómoda. Indicado en conjuntivitis bacteriana en niños ≥ 1 año y adultos. Mantener la monodosis en frigorífico tras abrir y desechar a las 24 h.",
+        preparados: [
+          { nombre: "Azydrop colirio 15 mg/g (monodosis 0,25 g)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Conjuntivitis bacteriana purulenta en ≥ 1 año",
+        "Conjuntivitis por Chlamydia trachomatis (alternativa local en formas leves)",
+        "Tracoma (en zonas endémicas)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a macrólidos",
+        "< 1 año (datos limitados)"
+      ],
+      precauciones: [
+        "Sensación de escozor transitoria al instilar",
+        "No usar lentes de contacto durante el tratamiento",
+        "Si no mejora en 3 días: reevaluar diagnóstico (vírica, alérgica, herpética)",
+        "Sin efecto sobre conjuntivitis víricas (las más frecuentes en pediatría)"
+      ]
+    }
+  },
+
+  {
     nombre: "ANFOTERICINA B",
     categoria: "Antibiótico",
     sinonimos: ["anfotericina", "ambisome", "amphocil", "fungizone"],
@@ -744,6 +827,49 @@ const farmacos = [
         "Vigilar diuresis aumentada",
         "Acumulación en hepatopatía o insuficiencia renal: ajustar dosis",
         "Interacción con teofilina (sumar efectos): no combinar"
+      ]
+    }
+  },
+
+  {
+    nombre: "CALAMINA",
+    categoria: "Dermatología",
+    sinonimos: ["calamina", "calamina locion", "calamina lotion"],
+    isoColor: ISO.neutral,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Prurito / picaduras / varicela",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 8,
+        duracion: "Mientras persista el prurito",
+        nota: "Loción de calamina al 8-15% (combinada habitualmente con óxido de zinc). Aplicar con torunda o algodón sobre la zona afecta tantas veces como sea necesario (habitualmente 3-4 veces al día). Sin restricción de edad: utilizable desde lactantes. Acción astringente, secante y antipruriginosa leve. Particularmente útil en lesiones de varicela (alivio del prurito sin enmascarar el aspecto de las lesiones), picaduras de insectos, urticaria localizada y dermatitis de contacto leve. Agitar el frasco antes de cada uso. No usar sobre piel exudativa importante (puede formar costra).",
+        preparados: [
+          { nombre: "Calamina loción (varios fabricantes, fórmula magistral o registrada)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Prurito de la varicela (uso clásico)",
+        "Picaduras de insectos y urticaria localizada",
+        "Dermatitis de contacto leve",
+        "Quemaduras solares leves",
+        "Eccema agudo no exudativo"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a la calamina o componentes"
+      ],
+      precauciones: [
+        "Sin riesgo sistémico — perfil de seguridad excelente",
+        "Evitar contacto con ojos y mucosas",
+        "No aplicar sobre heridas abiertas, lesiones exudativas o supurativas",
+        "Su efecto es sintomático: no acelera la curación de la varicela",
+        "Si hay sobreinfección bacteriana: añadir antibiótico tópico (mupirocina/ácido fusídico)"
       ]
     }
   },
@@ -1011,6 +1137,55 @@ const farmacos = [
   },
 
   {
+    nombre: "CLORHEXIDINA",
+    categoria: "Dermatología",
+    sinonimos: ["clorhexidina", "cristalmina", "hibitane", "hibiscrub"],
+    isoColor: ISO.antibiotico,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / AEMPS",
+    intermitente: [
+      {
+        indicacion: "Antisepsia de la piel / heridas / cuidado del cordón umbilical",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 8,
+        duracion: "Según indicación (cordón: hasta caída)",
+        nota: "Antiséptico de amplio espectro frente a bacterias Gram + y Gram - (eficacia menor frente a algunos Gram -), virus envueltos y hongos. **Soluciones acuosas (0,05-0,2%)**: heridas pediátricas, lavado de heridas, mucosas. **Solución 1-2% acuosa o coloreada (Cristalmina)**: antisepsia rutinaria de heridas y zonas de inserción de catéter. **Solución alcohólica (0,5-2%)**: antisepsia pre-procedimientos, piel intacta. **Cuidado del cordón umbilical**: clorhexidina acuosa 1-4% una vez al día hasta caída (reduce mortalidad neonatal en países en desarrollo; en países desarrollados con cuidado estándar la evidencia es menos clara y muchas guías prefieren cuidado seco). **Evitar solución alcohólica en neonatos < 2 meses y prematuros** (riesgo de quemadura química y absorción).",
+        preparados: [
+          { nombre: "Cristalmina solución 1% (acuosa coloreada)", conc_mg_ml: null },
+          { nombre: "Clorhexidina acuosa 0,05% / 0,2% (lavado de heridas)", conc_mg_ml: null },
+          { nombre: "Clorhexidina alcohólica 0,5-2% (antisepsia piel intacta)", conc_mg_ml: null },
+          { nombre: "Hibiscrub solución jabonosa 4% (lavado quirúrgico)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Antisepsia rutinaria de heridas leves",
+        "Antisepsia pre-procedimientos (punciones, inserción de catéter)",
+        "Cuidado del cordón umbilical (formulación acuosa)",
+        "Higiene de manos sanitarias (Hibiscrub)",
+        "Antiséptico oral en gel/colutorio (formulaciones específicas)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a la clorhexidina (puede causar anafilaxia)",
+        "Solución alcohólica: prematuros y neonatos < 2 meses (preferir acuosa)",
+        "No aplicar en oído medio (riesgo de ototoxicidad)",
+        "No combinar con jabones aniónicos (inactiva el principio activo)"
+      ],
+      precauciones: [
+        "Dermatitis de contacto poco frecuente; reacciones anafilácticas descritas (mucho más raras)",
+        "Tinción reversible de los dientes y la piel con uso oral prolongado",
+        "En neonatos pretérmino la solución alcohólica puede producir quemaduras químicas — usar acuosa",
+        "Evitar contacto con ojos, oído medio y meninges expuestas",
+        "Esperar a que seque antes de cubrir la zona (riesgo de irritación si se cubre húmeda)"
+      ]
+    }
+  },
+
+  {
     nombre: "CLORURO CÁLCICO / GLUCONATO CÁLCICO",
     categoria: "Reanimación / UCIP",
     sinonimos: ["cloruro calcico", "gluconato calcico", "calcio"],
@@ -1044,6 +1219,51 @@ const farmacos = [
         "Bradicardia y asistolia con infusión rápida — administrar lento y monitorizar ECG",
         "Precipitación con bicarbonato, fosfato y ceftriaxona en neonatos (no compartir vía)",
         "Cloruro cálcico es 3x más potente que gluconato a igual volumen — diferenciar claramente al prescribir"
+      ]
+    }
+  },
+
+  {
+    nombre: "CLOTRIMAZOL TÓPICO",
+    categoria: "Dermatología",
+    sinonimos: ["canesten", "clotrimazol", "gine-canesten"],
+    isoColor: ISO.antibiotico,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Candidiasis cutánea / Dermatomicosis",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 8,
+        duracion: "2-4 semanas (continuar 1-2 sem tras resolución)",
+        nota: "Crema, solución o polvo al 1% (10 mg/g). Aplicar capa fina sobre la lesión y zona perilesional 2-3 veces al día. Mantener el tratamiento durante 1-2 semanas tras desaparición de los síntomas para evitar recidivas. Sin restricción de edad: utilizable en lactantes y neonatos. Es el antifúngico tópico de elección en dermatitis del pañal candidiásica (alternativa: nistatina o miconazol). Cubre Candida spp., dermatofitos (Trichophyton, Microsporum, Epidermophyton) y Malassezia.",
+        preparados: [
+          { nombre: "Canesten crema 1% (10 mg/g)", conc_mg_ml: null },
+          { nombre: "Canesten solución 1%", conc_mg_ml: null },
+          { nombre: "Canesten polvo 1%", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Candidiasis cutánea (dermatitis del pañal candidiásica)",
+        "Tinea corporis, cruris, pedis, manuum",
+        "Pitiriasis versicolor",
+        "Intertrigo, eritrasma",
+        "Otomicosis (uso ORL)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad al fármaco"
+      ],
+      precauciones: [
+        "Irritación local leve, prurito o ardor transitorio",
+        "Evitar contacto con ojos y mucosas (salvo formulaciones específicas)",
+        "Si no mejora en 2-4 semanas: reevaluar diagnóstico",
+        "En infección extensa o resistente: valorar antifúngico sistémico",
+        "Mantener bien seca la zona tratada"
       ]
     }
   },
@@ -1204,6 +1424,48 @@ const farmacos = [
   },
 
   // ── D ─────────────────────────────────────────────────────
+  {
+    nombre: "DESLORATADINA",
+    categoria: "Antihistamínico",
+    sinonimos: ["aerius", "azomyr", "desloratadina"],
+    isoColor: ISO.respiratorio,
+    icono: "🤧",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Rinitis alérgica / urticaria — pauta por edad",
+        via: "oral",
+        dosis_fija_mg: 2.5,
+        intervalo_h: 24,
+        nota: "Antihistamínico H1 de 2.ª generación, no sedante. Pauta por edad: 6-11 meses → 1 mg/día (2 ml solución); 1-5 años → 1,25 mg/día (2,5 ml); 6-11 años → 2,5 mg/día (5 ml); ≥ 12 años → 5 mg/día. Una sola toma al día. Inicio efecto en 30 min, duración 24 h. No es sedante de forma significativa.",
+        preparados: [
+          { nombre: "Aerius solución oral 0,5 mg/ml (2,5 mg/5 ml)", conc_mg_ml: 0.5 },
+          { nombre: "Aerius comp. recubiertos 5 mg", conc_mg_ml: null },
+          { nombre: "Aerius comp. bucodispersables 2,5 / 5 mg", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Rinitis alérgica estacional y perenne",
+        "Urticaria crónica idiopática",
+        "Coadyuvante en conjuntivitis alérgica"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad al fármaco o a loratadina",
+        "Insuficiencia renal grave (ajustar dosis)"
+      ],
+      precauciones: [
+        "Sedación poco frecuente comparado con antihistamínicos de 1.ª generación",
+        "Cefalea, sequedad de boca, fatiga (efectos leves)",
+        "Ajuste de dosis en insuficiencia renal grave",
+        "Sin efecto significativo sobre QT"
+      ]
+    }
+  },
+
   {
     nombre: "DEXAMETASONA",
     categoria: "Corticoide",
@@ -1454,6 +1716,46 @@ const farmacos = [
         "Toxicidad agravada por hipocalemia, hipomagnesemia, hipercalcemia, hipotiroidismo",
         "Náuseas, vómitos, anorexia, alteraciones visuales (cromatopsia amarilla)",
         "Antídoto: anticuerpos antidigoxina (Digifab)"
+      ]
+    }
+  },
+
+  {
+    nombre: "DIMETICONA 4%",
+    categoria: "Dermatología",
+    sinonimos: ["dimeticona", "filvit", "neositrin", "fullmarks", "paranix"],
+    isoColor: ISO.neutral,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["puntual"],
+    fuente: "Pediamécum (AEP) / SEUP",
+    puntual: {
+      descripcion: "Pediculosis capitis — primera línea pediátrica",
+      dosis_fija_mg: 0,
+      via: "Aplicación tópica sobre el cuero cabelludo seco, dejar actuar y aclarar",
+      nota: "Loción al 4% (algunas formulaciones 10%). Aplicar sobre cuero cabelludo y cabello **secos** hasta empapar bien, masajear suavemente. Dejar actuar 8 horas (algunas formulaciones más recientes: 15-30 min). Lavar con champú habitual y peinar con lendrera de púas finas mientras el pelo está mojado. **Repetir la aplicación a los 7-10 días** para eliminar las liendres que eclosionaron tras la primera aplicación. Sin restricción de edad: utilizable desde lactantes. Mecanismo **físico** (recubre y asfixia los piojos), por lo que **no genera resistencias**. Es la primera línea actual recomendada en pediatría desplazando a permetrina y malatión. Inflamable: no fumar ni acercar fuentes de calor durante la aplicación.",
+      preparados: [
+        { nombre: "Filvit Neo loción 4%", conc_mg_ml: null },
+        { nombre: "Neositrin gel líquido 100%", conc_mg_ml: null },
+        { nombre: "Fullmarks loción 4%", conc_mg_ml: null },
+        { nombre: "Paranix loción", conc_mg_ml: null }
+      ]
+    },
+    info: {
+      indicaciones: [
+        "Pediculosis capitis (primera línea pediátrica)",
+        "Pediculosis corporis (uso ocasional)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a los excipientes",
+        "Lesiones extensas del cuero cabelludo, dermatitis exudativa"
+      ],
+      precauciones: [
+        "Inflamable: no exponer a llamas, secador caliente o cigarrillos durante la aplicación",
+        "Evitar contacto con ojos (en caso de contacto, lavar abundantemente)",
+        "Sin actividad ovicida absoluta: imprescindible repetir aplicación a los 7-10 días",
+        "Complementar con peinado con lendrera 2-3 veces/semana × 2 semanas",
+        "Examinar a convivientes y tratar simultáneamente a los afectos"
       ]
     }
   },
@@ -2051,6 +2353,44 @@ const farmacos = [
   },
 
   {
+    nombre: "FEXOFENADINA",
+    categoria: "Antihistamínico",
+    sinonimos: ["telfast", "fexofenadina"],
+    isoColor: ISO.respiratorio,
+    icono: "🤧",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Rinitis alérgica / urticaria crónica idiopática",
+        via: "oral",
+        dosis_fija_mg: 30,
+        intervalo_h: 12,
+        nota: "Antihistamínico H1 de 2.ª generación, no sedante. Pauta por edad: 6 meses-2 años → 15 mg/12 h; 2-11 años → 30 mg/12 h; ≥ 12 años → 60 mg/12 h o 120 mg/24 h (rinitis), hasta 180 mg/24 h (urticaria crónica). Inicio efecto en 1 h, duración 12-24 h. Metabolito activo de la terfenadina, sin riesgo de prolongación QT.",
+        preparados: [
+          { nombre: "Telfast comp. 30 / 60 / 120 / 180 mg", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Rinitis alérgica estacional (≥ 6 meses)",
+        "Urticaria crónica idiopática (≥ 6 meses)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad al fármaco"
+      ],
+      precauciones: [
+        "Bien tolerado; cefalea, somnolencia y náuseas raras",
+        "Sin efecto significativo sobre QTc",
+        "Evitar zumo de fruta (especialmente pomelo, naranja, manzana): reduce absorción",
+        "Ajustar dosis en insuficiencia renal grave"
+      ]
+    }
+  },
+
+  {
     nombre: "FLUCONAZOL",
     categoria: "Antibiótico",
     sinonimos: ["fluconazol", "diflucan", "loitin"],
@@ -2102,6 +2442,92 @@ const farmacos = [
         "Prolongación del QTc",
         "Múltiples interacciones (inhibidor CYP2C9, 2C19, 3A4): warfarina, fenitoína, ciclosporina",
         "Ajuste de dosis en insuficiencia renal (intervalo más largo)"
+      ]
+    }
+  },
+
+  {
+    nombre: "FLUTICASONA FUROATO NASAL",
+    categoria: "Respiratorio",
+    sinonimos: ["avamys", "fluticasona nasal", "fluticasona furoato"],
+    isoColor: ISO.respiratorio,
+    icono: "👃",
+    vias: ["in"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Rinitis alérgica — pauta por edad",
+        via: "in",
+        dosis_fija_mg: 0,
+        intervalo_h: 24,
+        nota: "Espray nasal acuoso 27,5 mcg/aplicación. Pauta: 2-11 años → 1 aplicación en cada fosa nasal una vez al día (= 55 mcg/día). ≥ 12 años → 2 aplicaciones en cada fosa una vez al día (= 110 mcg/día) hasta control, después reducir a 1 aplicación/fosa. Edad mínima 2 años. Agitar antes de cada uso y mantener la cabeza ligeramente inclinada hacia adelante.",
+        preparados: [
+          { nombre: "Avamys espray nasal 27,5 mcg/pulsación (120 dosis)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Rinitis alérgica estacional y perenne (≥ 2 años)",
+        "Síntomas oculares asociados a rinitis alérgica"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad al fármaco",
+        "Infección activa de la mucosa nasal (sin tratar)"
+      ],
+      precauciones: [
+        "Epistaxis (frecuente), irritación nasal, cefalea",
+        "Candidiasis nasofaríngea con uso prolongado (poco frecuente con corticoides nasales)",
+        "Vigilar crecimiento en uso prolongado y dosis altas",
+        "Supresión suprarrenal con dosis muy altas (raro a dosis recomendadas)"
+      ]
+    }
+  },
+
+  {
+    nombre: "FLUTICASONA PROPIONATO TÓPICO",
+    categoria: "Dermatología",
+    sinonimos: ["cutivate", "flunutrac", "fluticasona crema", "fluticasona topica"],
+    isoColor: ISO.respiratorio,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Dermatitis atópica moderada-grave / eccema",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 24,
+        duracion: "Hasta 2 semanas (revaluar)",
+        nota: "Corticoide tópico de potencia moderada-alta (grupo III europeo). Crema 0,05% o pomada 0,005%. Aplicar capa fina sobre la lesión 1 vez al día (la pomada puede aplicarse 1-2 veces/día). Edad mínima 1 año. Indicado en dermatitis atópica moderada-grave que no responde a hidrocortisona, o como tratamiento de los brotes. Evitar cara, pliegues, zona del pañal y oclusión prolongada. NO confundir con la fluticasona inhalada/nasal — son fármacos distintos en formulación y vía. Suspender al ceder el brote.",
+        preparados: [
+          { nombre: "Cutivate crema 0,05% (0,5 mg/g)", conc_mg_ml: null },
+          { nombre: "Flunutrac crema 0,05%", conc_mg_ml: null },
+          { nombre: "Flunutrac pomada 0,005%", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Dermatitis atópica moderada-grave (≥ 1 año)",
+        "Eccemas crónicos refractarios a corticoides de baja potencia",
+        "Liquen simple crónico",
+        "Psoriasis localizada (uso seleccionado)"
+      ],
+      contraindicaciones: [
+        "Infección cutánea activa no tratada (bacteriana, vírica o fúngica)",
+        "Rosácea, acné, dermatitis perioral",
+        "Hipersensibilidad al fármaco",
+        "< 1 año"
+      ],
+      precauciones: [
+        "Atrofia cutánea, telangiectasias, estrías con uso prolongado",
+        "Absorción sistémica aumentada en zonas finas, pliegues y bajo oclusión — riesgo de supresión suprarrenal",
+        "Limitar duración (≤ 2 semanas seguidas) y superficie aplicada",
+        "No aplicar en cara salvo indicación específica corta",
+        "En lactantes y niños pequeños vigilar crecimiento y desarrollo con uso prolongado"
       ]
     }
   },
@@ -2499,6 +2925,98 @@ const farmacos = [
   },
 
   {
+    nombre: "HIDROCORTISONA TÓPICA",
+    categoria: "Dermatología",
+    sinonimos: ["lactisona", "hidrocortisona crema", "hidrocortisona topica"],
+    isoColor: ISO.respiratorio,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Dermatitis atópica / eccema leve",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 12,
+        duracion: "5-7 días en cara y pliegues; 7-14 días en otras zonas",
+        nota: "Corticoide tópico de baja potencia. Aplicar capa fina 1-2 veces al día sobre la lesión. Crema al 0,5% o 1%. Concentración al 1% se usa en zonas resistentes (placa, espalda); 0,5% en cara, pliegues y lactantes. Evitar oclusión prolongada y zonas perioculares. Suspender al ceder el brote.",
+        preparados: [
+          { nombre: "Lactisona 1% loción", conc_mg_ml: null },
+          { nombre: "Lactisona 0,5% loción", conc_mg_ml: null },
+          { nombre: "Hidrocortisona crema 1% (varios genéricos)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Dermatitis atópica leve-moderada (especialmente brotes)",
+        "Dermatitis seborreica del lactante",
+        "Eccema de contacto leve",
+        "Prurito localizado"
+      ],
+      contraindicaciones: [
+        "Infección cutánea no tratada (bacteriana, vírica, fúngica)",
+        "Rosácea, acné, dermatitis perioral",
+        "Hipersensibilidad al fármaco o excipientes"
+      ],
+      precauciones: [
+        "Atrofia cutánea, telangiectasias e hipopigmentación con uso prolongado",
+        "Absorción sistémica aumentada en piel fina (cara, pliegues, genitales) y bajo oclusión",
+        "Lactantes: superficie corporal/peso elevada — riesgo de supresión suprarrenal con uso extenso prolongado",
+        "Limitar a 1-2 semanas por brote, no usar como mantenimiento"
+      ]
+    }
+  },
+
+  {
+    nombre: "HIDROXIZINA",
+    categoria: "Antihistamínico",
+    sinonimos: ["atarax", "hidroxizina"],
+    isoColor: ISO.respiratorio,
+    icono: "🤧",
+    vias: ["oral", "im"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Prurito / urticaria / sedación previa",
+        via: "oral",
+        dosis_mg_kg_dia: 1,
+        intervalo_h: 8,
+        dosis_max_dia_mg: 50,
+        nota: "Antihistamínico H1 de 1.ª generación con efecto sedante. 1-2 mg/kg/día divididos cada 6-8 h. Edad mínima > 12 meses (preferible > 2 años por riesgo de QT). Máx. 2 mg/kg/día. Dosis máx. diaria: 50 mg en niños < 40 kg; 100 mg en > 40 kg / adolescente. AEMPS limitó dosis máximas en 2015 por riesgo de prolongación QT. NO usar en niños con riesgo cardiovascular o que tomen otros fármacos QT-prolongadores.",
+        preparados: [
+          { nombre: "Atarax jarabe 10 mg/5 ml (2 mg/ml)", conc_mg_ml: 2 },
+          { nombre: "Atarax comprimidos 25 mg", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Prurito agudo o crónico (urticaria, dermatitis atópica)",
+        "Sedación pre-procedimientos (uso ocasional)",
+        "Ansiedad y agitación leve (uso muy limitado en pediatría)"
+      ],
+      contraindicaciones: [
+        "QTc prolongado o riesgo de prolongación",
+        "Uso concomitante con QT-prolongadores potentes",
+        "Hipopotasemia o hipomagnesemia no corregidas",
+        "Bradicardia significativa",
+        "Hipersensibilidad a hidroxizina, cetirizina o piperazinas",
+        "Lactantes < 12 meses"
+      ],
+      precauciones: [
+        "Prolongación de QTc dosis-dependiente — riesgo de Torsade de pointes",
+        "Sedación marcada — precaución en escolares (rendimiento escolar)",
+        "Anticolinérgico: sequedad de boca, retención urinaria, midriasis",
+        "No combinar con depresores SNC sin valorar riesgo",
+        "Excitación paradójica en lactantes"
+      ]
+    }
+  },
+
+  {
     nombre: "HIERRO ORAL",
     categoria: "Hematología",
     sinonimos: ["hierro", "ferroglicina", "sulfato ferroso", "ferro-sanol", "ferplex"],
@@ -2874,7 +3392,87 @@ const farmacos = [
     }
   },
 
+  {
+    nombre: "LEVOCETIRIZINA",
+    categoria: "Antihistamínico",
+    sinonimos: ["xazal", "levocetirizina"],
+    isoColor: ISO.respiratorio,
+    icono: "🤧",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Rinitis alérgica / urticaria — pauta por edad",
+        via: "oral",
+        dosis_fija_mg: 2.5,
+        intervalo_h: 24,
+        nota: "Enantiómero activo de cetirizina. Antihistamínico H1 de 2.ª generación. Pauta por edad: 6 meses-1 año → 1,25 mg/día (2,5 ml); 1-6 años → 1,25 mg c/12 h (= 2,5 mg/día); 6-12 años → 5 mg/día; ≥ 12 años → 5 mg/día. Inicio efecto en 1 h, duración 24 h. Menos sedante que cetirizina racémica a igual dosis.",
+        preparados: [
+          { nombre: "Xazal solución oral 0,5 mg/ml (2,5 mg/5 ml)", conc_mg_ml: 0.5 },
+          { nombre: "Xazal comprimidos 5 mg", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Rinitis alérgica estacional y perenne",
+        "Urticaria crónica idiopática",
+        "Coadyuvante en conjuntivitis alérgica"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a levocetirizina, cetirizina, hidroxizina o piperazinas",
+        "Insuficiencia renal grave (FG < 10 ml/min)"
+      ],
+      precauciones: [
+        "Sedación leve (menos que cetirizina, mucho menos que hidroxizina)",
+        "Sequedad de boca, cefalea",
+        "Ajustar dosis en insuficiencia renal moderada",
+        "Sin efecto significativo sobre QTc a dosis recomendadas"
+      ]
+    }
+  },
+
   // ── M ─────────────────────────────────────────────────────
+  {
+    nombre: "MALATIÓN 0,5%",
+    categoria: "Dermatología",
+    sinonimos: ["malation", "malatión", "filvit malation"],
+    isoColor: ISO.neutral,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["puntual"],
+    fuente: "Pediamécum (AEP)",
+    puntual: {
+      descripcion: "Pediculosis capitis resistente a otros tratamientos",
+      dosis_fija_mg: 0,
+      via: "Aplicación tópica sobre cuero cabelludo seco",
+      nota: "Loción al 0,5%. Aplicar sobre cuero cabelludo y cabello **secos** hasta empapar bien (≈ 20-30 ml). Dejar actuar 8-12 horas (preferiblemente toda la noche, cubrir con gorro). Aclarar con champú habitual y peinar con lendrera. **Repetir a los 7-10 días**. Edad mínima ≥ 2 años (algunos protocolos ≥ 6 meses con precaución). Pediculicida organofosforado con actividad ovicida parcial. Actualmente reservado a casos resistentes a dimeticona o permetrina por su olor, inflamabilidad y mayor potencial irritante. **Muy inflamable**: no aplicar con secador caliente, planchas, ni acercar llamas o cigarrillos. Olor desagradable característico.",
+      preparados: [
+        { nombre: "Filvit loción malatión 0,5%", conc_mg_ml: null }
+      ]
+    },
+    info: {
+      indicaciones: [
+        "Pediculosis capitis refractaria a dimeticona/permetrina (≥ 2 años)",
+        "Pediculosis pubis (uso adolescente, infrecuente en pediatría)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad al fármaco o excipientes",
+        "< 2 años (datos limitados, alternativa: dimeticona)",
+        "Lesiones extensas del cuero cabelludo, dermatitis exudativa",
+        "Antecedente de convulsiones (absorción mínima pero precaución)"
+      ],
+      precauciones: [
+        "**Muy inflamable** — no exponer a llamas, secador caliente o cigarrillos",
+        "Olor desagradable a azufre",
+        "Irritación del cuero cabelludo posible",
+        "Evitar contacto con ojos y mucosas",
+        "Examinar y tratar simultáneamente a contactos afectos"
+      ]
+    }
+  },
+
   {
     nombre: "MELATONINA",
     categoria: "Antiepiléptico / Sedante",
@@ -3085,6 +3683,101 @@ const farmacos = [
   },
 
   {
+    nombre: "METILPREDNISOLONA ACEPONATO TÓPICO",
+    categoria: "Dermatología",
+    sinonimos: ["adventan", "lexxema", "metilprednisolona aceponato", "metilprednisolona crema"],
+    isoColor: ISO.respiratorio,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Dermatitis atópica / eccema agudo y crónico",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 24,
+        duracion: "Hasta 2-4 semanas según evolución",
+        nota: "Corticoide tópico de potencia moderada-alta (grupo III europeo). Concentración 0,1% (1 mg/g). Aplicar capa fina 1 vez al día sobre la lesión. Edad mínima 4 meses según ficha técnica (AEMPS). Formulación según contexto: emulsión y crema para zonas exudativas; pomada y ungüento para zonas secas/liquenificadas; solución cutánea para cuero cabelludo. Bajo perfil de absorción sistémica gracias a inactivación cutánea rápida.",
+        preparados: [
+          { nombre: "Adventan crema 1 mg/g (0,1%)", conc_mg_ml: null },
+          { nombre: "Adventan pomada 1 mg/g (0,1%)", conc_mg_ml: null },
+          { nombre: "Adventan emulsión cutánea 1 mg/g", conc_mg_ml: null },
+          { nombre: "Adventan solución cutánea 1 mg/g (cuero cabelludo)", conc_mg_ml: null },
+          { nombre: "Lexxema crema / pomada 1 mg/g", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Dermatitis atópica moderada-grave (≥ 4 meses)",
+        "Eccema agudo y crónico",
+        "Dermatitis de contacto, dishidrosis",
+        "Liquen simple crónico, psoriasis localizada"
+      ],
+      contraindicaciones: [
+        "Infección cutánea activa no tratada (bacteriana, vírica o fúngica)",
+        "Rosácea, acné, dermatitis perioral",
+        "Hipersensibilidad al fármaco",
+        "< 4 meses"
+      ],
+      precauciones: [
+        "Atrofia cutánea, telangiectasias con uso prolongado (menor riesgo que otros corticoides potentes por su rápida inactivación)",
+        "Evitar contacto con ojos y mucosas",
+        "Usar formulación apropiada al estado de la piel (emulsión/crema en aguda; pomada/ungüento en crónica)",
+        "Limitar superficie y duración en niños pequeños",
+        "Considerar alternancia con emolientes y reducir frecuencia al mejorar"
+      ]
+    }
+  },
+
+  {
+    nombre: "MICONAZOL TÓPICO",
+    categoria: "Dermatología",
+    sinonimos: ["daktarin", "miconazol"],
+    isoColor: ISO.antibiotico,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Candidiasis cutánea / Dermatomicosis",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 12,
+        duracion: "2-6 semanas (continuar 1-2 sem tras resolución)",
+        nota: "Crema, polvo o gel cutáneo al 2% (20 mg/g). Aplicar capa fina 2 veces al día sobre la zona afecta y perilesional. Sin restricción de edad: utilizable en lactantes y neonatos. Especialmente útil en intertrigos macerados y dermatitis del pañal candidiásica con sobreinfección bacteriana, ya que cubre adicionalmente cocos Gram positivos (S. aureus, S. pyogenes). NO confundir con el gel oral de miconazol (Daktarin gel oral 2%), que se usa para muguet y candidiasis orofaríngea pero está contraindicado en < 6 meses por riesgo de atragantamiento.",
+        preparados: [
+          { nombre: "Daktarin crema 2% (20 mg/g)", conc_mg_ml: null },
+          { nombre: "Daktarin polvo 2%", conc_mg_ml: null },
+          { nombre: "Daktarin gel cutáneo 2%", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Candidiasis cutánea (dermatitis del pañal candidiásica)",
+        "Tinea corporis, cruris, pedis",
+        "Pitiriasis versicolor",
+        "Intertrigos sobreinfectados (cubre Candida + cocos Gram +)",
+        "Otomicosis (uso ORL)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a imidazoles",
+        "Daktarin gel oral: < 6 meses (riesgo de obstrucción de la vía aérea)"
+      ],
+      precauciones: [
+        "Irritación local, prurito o ardor transitorio",
+        "Evitar contacto con ojos",
+        "Por el gel cutáneo: en pliegues hidratados puede actuar como caldo de cultivo si se aplica en exceso",
+        "Si no mejora en 2-4 semanas: reevaluar diagnóstico",
+        "Interacción con warfarina y otros fármacos por absorción sistémica con uso extenso prolongado (raro)"
+      ]
+    }
+  },
+
+  {
     nombre: "MIDAZOLAM",
     categoria: "Antiepiléptico / Sedante",
     sinonimos: ["midazolam", "dormicum"],
@@ -3178,6 +3871,94 @@ const farmacos = [
   },
 
   {
+    nombre: "MOMETASONA FUROATO NASAL",
+    categoria: "Respiratorio",
+    sinonimos: ["nasonex", "mometasona nasal"],
+    isoColor: ISO.respiratorio,
+    icono: "👃",
+    vias: ["in"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Rinitis alérgica — pauta por edad",
+        via: "in",
+        dosis_fija_mg: 0,
+        intervalo_h: 24,
+        nota: "Espray nasal acuoso 50 mcg/aplicación. Pauta: 2-11 años → 1 aplicación en cada fosa nasal una vez al día (= 100 mcg/día). ≥ 12 años → 2 aplicaciones en cada fosa una vez al día (= 200 mcg/día). Edad mínima 2 años. Mantener constancia para conseguir efecto antiinflamatorio (mejoría en 1-2 días, máximo a los 5-7 días).",
+        preparados: [
+          { nombre: "Nasonex espray nasal 50 mcg/pulsación (140 dosis)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Rinitis alérgica estacional y perenne (≥ 2 años)",
+        "Pólipos nasales (≥ 18 años)",
+        "Sinusitis aguda (uso seleccionado)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad al fármaco",
+        "Infección no tratada de la mucosa nasal",
+        "Cirugía o traumatismo nasal reciente sin cicatrizar"
+      ],
+      precauciones: [
+        "Epistaxis (frecuente), irritación nasal, cefalea, faringitis",
+        "Candidiasis nasofaríngea (poco frecuente)",
+        "Vigilar crecimiento en uso prolongado",
+        "Supresión suprarrenal con dosis muy altas (raro a dosis recomendadas)"
+      ]
+    }
+  },
+
+  {
+    nombre: "MOMETASONA FUROATO TÓPICO",
+    categoria: "Dermatología",
+    sinonimos: ["elocom", "mometasona crema", "mometasona topica"],
+    isoColor: ISO.respiratorio,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Dermatitis atópica moderada-grave / psoriasis",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 24,
+        duracion: "5-7 días en cara o pliegues, hasta 2-3 semanas en otras zonas",
+        nota: "Corticoide tópico de potencia alta (grupo III europeo / clase II americana). Concentración 0,1% (1 mg/g). Aplicar capa fina 1 vez al día. Edad mínima 2 años. Indicado cuando los corticoides de potencia moderada no son suficientes. Disponible en crema (zonas húmedas/exudativas), pomada (zonas secas/liquenificadas) y solución cutánea (cuero cabelludo). Evitar cara, pliegues y zona del pañal salvo prescripción específica. No usar bajo oclusión.",
+        preparados: [
+          { nombre: "Elocom crema 1 mg/g (0,1%)", conc_mg_ml: null },
+          { nombre: "Elocom pomada 1 mg/g (0,1%)", conc_mg_ml: null },
+          { nombre: "Elocom solución cutánea 1 mg/g (cuero cabelludo)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Dermatitis atópica moderada-grave (≥ 2 años)",
+        "Psoriasis en placas localizada",
+        "Eccema crónico, liquen simple, eccema dishidrótico",
+        "Lupus discoide cutáneo"
+      ],
+      contraindicaciones: [
+        "Infección cutánea activa no tratada (bacteriana, vírica o fúngica)",
+        "Rosácea, acné, dermatitis perioral",
+        "Hipersensibilidad al fármaco",
+        "< 2 años"
+      ],
+      precauciones: [
+        "Mayor riesgo de atrofia cutánea, estrías y telangiectasias por su potencia alta",
+        "Absorción sistémica relevante en lactantes/niños y zonas finas — riesgo de supresión suprarrenal",
+        "Limitar superficie corporal tratada y duración (preferible < 2-3 semanas)",
+        "No combinar con otros corticoides tópicos en la misma zona",
+        "Vigilar crecimiento si tratamiento prolongado en niños"
+      ]
+    }
+  },
+
+  {
     nombre: "MONTELUKAST",
     categoria: "Respiratorio",
     sinonimos: ["singulair", "montelukast"],
@@ -3218,6 +3999,49 @@ const farmacos = [
     }
   },
 
+  {
+    nombre: "MUPIROCINA TÓPICA",
+    categoria: "Dermatología",
+    sinonimos: ["bactroban", "mupirocina", "plasimine"],
+    isoColor: ISO.antibiotico,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Impétigo / Descolonización nasal de S. aureus",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 8,
+        duracion: "5-7 días (máx. 10 días)",
+        nota: "Pomada o crema 2% (20 mg/g). Impétigo: aplicar capa fina sobre las lesiones limpias 3 veces al día durante 5-7 días (máx. 10 días). Descolonización nasal de S. aureus: aplicar en el interior de las narinas 2-3 veces/día × 5 días. Cubre S. aureus (incluido SARM) y S. pyogenes. Alternativa primera línea al ácido fusídico en impétigo localizado.",
+        preparados: [
+          { nombre: "Bactroban pomada 20 mg/g (2%)", conc_mg_ml: null },
+          { nombre: "Plasimine pomada 20 mg/g (2%)", conc_mg_ml: null },
+          { nombre: "Bactroban nasal 20 mg/g (2%) — pomada nasal", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Impétigo no extenso (forma localizada)",
+        "Foliculitis superficial",
+        "Descolonización nasal de S. aureus (incluido SARM)",
+        "Prevención de infección de heridas menores"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a mupirocina o polietilenglicol (excipiente de la pomada)"
+      ],
+      precauciones: [
+        "No usar > 10 días para evitar resistencias",
+        "Evitar contacto con ojos y mucosas (salvo la pomada nasal específica)",
+        "En infecciones extensas o sistémicas: tratamiento sistémico",
+        "Irritación local leve, prurito ocasional"
+      ]
+    }
+  },
+
   // ── N ─────────────────────────────────────────────────────
   {
     nombre: "NALOXONA",
@@ -3248,6 +4072,60 @@ const farmacos = [
         "Síndrome de abstinencia en pacientes con dependencia (incluyendo neonatos de madre adicta)",
         "Resedación: vigilar 2-4 h tras la última dosis",
         "Edema agudo de pulmón (raro)"
+      ]
+    }
+  },
+
+  {
+    nombre: "NISTATINA",
+    categoria: "Dermatología",
+    sinonimos: ["mycostatin", "nistatina"],
+    isoColor: ISO.antibiotico,
+    icono: "🧴",
+    vias: ["top", "oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Candidiasis cutánea / Dermatitis del pañal por Candida (tópico)",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 6,
+        duracion: "7-14 días (continuar varios días tras la mejoría)",
+        nota: "Crema o pomada 100.000 UI/g. Aplicar capa fina 2-4 veces al día. Sin restricción de edad: útil desde el periodo neonatal. Cubre Candida spp. exclusivamente (NO cubre dermatofitos: no usar en tiñas). Útil como tópico de primera línea en candidiasis cutánea y dermatitis del pañal candidiásica en alternativa a clotrimazol y miconazol. Absorción sistémica nula tópica.",
+        preparados: [
+          { nombre: "Mycostatin crema 100.000 UI/g", conc_mg_ml: null },
+          { nombre: "Mycostatin pomada 100.000 UI/g", conc_mg_ml: null }
+        ]
+      },
+      {
+        indicacion: "Muguet / candidiasis oral (oral)",
+        via: "oral",
+        dosis_fija_mg: 1,
+        intervalo_h: 6,
+        duracion: "7-14 días",
+        nota: "Suspensión oral 100.000 UI/ml. Lactantes: 1 ml (100.000 UI) en cada cara interna de la mejilla y lengua, cuatro veces al día tras las tomas. Niños y adultos: 4-6 ml/dosis cada 6 h. Mantener en la boca el mayor tiempo posible antes de tragar. Continuar 48-72 h tras desaparición de las lesiones. Limpiar tetinas, chupetes y pezones (si lactancia materna asociada a candidiasis del pezón) durante el tratamiento.",
+        preparados: [
+          { nombre: "Mycostatin suspensión oral 100.000 UI/ml", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Candidiasis cutánea (uso tópico)",
+        "Dermatitis del pañal candidiásica",
+        "Muguet / candidiasis orofaríngea (suspensión oral)",
+        "Candidiasis intestinal (oral, uso seleccionado)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a nistatina"
+      ],
+      precauciones: [
+        "Irritación local leve poco frecuente",
+        "Sabor amargo de la suspensión oral — administrar tras las tomas para mejorar adherencia",
+        "Sin actividad sobre dermatofitos: no es eficaz en tiñas",
+        "Absorción intestinal prácticamente nula (sin efectos sistémicos)",
+        "Continuar tratamiento varios días tras desaparición de lesiones para evitar recidiva"
       ]
     }
   },
@@ -3340,6 +4218,45 @@ const farmacos = [
         "Bradicardia, alteraciones de la conducción",
         "Litiasis biliar con uso prolongado",
         "Reducción de absorción intestinal con uso prolongado"
+      ]
+    }
+  },
+
+  {
+    nombre: "OLOPATADINA OFTÁLMICA",
+    categoria: "Oftalmología",
+    sinonimos: ["opatanol", "olopatadina"],
+    isoColor: ISO.respiratorio,
+    icono: "👁️",
+    vias: ["oft"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Conjuntivitis alérgica (estacional o perenne)",
+        via: "oft",
+        dosis_fija_mg: 0,
+        intervalo_h: 12,
+        nota: "Colirio 1 mg/ml. Posología: 1 gota en cada ojo afecto cada 12 h. Edad mínima 3 años. Antihistamínico H1 con efecto estabilizador de mastocitos: inicio de acción rápido y duración prolongada. Mantener mientras dure la exposición al alérgeno o el síntoma.",
+        preparados: [
+          { nombre: "Opatanol colirio 1 mg/ml (5 ml multidosis)", conc_mg_ml: 1 }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Conjuntivitis alérgica estacional o perenne (≥ 3 años)",
+        "Prurito ocular alérgico"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad al fármaco",
+        "< 3 años (datos limitados)"
+      ],
+      precauciones: [
+        "Escozor transitorio al instilar",
+        "No usar lentes de contacto blandas durante el tratamiento",
+        "Conservar el envase abierto < 4 semanas",
+        "Sin efecto significativo sobre la presión intraocular"
       ]
     }
   },
@@ -3498,6 +4415,53 @@ const farmacos = [
     }
   },
 
+  {
+    nombre: "ÓXIDO DE ZINC / PASTA LASSAR",
+    categoria: "Dermatología",
+    sinonimos: ["oxido de zinc", "pasta lassar", "halibut", "mitosyl", "eryplast", "bepanthol", "pasta al agua"],
+    isoColor: ISO.neutral,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Dermatitis del pañal / Protección cutánea / Irritaciones leves",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 4,
+        duracion: "Mientras persista la irritación",
+        nota: "Aplicar capa generosa sobre la piel limpia y seca en cada cambio de pañal (en dermatitis del pañal) o varias veces al día (otras irritaciones). Actúa como **barrera mecánica** protectora, secante y astringente; no es un medicamento sino un protector cutáneo. Sin restricción de edad: utilizable desde el periodo neonatal. Si la dermatitis del pañal no mejora en 2-3 días, valorar componente candidiásico (añadir nistatina/clotrimazol/miconazol) o bacteriano. La fórmula clásica de **Pasta Lassar** es: óxido de zinc 25 % + almidón 25 % + vaselina filante 50 %. Existen múltiples preparados comerciales con diferentes concentraciones de ZnO y excipientes adicionales (aceite de hígado de bacalao, dexpantenol, vitamina A, etc.).",
+        preparados: [
+          { nombre: "Pasta Lassar fórmula magistral (ZnO 25%)", conc_mg_ml: null },
+          { nombre: "Halibut pomada (óxido de zinc + aceite hígado bacalao + vit A)", conc_mg_ml: null },
+          { nombre: "Mitosyl crema (óxido de zinc + aceite hígado bacalao)", conc_mg_ml: null },
+          { nombre: "Eryplast crema (óxido de zinc 23%)", conc_mg_ml: null },
+          { nombre: "Bepanthol pomada (dexpantenol + lanolina, sin ZnO)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Dermatitis del pañal (irritativa) — primera línea",
+        "Profilaxis de dermatitis del pañal",
+        "Intertrigo, irritaciones cutáneas leves",
+        "Eccema impetiginizado leve (efecto secante)",
+        "Pequeñas erosiones y excoriaciones"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a alguno de los excipientes (aceite de hígado de bacalao en algunos productos: alergia al pescado)"
+      ],
+      precauciones: [
+        "Sin riesgo sistémico — perfil de seguridad excelente desde neonatos",
+        "Limpiar suavemente con cada cambio de pañal antes de reaplicar (no hace falta retirar capa profunda)",
+        "Combinable con antifúngico tópico cuando hay candidiasis confirmada (aplicar primero antifúngico, dejar absorber, después óxido de zinc)",
+        "NO aplicar sobre lesiones supurativas extensas sin diagnóstico",
+        "Si no mejora en 3-5 días con cuidados óptimos: valorar dermatitis atópica, candidiasis o componente bacteriano"
+      ]
+    }
+  },
+
   // ── P ─────────────────────────────────────────────────────
   {
     nombre: "PARACETAMOL",
@@ -3579,6 +4543,39 @@ const farmacos = [
   },
 
   {
+    nombre: "PERMETRINA TÓPICA",
+    categoria: "Dermatología",
+    sinonimos: ["sarcop", "permetrina", "permetrin"],
+    isoColor: ISO.neutral,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["puntual"],
+    fuente: "Pediamécum (AEP)",
+    puntual: {
+      descripcion: "Escabiosis (sarna)",
+      dosis_fija_mg: 0,
+      via: "Aplicación tópica única en todo el cuerpo (del cuello hacia abajo, incluyendo plantas y palmas en lactantes)",
+      nota: "Crema al 5%. Aplicar en capa fina sobre todo el cuerpo (excluida cabeza salvo en lactantes y ancianos: incluir cuero cabelludo y cara evitando ojos/boca), prestar atención a pliegues, espacios interdigitales y región umbilical. Dejar actuar 8-12 h (idealmente toda la noche) y lavar. Repetir aplicación a los 7 días. Tratar simultáneamente a todos los convivientes. Lavar ropa y sábanas a > 60 ºC o aislar en bolsa cerrada 72 h. Edad mínima 2 meses. En < 2 meses valorar azufre al 6-10% como alternativa."
+    },
+    info: {
+      indicaciones: [
+        "Escabiosis (sarna) en ≥ 2 meses",
+        "Pediculosis capitis y corporis (alternativa)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a permetrina o piretroides",
+        "< 2 meses (datos limitados; valorar azufre tópico)"
+      ],
+      precauciones: [
+        "Irritación, prurito y eritema transitorios tras aplicación",
+        "Evitar contacto con ojos, boca y mucosas",
+        "El prurito puede persistir 2-4 semanas tras tratamiento eficaz (reacción a antígenos del ácaro); no es indicación de retratamiento inmediato",
+        "Tratar a todos los convivientes y contactos íntimos en la misma fecha aunque estén asintomáticos"
+      ]
+    }
+  },
+
+  {
     nombre: "POLIETILENGLICOL",
     categoria: "Digestivo",
     sinonimos: ["movicol", "polietilenglicol", "casenglicol", "macrogol"],
@@ -3624,6 +4621,55 @@ const farmacos = [
         "Riesgo de aspiración en niños con disfagia o trastornos neurológicos",
         "Bien tolerado en uso prolongado",
         "Diluir adecuadamente para mejorar palatabilidad"
+      ]
+    }
+  },
+
+  {
+    nombre: "POVIDONA YODADA",
+    categoria: "Dermatología",
+    sinonimos: ["betadine", "topionic", "povidona yodada", "povidona iodada"],
+    isoColor: ISO.antibiotico,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / AEMPS",
+    intermitente: [
+      {
+        indicacion: "Antisepsia de la piel / heridas",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 8,
+        duracion: "Según indicación clínica",
+        nota: "Antiséptico de amplio espectro frente a bacterias Gram + y Gram -, hongos, virus y protozoos. **Solución acuosa al 10%** (1 mg yodo libre/ml): heridas, mucosas, lavados quirúrgicos. **Gel 10%**: heridas. **⚠️ PRECAUCIÓN ESPECIAL EN NEONATOS Y LACTANTES < 6 MESES**: la AEMPS contraindica el uso rutinario de povidona yodada en neonatos y lactantes pequeños por absorción cutánea del yodo y riesgo de **hipotiroidismo transitorio**. En esta franja preferir clorhexidina acuosa. En niños mayores y adolescentes uso convencional. Aplicar sobre la piel limpia, dejar secar al aire (no cubrir con apósito mientras esté húmedo). Tinción amarillo-marrón reversible.",
+        preparados: [
+          { nombre: "Betadine solución 10% (cutánea)", conc_mg_ml: null },
+          { nombre: "Betadine gel 10%", conc_mg_ml: null },
+          { nombre: "Topionic solución 10%", conc_mg_ml: null },
+          { nombre: "Betadine jabón 7,5% (lavado quirúrgico)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Antisepsia de heridas en > 6 meses",
+        "Antisepsia pre-procedimientos en niños mayores",
+        "Lavado quirúrgico de manos (jabón)",
+        "Curas de quemaduras leves-moderadas"
+      ],
+      contraindicaciones: [
+        "**Neonatos y lactantes < 6 meses** (uso rutinario; valorar caso por caso bajo control si imprescindible)",
+        "Hipersensibilidad al yodo",
+        "Hipertiroidismo no controlado, bocio nodular tóxico",
+        "Tratamiento simultáneo con litio (interacción con función tiroidea)",
+        "Antes y después de pruebas con yodo radiactivo o estudios tiroideos"
+      ],
+      precauciones: [
+        "Hipotiroidismo transitorio por absorción cutánea de yodo (lactantes, uso extenso, piel lesionada o quemada)",
+        "Tinción amarillo-marrón reversible de piel y tejidos",
+        "Dermatitis de contacto, raras veces anafilaxia",
+        "Reduce su actividad en presencia de sangre, pus o materia orgánica",
+        "**En heridas pediátricas habituales preferir clorhexidina acuosa**, especialmente en lactantes y zonas extensas"
       ]
     }
   },
@@ -4162,6 +5208,54 @@ const farmacos = [
 
   // ── T ─────────────────────────────────────────────────────
   {
+    nombre: "TACROLIMUS TÓPICO",
+    categoria: "Dermatología",
+    sinonimos: ["protopic", "tacrolimus pomada", "tacrolimus topico"],
+    isoColor: ISO.respiratorio,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Dermatitis atópica moderada-grave refractaria (≥ 2 años)",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 12,
+        duracion: "3 semanas brote, después mantenimiento 2 veces/semana",
+        nota: "Inhibidor de la calcineurina, inmunomodulador NO esteroideo. **Pediátrico (2-15 años): Protopic 0,03 % pomada**, dos veces al día hasta resolución (máx. 3 semanas), después reducir a 1 vez al día hasta control. **Mantenimiento proactivo**: 2 aplicaciones por semana sobre las zonas habitualmente afectas. **≥ 16 años: Protopic 0,1 %** dos veces al día hasta control, después igual mantenimiento. Edad mínima 2 años. Particularmente útil en **zonas donde los corticoides están desaconsejados (cara, párpados, pliegues)** porque NO produce atrofia cutánea. Sensación de quemazón/prurito al inicio (cede en pocos días). Evitar exposición solar intensa durante el tratamiento (fotoprotección obligatoria). NO usar con oclusión.",
+        preparados: [
+          { nombre: "Protopic 0,03% pomada (2-15 años)", conc_mg_ml: null },
+          { nombre: "Protopic 0,1% pomada (≥ 16 años)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Dermatitis atópica moderada-grave refractaria a corticoides tópicos (≥ 2 años)",
+        "Dermatitis atópica en zonas sensibles (cara, párpados, pliegues, cuello)",
+        "Mantenimiento proactivo en dermatitis atópica recidivante",
+        "Vitíligo segmentario (uso off-label)",
+        "Dermatosis inflamatorias seleccionadas"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a tacrolimus o macrólidos",
+        "< 2 años (datos limitados; aprobación a partir de 2 años)",
+        "Infecciones cutáneas activas (víricas, bacterianas, fúngicas) no tratadas",
+        "Inmunodeficiencia primaria o adquirida",
+        "Lesiones premalignas o malignas cutáneas"
+      ],
+      precauciones: [
+        "**Quemazón, prurito o eritema** transitorios al inicio (60-70% de pacientes; suele ceder en 1-2 semanas)",
+        "Fotoprotección obligatoria durante el tratamiento (riesgo teórico de fotocarcinogénesis)",
+        "Evitar consumo de alcohol durante uso (rubor facial)",
+        "Riesgo aumentado de infección herpética cutánea (eccema herpeticum): evitar contacto con personas con herpes activo",
+        "Reservar para casos refractarios a corticoides tópicos (no es primera línea)"
+      ]
+    }
+  },
+
+  {
     nombre: "TERBUTALINA",
     categoria: "Respiratorio",
     sinonimos: ["terbasmin", "terbutalina", "bricanyl"],
@@ -4202,6 +5296,48 @@ const farmacos = [
         "Hiperglucemia, acidosis láctica con dosis altas mantenidas",
         "Monitorización ECG continua si IV/perfusión",
         "En UCIP iniciar 0,1-0,4 mcg/kg/min y titular según respuesta"
+      ]
+    }
+  },
+
+  {
+    nombre: "TOBRAMICINA OFTÁLMICA",
+    categoria: "Oftalmología",
+    sinonimos: ["tobrex", "tobradex", "tobramicina colirio"],
+    isoColor: ISO.antibiotico,
+    icono: "👁️",
+    vias: ["oft"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Conjuntivitis bacteriana / Blefaritis",
+        via: "oft",
+        dosis_fija_mg: 0,
+        intervalo_h: 4,
+        duracion: "7 días (revaluar a las 48-72 h)",
+        nota: "Colirio 0,3% (3 mg/ml) o pomada oftálmica 0,3% (3 mg/g). Posología estándar: 1-2 gotas en cada ojo afecto cada 4-6 h. En infecciones graves los 2 primeros días: 1 gota cada 30 min - 1 h, después espaciar a 4-6 h. Edad mínima: sin restricción (uso desde neonatos posible bajo control). Si no mejora en 48-72 h, reevaluar diagnóstico.",
+        preparados: [
+          { nombre: "Tobrex colirio 3 mg/ml (5 ml multidosis)", conc_mg_ml: 3 },
+          { nombre: "Tobrex pomada oftálmica 3 mg/g", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Conjuntivitis bacteriana aguda",
+        "Blefaritis bacteriana",
+        "Queratitis bacteriana (uso especializado)",
+        "Profilaxis post-cirugía ocular"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a aminoglucósidos"
+      ],
+      precauciones: [
+        "Escozor o picor transitorios",
+        "No usar > 7-10 días (resistencias, sobreinfección por hongos)",
+        "Retirar lentes de contacto durante el tratamiento",
+        "La mayoría de conjuntivitis pediátricas son víricas: limitar uso a casos con signos de bacteriana (secreción purulenta, edema palpebral, etc.)"
       ]
     }
   },
@@ -4304,6 +5440,58 @@ const farmacos = [
         "Nefrotoxicidad y ototoxicidad (dependientes de dosis y duración)",
         "Monitorización de niveles y función renal",
         "Ajuste en insuficiencia renal"
+      ]
+    }
+  },
+
+  {
+    nombre: "VASELINA / EMOLIENTES",
+    categoria: "Dermatología",
+    sinonimos: ["vaselina", "emoliente", "emolientes", "lipikar", "atopiclair", "cetaphil", "eucerin", "avene trixera", "lutsine", "exomega", "stelatopia", "bepanthol sensiderm", "lipikar baume"],
+    isoColor: ISO.neutral,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / Consenso AEDV",
+    intermitente: [
+      {
+        indicacion: "Mantenimiento de piel atópica / Xerosis / Profilaxis de brotes",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 8,
+        duracion: "Crónica (a largo plazo, mantenimiento permanente)",
+        nota: "**Base del tratamiento de la dermatitis atópica**. Aplicar generosamente sobre toda la superficie de piel seca, **al menos 2-3 veces al día**, especialmente tras el baño con la piel todavía húmeda (técnica «soak & seal»). Usar **150-200 g/semana en lactantes** y **250-500 g/semana en niños mayores** para que sea eficaz. Sin restricción de edad: utilizable desde el periodo neonatal. Reduce la frecuencia y severidad de los brotes, mejora la función barrera cutánea, disminuye la necesidad de corticoides tópicos y ahorra antihistamínicos. **Tipos**: pomada (oclusión máxima, piel muy seca o liquenificada), bálsamo (intermedio), crema (uso diurno, mejor cosmética), loción (zonas extensas, verano). Los **emolientes con activos** (ceramidas, glicerol, urea pediátrica al 5-10%, omega 6) son superiores a la vaselina pura en piel atópica. La **vaselina pura** sigue siendo válida y económica.",
+        preparados: [
+          { nombre: "Vaselina filante pura (fórmula magistral)", conc_mg_ml: null },
+          { nombre: "Lipikar Baume AP+ (La Roche-Posay)", conc_mg_ml: null },
+          { nombre: "Atopiclair crema (no esteroideo)", conc_mg_ml: null },
+          { nombre: "Eucerin AtopiControl", conc_mg_ml: null },
+          { nombre: "Avène Trixera+", conc_mg_ml: null },
+          { nombre: "Lutsine Stelatopia (Mustela)", conc_mg_ml: null },
+          { nombre: "Aveeno Skin Relief (avena coloidal)", conc_mg_ml: null },
+          { nombre: "Bepanthol Sensiderm crema", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Dermatitis atópica — base del tratamiento (todas las edades, todas las gravedades)",
+        "Xerosis cutánea (piel seca constitucional)",
+        "Prevención de brotes de eccema",
+        "Piel sensible o reactiva tras tratamiento con corticoides tópicos",
+        "Profilaxis de irritación cutánea (frío, viento, agua dura, baño frecuente)",
+        "Cuidados de la piel neonatal (uso liberal)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a alguno de los excipientes (revisar formulación si hay dermatitis alérgica)",
+        "Heridas infectadas o lesiones exudativas francas: tratar primero, después emoliente"
+      ],
+      precauciones: [
+        "**Cantidad importa**: 250-500 g/semana en niños — la mayoría de los fallos terapéuticos en atopía se deben a uso insuficiente",
+        "Aplicar tras el baño (15 min) sobre piel ligeramente húmeda para mayor eficacia",
+        "Evitar fragancias y conservantes potencialmente sensibilizantes en piel atópica (revisar composición)",
+        "La vaselina pura puede manchar la ropa: usar formulaciones cosméticas para el día",
+        "En brote activo: combinar con corticoide tópico — primero corticoide, esperar 15-30 min, después emoliente"
       ]
     }
   },
