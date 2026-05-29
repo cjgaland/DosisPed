@@ -3536,13 +3536,23 @@ const farmacos = [
         ]
       },
       {
-        indicacion: "IV (hospitalizado)",
+        indicacion: "IV — Lactantes < 10 kg (incluye neonatos)",
+        via: "iv",
+        dosis_mg_kg: 7.5,
+        intervalo_h: 6,
+        nota: "Pediamécum: < 10 kg → 7,5 mg/kg/dosis cada 6 h, máx. 30 mg/kg/día. Neonatos a término: 7,5 mg/kg cada 4-6 h (máx. 30 mg/kg/día). Pretérminos > 32 sem: 7,5 mg/kg cada 8-12 h. Infusión en 15 min. ⚠️ La dosis de 15 mg/kg solo aplica a partir de 10 kg.",
+        preparados: [
+          { nombre: "Perfalgan IV 10 mg/ml", conc_mg_ml: 10 }
+        ]
+      },
+      {
+        indicacion: "IV — Niños y adolescentes ≥ 10 kg",
         via: "iv",
         dosis_mg_kg: 15,
         intervalo_h: 6,
         dosis_max_mg: 1000,
         dosis_max_dia_mg: 4000,
-        nota: "< 10 kg: 7,5 mg/kg/dosis cada 6 h (máx. 30 mg/kg/día). 10-33 kg: 15 mg/kg/dosis (máx. 60 mg/kg/día, sin superar 2 g/día). > 33 kg: dosis adulto. Infusión en 15 min.",
+        nota: "Pediamécum: 10-33 kg → 15 mg/kg/dosis cada 6 h (máx. 60 mg/kg/día, sin superar 2 g/día). 33-50 kg → 15 mg/kg/dosis (máx. 3 g/día). > 50 kg → 1 g cada 6 h (máx. 4 g/día). Infusión en 15 min.",
         preparados: [
           { nombre: "Perfalgan IV 10 mg/ml", conc_mg_ml: 10 }
         ]
