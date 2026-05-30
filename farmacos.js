@@ -834,6 +834,48 @@ const farmacos = [
   },
 
   {
+    nombre: "BILASTINA",
+    categoria: "Antihistamínico",
+    sinonimos: ["bilaxten", "ibis", "bilastina"],
+    isoColor: ISO.respiratorio,
+    icono: "🤧",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Rinitis alérgica / urticaria — pauta por edad",
+        via: "oral",
+        dosis_fija_mg: 10,
+        intervalo_h: 24,
+        nota: "Antihistamínico H1 de 2.ª generación, no sedante. Pauta por edad: 6-11 años (≥ 20 kg) → 10 mg/día; ≥ 12 años → 20 mg/día. Una sola toma al día. ⚠️ Tomar SIEMPRE con el estómago vacío: 1 h antes o 2 h después de las comidas y, sobre todo, evitar zumos de frutas (reducen mucho su absorción). No requiere ajuste en insuficiencia renal ni hepática. Apenas se metaboliza y tiene muy pocas interacciones.",
+        preparados: [
+          { nombre: "Bilaxten 10 mg comprimidos bucodispersables", conc_mg_ml: null },
+          { nombre: "Bilaxten 20 mg comprimidos", conc_mg_ml: null },
+          { nombre: "Bilaxten / Ibis 2,5 mg/ml solución oral", conc_mg_ml: 2.5 }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Rinitis alérgica estacional y perenne (≥ 6 años)",
+        "Urticaria crónica idiopática (≥ 6 años)",
+        "Conjuntivitis alérgica (coadyuvante)"
+      ],
+      contraindicaciones: [
+        "< 6 años (datos limitados)",
+        "Hipersensibilidad al fármaco"
+      ],
+      precauciones: [
+        "Tomar con el estómago vacío (alimentos y zumos reducen la absorción hasta un 30-40 %)",
+        "No sedante a dosis recomendadas; somnolencia y cefalea poco frecuentes",
+        "Sin ajuste necesario en insuficiencia renal o hepática",
+        "Precaución si se combina con inhibidores de la glicoproteína P (ketoconazol, eritromicina, ciclosporina): aumentan sus niveles"
+      ]
+    }
+  },
+
+  {
     nombre: "BROMURO DE IPRATROPIO",
     categoria: "Respiratorio",
     sinonimos: ["ipratropio", "atrovent"],

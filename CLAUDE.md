@@ -649,7 +649,7 @@ GitHub puede pedir credenciales en la primera vez. Indicarle al usuario que:
 
 ## 13. Estado actual (mayo 2026)
 
-- **148 fármacos** en `farmacos.js`, orden alfabético
+- **149 fármacos** en `farmacos.js`, orden alfabético
 - Categorías ampliadas con **Oftalmología** y **Dermatología**
 - Nuevas vías con badge propio: `oft` (oftálmica), `top` (tópica), `in` (intranasal)
 - **Lotes ya realizados**:
