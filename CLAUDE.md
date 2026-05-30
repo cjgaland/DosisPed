@@ -642,7 +642,7 @@ GitHub puede pedir credenciales en la primera vez. Indicarle al usuario que:
 
 ## 13. Estado actual (mayo 2026)
 
-- **131 fármacos** en `farmacos.js`, orden alfabético
+- **148 fármacos** en `farmacos.js`, orden alfabético
 - Categorías ampliadas con **Oftalmología** y **Dermatología**
 - Nuevas vías con badge propio: `oft` (oftálmica), `top` (tópica), `in` (intranasal)
 - **Lotes ya realizados**:
@@ -655,6 +655,9 @@ GitHub puede pedir credenciales en la primera vez. Indicarle al usuario que:
   - **Lote 7** (7 dermatológicos/cuidados): tacrolimus tópico/Protopic (inmunomodulador), calamina (prurito/varicela), vaselina y emolientes (Lipikar, Atopiclair, Eucerin, etc.), antiparasitarios capilares (dimeticona/Filvit primera línea, malatión/Filvit Malation reserva), antisépticos (clorhexidina/Cristalmina, povidona yodada/Betadine con aviso AEMPS para < 6 meses).
   - **Lote 8** (13 — antihelmínticos, inhaladores combinados, probióticos, UCIP, oftálmicos, óticos): antihelmínticos (mebendazol/Lomper, albendazol/Eskazole), inhaladores combinados LABA+ICS (formoterol+budesonida/Symbicort, salmeterol+fluticasona/Seretide), probióticos (Saccharomyces boulardii/Ultra-Levura, L. reuteri/BioGaia), UCIP avanzada (vasopresina, levosimendán), oftálmicos (lágrimas artificiales, tropicamida, ciclopentolato), óticos (ciprofloxacino/Cetraxal, ciprofloxacino+fluocinolona/Cetraxal Plus). **No incluida oximetazolina** (descartada por el usuario por riesgo de vasoconstricción no controlada).
   - Nueva categoría añadida: **Otorrinolaringología** (gotas óticas).
+  - **Lote 9** (17): analgesia (morfina/cloruro mórfico, EMLA lidocaína+prilocaína, naproxeno, dexketoprofeno), digestivo GEA (racecadotrilo/Tiorfan, sales de rehidratación oral, zinc oral, domperidona con aviso AEMPS de QT), urgencias/UCIP (ácido tranexámico, suero salino hipertónico 3%, manitol, cloruro potásico con aviso de no-bolo), otros (deflazacort/Zamene, loratadina, lorazepam, sulfadiazina argéntica/Silvederma, fenazona+lidocaína ótica/Otitex).
+  - **Mejora de búsqueda**: full-text en indicaciones/notas/categoría/vías (NO contraindicaciones), normalización sin acentos, botón limpiar (✕), tecla Escape, contador de resultados, etiqueta de coincidencia con resaltado, y orden por relevancia (indicación antes que nota). Implementado en `renderizarLista()` con `normalizar()`, `buscarEnFarmaco()`, `matchInicioPalabra()`.
+  - **Sistema de novedades / changelog**: constante `APP_VERSION` + array `NOVEDADES` (changelog) en `app.js`. Tras actualizar, los usuarios EXISTENTES ven una vez el modal `#modal-novedades` (elegante, estilo bienvenida) y una **campana 🔔** en el header (`#btn-novedades`) que brilla (`btn-novedades--activa`) hasta leerlas; al leer se apaga y se guarda `dosisped-version-vista`. Los usuarios NUEVOS solo ven la bienvenida (se registra la versión silenciosamente). Historial completo de versiones en el modal "Acerca de" (`#historial-versiones`, `renderHistorialVersiones()`). Funciones: `gestionarNovedades()`, `abrirModalNovedades()`, `cerrarModalNovedades()`, `activarCampana()`, `esUsuarioExistente()`. **Para añadir una versión**: insertar entrada al PRINCIPIO de `NOVEDADES` y actualizar `APP_VERSION` para que coincida con `NOVEDADES[0].version`.
 
 - **Funcionalidades implementadas**:
   - 4 modos de administración (intermitente, perfusión, carga+mant, puntual)

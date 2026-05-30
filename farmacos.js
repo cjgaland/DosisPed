@@ -186,6 +186,70 @@ const farmacos = [
   },
 
   {
+    nombre: "ÁCIDO TRANEXÁMICO",
+    categoria: "Hematología",
+    sinonimos: ["amchafibrin", "acido tranexamico", "tranexamico"],
+    isoColor: ISO.neutral,
+    icono: "💉",
+    vias: ["iv", "oral", "top"],
+    modos: ["intermitente", "puntual"],
+    fuente: "Pediamécum (AEP)",
+    puntual: {
+      descripcion: "Hemorragia aguda / Traumatismo grave (protocolo tipo CRASH-2)",
+      dosis_mg_kg: 15,
+      dosis_max_mg: 1000,
+      via: "IV en 10 min, después perfusión",
+      nota: "Antifibrinolítico. Hemorragia traumática grave: carga 15-20 mg/kg (máx. 1 g) IV en 10 min, seguido de 2 mg/kg/h (o 1 g en 8 h) en perfusión. Iniciar en las primeras 3 h del traumatismo. En hemorragia quirúrgica: 10-15 mg/kg previo a la incisión."
+    },
+    intermitente: [
+      {
+        indicacion: "Epistaxis / Sangrado mucoso / Menorragia",
+        via: "oral",
+        dosis_mg_kg: 20,
+        intervalo_h: 8,
+        dosis_max_mg: 1500,
+        duracion: "Según sangrado (menorragia: 3-5 días)",
+        nota: "15-25 mg/kg/dosis cada 8 h (máx. 1,5 g/dosis). Epistaxis recurrente, sangrado mucoso, menorragia en adolescentes, sangrado en enfermedad de von Willebrand o trombopatías. Aplicación tópica en epistaxis: empapar una torunda con la solución inyectable (100 mg/ml) y aplicar en la fosa.",
+        preparados: [
+          { nombre: "Amchafibrin comprimidos 500 mg", conc_mg_ml: null },
+          { nombre: "Amchafibrin ampolla 500 mg/5 ml (100 mg/ml) — IV, oral o tópico", conc_mg_ml: 100 }
+        ]
+      },
+      {
+        indicacion: "Profilaxis de sangrado en procedimientos (IV)",
+        via: "iv",
+        dosis_mg_kg: 10,
+        intervalo_h: 8,
+        dosis_max_mg: 1000,
+        nota: "10 mg/kg/dosis cada 6-8 h IV (máx. 1 g/dosis). Profilaxis perioperatoria en cirugía con riesgo hemorrágico (cardíaca, ORL, dental en coagulopatías). Administrar lento (riesgo de hipotensión y mareo con infusión rápida)."
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Hemorragia traumática grave (protocolo CRASH-2, primeras 3 h)",
+        "Epistaxis recurrente o grave",
+        "Menorragia en adolescentes",
+        "Sangrado en coagulopatías (von Willebrand, trombopatías, hemofilia con factor)",
+        "Profilaxis de sangrado perioperatorio"
+      ],
+      contraindicaciones: [
+        "Antecedente de enfermedad tromboembólica (TVP, TEP)",
+        "Coagulación intravascular activa",
+        "Insuficiencia renal grave (ajustar dosis)",
+        "Hematuria de origen en vías altas (riesgo de obstrucción por coágulos)",
+        "Convulsiones (relativa; descritas con dosis altas IV)"
+      ],
+      precauciones: [
+        "Riesgo trombótico — valorar antecedentes personales y familiares",
+        "Convulsiones con dosis altas IV (especialmente en cirugía cardíaca)",
+        "Ajuste de dosis en insuficiencia renal",
+        "Administrar IV lento (hipotensión, mareo con bolo rápido)",
+        "Náuseas, vómitos y diarrea con la vía oral"
+      ]
+    }
+  },
+
+  {
     nombre: "ADENOSINA",
     categoria: "Reanimación / UCIP",
     sinonimos: ["adenocor", "adenosina"],
@@ -1293,6 +1357,57 @@ const farmacos = [
   },
 
   {
+    nombre: "CLORURO POTÁSICO",
+    categoria: "Reanimación / UCIP",
+    sinonimos: ["cloruro potasico", "potasio", "clk", "kcl", "ap inyectable"],
+    isoColor: ISO.rea,
+    icono: "⚡",
+    vias: ["iv", "oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / UCIP",
+    intermitente: [
+      {
+        indicacion: "Hipopotasemia — corrección IV",
+        via: "iv",
+        dosis_mg_kg: 37,
+        intervalo_h: 6,
+        nota: "Dosis: 0,5-1 mEq/kg/dosis (1 mEq KCl = 74,5 mg) en perfusión. ⚠️ NUNCA administrar en bolo IV directo (riesgo de parada cardíaca). Velocidad máxima: 0,25-0,5 mEq/kg/h (excepcionalmente hasta 1 mEq/kg/h con monitorización ECG continua en UCIP). Concentración máxima: 40 mEq/L por vía periférica; hasta 80 mEq/L por vía central. Diluir siempre en SSF o SG5%. Monitorizar K+ sérico y ECG."
+      },
+      {
+        indicacion: "Mantenimiento / Hipopotasemia leve (oral)",
+        via: "oral",
+        dosis_mg_kg_dia: 150,
+        intervalo_h: 8,
+        nota: "1-4 mEq/kg/día divididos en 2-4 tomas. Vía oral preferente en hipopotasemia leve-moderada sin cambios ECG. Tomar con alimentos para reducir irritación gástrica.",
+        preparados: [
+          { nombre: "Boi-K / Boi-K aspártico comprimidos efervescentes (10-25 mEq)", conc_mg_ml: null },
+          { nombre: "Potasion solución / cápsulas", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Hipopotasemia (pérdidas digestivas, diuréticos, alcalosis, cetoacidosis tratada)",
+        "Prevención de hipopotasemia en fluidoterapia de mantenimiento",
+        "Reposición en poliuria o pérdidas renales"
+      ],
+      contraindicaciones: [
+        "Hiperpotasemia",
+        "Insuficiencia renal con oligoanuria",
+        "Enfermedad de Addison no tratada",
+        "Administración IV en bolo (riesgo letal)"
+      ],
+      precauciones: [
+        "⚠️ NUNCA en bolo IV — parada cardíaca. Siempre diluido y en perfusión lenta",
+        "Monitorización ECG y K+ sérico en correcciones IV",
+        "Vía central si concentración > 40 mEq/L",
+        "Irritación venosa y dolor en vía periférica con concentraciones altas",
+        "Precaución con ahorradores de potasio, IECA, ARA-II (riesgo de hiperpotasemia)"
+      ]
+    }
+  },
+
+  {
     nombre: "CLOTRIMAZOL TÓPICO",
     categoria: "Dermatología",
     sinonimos: ["canesten", "clotrimazol", "gine-canesten"],
@@ -1618,6 +1733,53 @@ const farmacos = [
 
   // ── D ─────────────────────────────────────────────────────
   {
+    nombre: "DEFLAZACORT",
+    categoria: "Corticoide",
+    sinonimos: ["zamene", "deflazacort", "dezacor"],
+    isoColor: ISO.respiratorio,
+    icono: "💊",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Corticoterapia oral (asma, brotes inflamatorios, autoinmunes)",
+        via: "oral",
+        dosis_mg_kg: 1,
+        intervalo_h: 24,
+        dosis_max_mg: 90,
+        duracion: "Según indicación (pauta corta sin descenso si < 7 días)",
+        nota: "Corticoide oral de uso frecuente en España. **Equivalencia**: 6 mg de deflazacort ≈ 5 mg de prednisona/prednisolona. Dosis habitual 0,25-1,5 mg/kg/día en 1 toma matutina. Distrofia muscular de Duchenne: 0,9 mg/kg/día (indicación específica). Presentaciones en gotas (Zamene 22,75 mg/ml) y comprimidos.",
+        preparados: [
+          { nombre: "Zamene gotas 22,75 mg/ml (1 gota ≈ 1 mg)", conc_mg_ml: 22.75 },
+          { nombre: "Zamene comprimidos 6 / 30 mg", conc_mg_ml: null },
+          { nombre: "Dezacor gotas / comprimidos", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Asma agudo moderado-grave (alternativa a prednisolona)",
+        "Brotes de enfermedades autoinmunes e inflamatorias",
+        "Síndrome nefrótico (dosis altas)",
+        "Distrofia muscular de Duchenne (indicación específica)",
+        "Reacciones alérgicas, urticaria"
+      ],
+      contraindicaciones: [
+        "Infección sistémica no controlada",
+        "Varicela activa (uso sistémico)",
+        "Hipersensibilidad"
+      ],
+      precauciones: [
+        "Hiperglucemia, HTA, retención hidrosalina",
+        "No suspender bruscamente tras > 7-10 días",
+        "Inmunosupresión con dosis altas o prolongadas",
+        "Vigilar crecimiento en uso prolongado"
+      ]
+    }
+  },
+
+  {
     nombre: "DESLORATADINA",
     categoria: "Antihistamínico",
     sinonimos: ["aerius", "azomyr", "desloratadina"],
@@ -1770,6 +1932,51 @@ const farmacos = [
         "Excitación paradójica en lactantes",
         "Sequedad de boca, retención urinaria",
         "Potencia depresores SNC"
+      ]
+    }
+  },
+
+  {
+    nombre: "DEXKETOPROFENO",
+    categoria: "Analgesia / Antitérmico",
+    sinonimos: ["enantyum", "dexketoprofeno", "ketesse"],
+    isoColor: ISO.analgesia,
+    icono: "💊",
+    vias: ["oral", "iv"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / AEMPS",
+    intermitente: [
+      {
+        indicacion: "Dolor agudo leve-moderado (adolescentes)",
+        via: "oral",
+        dosis_fija_mg: 25,
+        intervalo_h: 8,
+        dosis_max_dia_mg: 75,
+        nota: "AINE. **No autorizado formalmente en < 18 años**, pero usado en adolescentes en algunos protocolos de dolor agudo. > 12 años / adolescentes: 12,5 mg cada 6-8 h o 25 mg cada 8 h (máx. 75 mg/día). Tomar con alimentos. Vía IV/IM (50 mg) en dolor moderado-intenso hospitalario en adolescentes. Preferir ibuprofeno o naproxeno en pediatría general (mejor evidencia).",
+        preparados: [
+          { nombre: "Enantyum comprimidos 12,5 / 25 mg", conc_mg_ml: null },
+          { nombre: "Enantyum granulado 25 mg sobre", conc_mg_ml: null },
+          { nombre: "Enantyum ampolla 50 mg/2 ml (IV/IM)", conc_mg_ml: 25 }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Dolor agudo leve-moderado en adolescentes (dental, traumático, dismenorrea)",
+        "Dolor postoperatorio (IV, adolescentes)"
+      ],
+      contraindicaciones: [
+        "< 12-18 años (uso fuera de ficha técnica; preferir ibuprofeno/naproxeno)",
+        "Úlcera péptica activa, hemorragia digestiva",
+        "Insuficiencia renal, hepática o cardíaca grave",
+        "Asma inducido por AINE, alergia a AINE",
+        "Deshidratación"
+      ],
+      precauciones: [
+        "Toxicidad gastrointestinal (tomar con alimentos, valorar gastroprotección)",
+        "Nefrotoxicidad — evitar en deshidratación o hipovolemia",
+        "No combinar con otros AINE",
+        "En pediatría general son preferibles ibuprofeno y naproxeno"
       ]
     }
   },
@@ -1999,6 +2206,52 @@ const farmacos = [
   },
 
   {
+    nombre: "DOMPERIDONA",
+    categoria: "Antiemético",
+    sinonimos: ["motilium", "domperidona"],
+    isoColor: ISO.digestivo,
+    icono: "🤢",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / AEMPS",
+    intermitente: [
+      {
+        indicacion: "Náuseas y vómitos (uso restringido por AEMPS)",
+        via: "oral",
+        dosis_mg_kg: 0.25,
+        intervalo_h: 8,
+        dosis_max_mg: 10,
+        dosis_max_dia_mg: 30,
+        duracion: "Máximo 7 días",
+        nota: "⚠️ **Uso restringido (AEMPS 2014)** por riesgo de arritmias ventriculares y prolongación del QT. Solo para náuseas y vómitos (ya NO para reflujo ni trastornos de motilidad). Dosis: 0,25 mg/kg hasta 3 veces al día (máx. 0,75 mg/kg/día; máx. 10 mg/dosis). Duración máxima 7 días. **Restringido a niños y adolescentes** con peso bajo control; usar la dosis eficaz más baja durante el menor tiempo posible. La mayoría de los vómitos del lactante no requieren tratamiento farmacológico.",
+        preparados: [
+          { nombre: "Motilium suspensión 1 mg/ml", conc_mg_ml: 1 },
+          { nombre: "Motilium comprimidos 10 mg", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Náuseas y vómitos (único uso autorizado tras restricción AEMPS)"
+      ],
+      contraindicaciones: [
+        "Prolongación del QT, cardiopatía con riesgo de arritmia",
+        "Insuficiencia hepática moderada-grave",
+        "Uso concomitante con inhibidores potentes del CYP3A4 o fármacos que prolongan QT",
+        "Hemorragia, obstrucción o perforación gastrointestinal",
+        "Prolactinoma"
+      ],
+      precauciones: [
+        "Riesgo de arritmia ventricular y muerte súbita (dosis-dependiente): dosis mínima eficaz, duración ≤ 7 días",
+        "Vigilar ionograma (hipopotasemia/hipomagnesemia aumentan riesgo QT)",
+        "Síntomas extrapiramidales (raros, más en sobredosis)",
+        "Galactorrea, ginecomastia (efecto prolactínico)",
+        "En vómitos por gastroenteritis, el ondansetrón tiene mejor perfil de evidencia/seguridad"
+      ]
+    }
+  },
+
+  {
     nombre: "DOPAMINA",
     categoria: "Reanimación / UCIP",
     sinonimos: ["dopamina"],
@@ -2043,6 +2296,48 @@ const farmacos = [
   },
 
   // ── E ─────────────────────────────────────────────────────
+  {
+    nombre: "EMLA (LIDOCAÍNA + PRILOCAÍNA)",
+    categoria: "Analgesia / Sedación",
+    sinonimos: ["emla", "lidocaina prilocaina", "anestesico topico", "crema anestesica"],
+    isoColor: ISO.neuro,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["puntual"],
+    fuente: "Pediamécum (AEP)",
+    puntual: {
+      descripcion: "Anestesia tópica para punciones y procedimientos cutáneos",
+      dosis_fija_mg: 0,
+      via: "Tópica — aplicar capa gruesa bajo apósito oclusivo",
+      nota: "Crema de lidocaína 2,5% + prilocaína 2,5%. Aplicar capa gruesa (≈ 1-2 g por zona) cubierta con apósito oclusivo. **Tiempo de actuación: 60 min** antes de punción venosa/capilar; **120 min** para procedimientos más profundos (retirar 15 min antes). **Dosis máxima por riesgo de metahemoglobinemia (prilocaína)**: 0-3 meses o < 5 kg → máx. 1 g y 10 cm², ≤ 1 h. 3-12 meses y > 5 kg → máx. 2 g y 20 cm². 1-6 años y > 10 kg → máx. 10 g y 100 cm². 6-12 años y > 20 kg → máx. 20 g y 200 cm². No aplicar sobre mucosas, heridas abiertas ni piel atópica extensa.",
+      preparados: [
+        { nombre: "EMLA crema 5% (lidocaína 25 mg/g + prilocaína 25 mg/g)", conc_mg_ml: null },
+        { nombre: "EMLA parche (1 g, 10 cm²)", conc_mg_ml: null }
+      ]
+    },
+    info: {
+      indicaciones: [
+        "Anestesia previa a punción venosa, capilar o arterial",
+        "Punción lumbar, paracentesis, artrocentesis (analgesia superficial)",
+        "Curas, desbridamiento superficial, retirada de moluscos",
+        "Vacunación en niños con fobia a agujas (uso individualizado)"
+      ],
+      contraindicaciones: [
+        "Metahemoglobinemia congénita o idiopática",
+        "Hipersensibilidad a anestésicos locales tipo amida",
+        "Prematuros < 37 semanas",
+        "Heridas abiertas, mucosas, ojos"
+      ],
+      precauciones: [
+        "Metahemoglobinemia (prilocaína) — respetar dosis y tiempo máximos, sobre todo en lactantes < 3 meses",
+        "No superar la superficie ni el tiempo de aplicación recomendados",
+        "Precaución con otros fármacos metahemoglobinizantes (sulfamidas, nitratos, paracetamol a dosis altas)",
+        "Palidez o eritema local transitorios en la zona de aplicación",
+        "Vasoconstricción inicial seguida de vasodilatación: puede dificultar la canalización si se retira tarde"
+      ]
+    }
+  },
+
   {
     nombre: "ENALAPRIL",
     categoria: "Cardiología",
@@ -2301,6 +2596,49 @@ const farmacos = [
   },
 
   // ── F ─────────────────────────────────────────────────────
+  {
+    nombre: "FENAZONA + LIDOCAÍNA ÓTICA",
+    categoria: "Otorrinolaringología",
+    sinonimos: ["otitex", "otalgan", "fenazona lidocaina", "gotas oido dolor"],
+    isoColor: ISO.analgesia,
+    icono: "👂",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Otalgia en otitis media con tímpano íntegro",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 8,
+        duracion: "1-3 días (analgesia sintomática)",
+        nota: "Gotas óticas con fenazona (analgésico) + lidocaína o clorhidrato de procaína (anestésico local). **Posología**: 3-4 gotas en el conducto auditivo del oído afecto cada 6-8 h durante 1-3 días, solo para alivio del dolor. ⚠️ **CONTRAINDICADO si hay perforación timpánica o tubos de drenaje** (la lidocaína no debe contactar con el oído medio). Verificar SIEMPRE la integridad del tímpano (otoscopia) antes de prescribir. Es un tratamiento sintomático del dolor, NO trata la infección — la otitis media puede requerir antibiótico sistémico según criterios.",
+        preparados: [
+          { nombre: "Otitex gotas óticas (fenazona + lidocaína)", conc_mg_ml: null },
+          { nombre: "Otalgan gotas óticas", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Alivio sintomático de la otalgia en otitis media aguda con tímpano íntegro",
+        "Dolor en otitis externa leve (con tímpano íntegro)",
+        "Analgesia previa a la extracción de tapón de cerumen"
+      ],
+      contraindicaciones: [
+        "Perforación timpánica o tubos de timpanostomía (drenajes)",
+        "Hipersensibilidad a fenazona (pirazolonas) o anestésicos locales",
+        "Otorrea (sugiere perforación)"
+      ],
+      precauciones: [
+        "Verificar integridad timpánica con otoscopia ANTES de instilar",
+        "Es analgesia sintomática: no sustituye al tratamiento etiológico de la otitis",
+        "No usar más de 3 días sin reevaluación",
+        "Calentar el frasco entre las manos antes de instilar (evita vértigo)"
+      ]
+    }
+  },
+
   {
     nombre: "FAMOTIDINA",
     categoria: "Digestivo",
@@ -3832,6 +4170,85 @@ const farmacos = [
   },
 
   {
+    nombre: "LORATADINA",
+    categoria: "Antihistamínico",
+    sinonimos: ["clarityne", "loratadina", "civeran"],
+    isoColor: ISO.respiratorio,
+    icono: "🤧",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Rinitis alérgica / urticaria — pauta por peso",
+        via: "oral",
+        dosis_fija_mg: 5,
+        intervalo_h: 24,
+        nota: "Antihistamínico H1 de 2.ª generación, no sedante. Pauta por peso/edad: 2-12 años con < 30 kg → 5 mg/día (5 ml jarabe); ≥ 30 kg o > 12 años → 10 mg/día. Una sola toma diaria. Edad mínima 2 años. Inicio del efecto en 1-3 h, duración 24 h.",
+        preparados: [
+          { nombre: "Clarityne jarabe 1 mg/ml (5 mg/5 ml)", conc_mg_ml: 1 },
+          { nombre: "Clarityne comprimidos 10 mg", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Rinitis alérgica estacional y perenne (≥ 2 años)",
+        "Urticaria crónica idiopática",
+        "Conjuntivitis alérgica (coadyuvante)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad al fármaco",
+        "Insuficiencia hepática grave (ajustar dosis)"
+      ],
+      precauciones: [
+        "Sedación poco frecuente (2.ª generación)",
+        "Cefalea, sequedad de boca",
+        "Ajustar en insuficiencia hepática grave",
+        "Sin efecto significativo sobre QTc a dosis recomendadas"
+      ]
+    }
+  },
+
+  {
+    nombre: "LORAZEPAM",
+    categoria: "Antiepiléptico / Sedante",
+    sinonimos: ["orfidal", "lorazepam", "idalprem"],
+    isoColor: ISO.neuro,
+    icono: "🧠",
+    vias: ["iv", "sl", "oral"],
+    modos: ["puntual"],
+    fuente: "SEUP / Pediamécum",
+    puntual: {
+      descripcion: "Estatus epiléptico / Crisis convulsiva activa",
+      dosis_mg_kg: 0.1,
+      dosis_max_mg: 4,
+      via: "IV lento (máx. 2 mg/min). Alternativa sublingual/oral en ansiólisis.",
+      nota: "Benzodiacepina de elección en estatus epiléptico junto a midazolam y diazepam: 0,1 mg/kg IV (máx. 4 mg), administrar lento; puede repetirse a los 5-10 min. Su efecto anticonvulsivante dura más que el del diazepam. Si no hay acceso IV, el midazolam bucal/IM es preferible. Ansiólisis: 0,05 mg/kg sublingual u oral (máx. 2 mg). Vigilar depresión respiratoria. Antídoto: flumazenilo."
+    },
+    info: {
+      indicaciones: [
+        "Estatus epiléptico (benzodiacepina de primera línea)",
+        "Crisis convulsiva activa",
+        "Ansiólisis/sedación previa a procedimientos (sublingual/oral)",
+        "Agitación aguda en adolescentes (uso seleccionado)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a benzodiacepinas",
+        "Insuficiencia respiratoria grave sin soporte",
+        "Miastenia gravis",
+        "Glaucoma de ángulo cerrado agudo"
+      ],
+      precauciones: [
+        "Depresión respiratoria — material de soporte ventilatorio disponible",
+        "Sedación prolongada (vida media intermedia-larga)",
+        "Antídoto: flumazenilo (uso muy cuidadoso si crisis activa)",
+        "Excitación paradójica en algunos niños"
+      ]
+    }
+  },
+
+  {
     nombre: "MALATIÓN 0,5%",
     categoria: "Dermatología",
     sinonimos: ["malation", "malatión", "filvit malation"],
@@ -3866,6 +4283,45 @@ const farmacos = [
         "Irritación del cuero cabelludo posible",
         "Evitar contacto con ojos y mucosas",
         "Examinar y tratar simultáneamente a contactos afectos"
+      ]
+    }
+  },
+
+  {
+    nombre: "MANITOL",
+    categoria: "Reanimación / UCIP",
+    sinonimos: ["manitol", "osmofundina"],
+    isoColor: ISO.rea,
+    icono: "💧",
+    vias: ["iv"],
+    modos: ["puntual"],
+    fuente: "SEUP / Pediamécum",
+    puntual: {
+      descripcion: "Hipertensión intracraneal / Edema cerebral",
+      dosis_mg_kg: 500,
+      via: "IV en 20-30 min, con filtro (riesgo de cristalización)",
+      nota: "Diurético osmótico. Dosis: 0,25-1 g/kg/dosis (250-1000 mg/kg) IV en 20-30 min, repetir cada 4-6 h según respuesta y osmolaridad. Equivalencia con manitol 20%: 1,25-5 ml/kg. **Usar siempre filtro** en el sistema (puede cristalizar; calentar el frasco si hay cristales). Mantener osmolaridad sérica < 320 mOsm/L. Monitorizar diuresis, ionograma y osmolaridad. Asegurar normovolemia (produce diuresis intensa). Alternativa: suero salino hipertónico 3%."
+    },
+    info: {
+      indicaciones: [
+        "Hipertensión intracraneal aguda (TCE, edema cerebral)",
+        "Edema cerebral de diversas causas",
+        "Profilaxis de fracaso renal en rabdomiólisis (uso seleccionado)",
+        "Glaucoma agudo (uso oftalmológico)"
+      ],
+      contraindicaciones: [
+        "Anuria por necrosis tubular establecida",
+        "Insuficiencia cardíaca congestiva grave / edema pulmonar",
+        "Hemorragia intracraneal activa no controlada",
+        "Deshidratación grave",
+        "Hiperosmolaridad (> 320 mOsm/L)"
+      ],
+      precauciones: [
+        "Usar filtro — el manitol cristaliza a bajas temperaturas",
+        "Efecto rebote de la presión intracraneal con uso repetido",
+        "Diuresis osmótica intensa: vigilar volemia, Na+, K+ y osmolaridad",
+        "Sobrecarga circulatoria transitoria en la fase inicial (precaución en cardiópatas)",
+        "Extravasación: irritación tisular"
       ]
     }
   },
@@ -4454,6 +4910,57 @@ const farmacos = [
   },
 
   {
+    nombre: "MORFINA",
+    categoria: "Analgesia / Sedación",
+    sinonimos: ["cloruro morfico", "morfina", "sevredol", "oramorph", "mst"],
+    isoColor: ISO.analgesia,
+    icono: "💉",
+    vias: ["iv", "oral", "sc"],
+    modos: ["puntual", "perfusion"],
+    fuente: "Pediamécum (AEP) / SEUP",
+    puntual: {
+      descripcion: "Dolor intenso / Analgesia mayor",
+      dosis_mg_kg: 0.1,
+      dosis_max_mg: 5,
+      via: "IV lento (en 5 min), SC o IM",
+      nota: "Opioide mayor. **IV: 0,05-0,1 mg/kg/dosis** (máx. 4-5 mg/dosis inicial) lento, repetible cada 2-4 h. **Oral: 0,2-0,5 mg/kg/dosis** cada 4 h (liberación inmediata). En lactantes < 6 meses reducir dosis (mayor sensibilidad respiratoria). Titular según respuesta y sedación. Disponer SIEMPRE de naloxona y material de soporte respiratorio. Vigilar nivel de conciencia, frecuencia respiratoria y SatO2."
+    },
+    presentaciones: [
+      {
+        label: "Perfusión continua — 1 mg/ml (UCIP)",
+        dosis_mg: 50, dilucion_ml: 50, suero: "SSF",
+        concUgMl: (50 * 1000) / 50,             // 1000 mcg/ml
+        dosisRange: "10 – 40 mcg/kg/h",
+        dosisMin: 10, softMax: 40, hardMax: 60,
+        unidad: "mcg/kg/h", calcTipo: "mcg_kg_h"
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Dolor agudo intenso (postoperatorio, traumático, oncológico, quemaduras)",
+        "Sedoanalgesia en UCIP (perfusión continua)",
+        "Dolor en cuidados paliativos pediátricos",
+        "Edema agudo de pulmón (uso seleccionado)",
+        "Crisis vasooclusiva drepanocítica"
+      ],
+      contraindicaciones: [
+        "Depresión respiratoria sin soporte ventilatorio",
+        "Hipersensibilidad a opioides",
+        "Íleo paralítico, obstrucción intestinal",
+        "Traumatismo craneal con alteración de conciencia (relativa, enmascara signos)",
+        "Hipotensión grave no corregida"
+      ],
+      precauciones: [
+        "Depresión respiratoria dosis-dependiente — antídoto: naloxona, material de RCP disponible",
+        "Mayor sensibilidad en lactantes < 6 meses y prematuros: reducir dosis",
+        "Hipotensión, bradicardia, liberación de histamina (prurito, broncoespasmo)",
+        "Estreñimiento, retención urinaria, náuseas",
+        "Tolerancia y dependencia con uso prolongado (retirada gradual)"
+      ]
+    }
+  },
+
+  {
     nombre: "MUPIROCINA TÓPICA",
     categoria: "Dermatología",
     sinonimos: ["bactroban", "mupirocina", "plasimine"],
@@ -4526,6 +5033,53 @@ const farmacos = [
         "Síndrome de abstinencia en pacientes con dependencia (incluyendo neonatos de madre adicta)",
         "Resedación: vigilar 2-4 h tras la última dosis",
         "Edema agudo de pulmón (raro)"
+      ]
+    }
+  },
+
+  {
+    nombre: "NAPROXENO",
+    categoria: "Analgesia / Antitérmico",
+    sinonimos: ["naproxeno", "antalgin", "naprosyn"],
+    isoColor: ISO.analgesia,
+    icono: "💊",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Dolor / Antiinflamatorio (artritis idiopática juvenil)",
+        via: "oral",
+        dosis_mg_kg: 7,
+        intervalo_h: 12,
+        dosis_max_mg: 500,
+        dosis_max_dia_mg: 1000,
+        nota: "AINE de vida media larga (cómodo cada 12 h). Dolor: 5-7 mg/kg/dosis cada 12 h. Artritis idiopática juvenil: 10-15 mg/kg/día divididos en 2 tomas (máx. 1 g/día). Edad mínima ≥ 2 años. Tomar con alimentos. Útil cuando interesa una posología cómoda de 2 tomas al día frente al ibuprofeno (3-4 tomas).",
+        preparados: [
+          { nombre: "Naproxeno comprimidos 250 / 500 mg", conc_mg_ml: null },
+          { nombre: "Naproxeno sódico comprimidos 275 / 550 mg", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Artritis idiopática juvenil (AINE de elección por posología cómoda)",
+        "Dolor musculoesquelético, traumático",
+        "Dismenorrea en adolescentes",
+        "Dolor inflamatorio leve-moderado"
+      ],
+      contraindicaciones: [
+        "< 2 años (datos limitados)",
+        "Úlcera péptica activa, hemorragia digestiva",
+        "Insuficiencia renal, hepática o cardíaca grave",
+        "Asma inducido por AINE, alergia a AINE",
+        "Deshidratación / hipovolemia"
+      ],
+      precauciones: [
+        "Toxicidad gastrointestinal (tomar con alimentos)",
+        "Nefrotoxicidad — evitar en deshidratación",
+        "Fotosensibilidad",
+        "No combinar con otros AINE"
       ]
     }
   },
@@ -5323,6 +5877,50 @@ const farmacos = [
 
   // ── R ─────────────────────────────────────────────────────
   {
+    nombre: "RACECADOTRILO",
+    categoria: "Digestivo",
+    sinonimos: ["tiorfan", "racecadotrilo", "racecadotril"],
+    isoColor: ISO.digestivo,
+    icono: "💩",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Diarrea aguda (coadyuvante de la rehidratación)",
+        via: "oral",
+        dosis_mg_kg: 1.5,
+        intervalo_h: 8,
+        dosis_max_mg: 100,
+        duracion: "Hasta 2 deposiciones normales (máx. 7 días)",
+        nota: "Antidiarreico antisecretor (inhibidor de la encefalinasa). **1,5 mg/kg/dosis cada 8 h** (máx. 6 mg/kg/día). Edad mínima > 3 meses. SIEMPRE como complemento de la rehidratación oral, nunca en sustitución. A diferencia de la loperamida, no enlentece el tránsito (no produce íleo), por lo que es seguro en niños. Suspender al normalizarse las deposiciones o a los 7 días.",
+        preparados: [
+          { nombre: "Tiorfan lactantes 10 mg sobre granulado", conc_mg_ml: null },
+          { nombre: "Tiorfan niños 30 mg sobre granulado", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Diarrea aguda en lactantes (> 3 meses) y niños — coadyuvante de la rehidratación",
+        "Diarrea acuosa secretora"
+      ],
+      contraindicaciones: [
+        "< 3 meses",
+        "Hipersensibilidad al fármaco",
+        "Diarrea con sangre o fiebre alta (sospecha de diarrea invasiva: revaluar)",
+        "Insuficiencia hepática o renal (datos limitados)"
+      ],
+      precauciones: [
+        "NUNCA sustituye a la rehidratación oral — es complementario",
+        "No usar en diarrea con productos patológicos (sangre, moco, fiebre alta) sin valorar",
+        "Reacciones cutáneas (eritema, exantema): poco frecuentes",
+        "A diferencia de loperamida, no causa íleo ni distensión (seguro en pediatría)"
+      ]
+    }
+  },
+
+  {
     nombre: "RANITIDINA",
     categoria: "Digestivo",
     sinonimos: ["ranitidina", "zantac"],
@@ -5557,6 +6155,51 @@ const farmacos = [
   },
 
   {
+    nombre: "SALES DE REHIDRATACIÓN ORAL",
+    categoria: "Digestivo",
+    sinonimos: ["sro", "sueroral", "bioralsuero", "isotonar", "citorsal", "rehidratacion", "suero oral"],
+    isoColor: ISO.digestivo,
+    icono: "💧",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / ESPGHAN",
+    intermitente: [
+      {
+        indicacion: "Deshidratación leve-moderada por gastroenteritis aguda",
+        via: "oral",
+        dosis_mg_kg: 50,
+        intervalo_h: 4,
+        nota: "Pilar del tratamiento de la GEA. Usar **SRO hiposódicas (Na 60 mmol/L, osmolaridad ~240, según ESPGHAN)**, NO preparados caseros ni bebidas isotónicas deportivas. **Rehidratación**: reponer el déficit estimado en 3-4 h — leve (3-5%): 30-50 ml/kg; moderada (6-9%): 50-100 ml/kg, ofrecido en tomas pequeñas y frecuentes (5-10 ml cada 1-2 min con jeringa o cucharilla). **Mantenimiento de pérdidas**: 5-10 ml/kg por cada deposición líquida y 2-5 ml/kg por vómito. Continuar la alimentación normal en cuanto se corrija la deshidratación. Si vómitos: valorar ondansetrón. Si fracaso de la vía oral: rehidratación por SNG o IV.",
+        preparados: [
+          { nombre: "Sueroral Hyposódico sobres (Na 60 mmol/L)", conc_mg_ml: null },
+          { nombre: "Bioralsuero / Bi-OralSuero (botella lista para usar)", conc_mg_ml: null },
+          { nombre: "Isotonar / Citorsal / Recuperat-ion sobres", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Deshidratación leve-moderada por gastroenteritis aguda (primera elección)",
+        "Prevención de la deshidratación en GEA",
+        "Reposición de pérdidas en diarrea aguda",
+        "Rehidratación de mantenimiento tras corrección IV"
+      ],
+      contraindicaciones: [
+        "Deshidratación grave (> 9%) o shock (requiere rehidratación IV)",
+        "Íleo paralítico u obstrucción intestinal",
+        "Alteración del nivel de conciencia (riesgo de aspiración)",
+        "Vómitos incoercibles sin respuesta a antieméticos"
+      ],
+      precauciones: [
+        "Usar SRO hiposódicas de osmolaridad reducida — NO refrescos, zumos ni bebidas deportivas (hiperosmolares, empeoran la diarrea)",
+        "Ofrecer en tomas pequeñas y frecuentes (mejor tolerancia que grandes volúmenes)",
+        "No interrumpir la lactancia materna durante la rehidratación",
+        "Reintroducir alimentación normal precozmente (no dietas restrictivas)"
+      ]
+    }
+  },
+
+  {
     nombre: "SALMETEROL + FLUTICASONA",
     categoria: "Respiratorio",
     sinonimos: ["seretide", "anasma", "plusvent", "inaladuo", "salmeterol fluticasona"],
@@ -5638,6 +6281,99 @@ const farmacos = [
         "Hipertermia maligna: emergencia médica (dantroleno)",
         "Mialgias postoperatorias frecuentes",
         "Aumento de presión intracraneal e intragástrica"
+      ]
+    }
+  },
+
+  {
+    nombre: "SUERO SALINO HIPERTÓNICO 3%",
+    categoria: "Reanimación / UCIP",
+    sinonimos: ["salino hipertonico", "ssh", "suero hipertonico", "nacl 3%", "suero salino 3%"],
+    isoColor: ISO.rea,
+    icono: "💧",
+    vias: ["iv", "neb"],
+    modos: ["puntual", "intermitente"],
+    fuente: "SEUP / Pediamécum / UCIP",
+    puntual: {
+      descripcion: "Hipertensión intracraneal / Hiponatremia sintomática grave",
+      dosis_mg_kg: 0,
+      via: "IV en 10-20 min (vía central preferente para uso repetido)",
+      nota: "**HTIC**: 3-5 ml/kg de SSH 3% IV en 10-20 min (puede repetirse); alternativa al manitol, con ventaja en el paciente hipovolémico o hipotenso. **Hiponatremia sintomática grave (convulsiones por Na < 120)**: 2-5 ml/kg de SSH 3% en 10-20 min hasta ceder los síntomas; objetivo subir Na 4-6 mEq/L de forma aguda. ⚠️ NO corregir la natremia crónica más de 8-10 mEq/L en 24 h (riesgo de mielinólisis pontina). 1 ml de SSH 3% ≈ 0,5 mEq de Na. Monitorizar Na+ seriado. Vía central si uso repetido (osmolaridad alta, flebitis)."
+    },
+    intermitente: [
+      {
+        indicacion: "Bronquiolitis aguda — nebulizado (uso controvertido)",
+        via: "neb",
+        dosis_fija_mg: 0,
+        intervalo_h: 8,
+        nota: "Nebulización de 4 ml de SSH 3% (a menudo con salbutamol o SSF para minimizar broncoespasmo). Puede reducir levemente la estancia en bronquiolitis moderada hospitalizada, aunque la evidencia es heterogénea y NO se recomienda de forma rutinaria. Vigilar broncoespasmo durante la nebulización (más en lactantes pequeños). No usar en urgencias de forma sistemática.",
+        preparados: [
+          { nombre: "Suero salino hipertónico 3% (preparado de farmacia/UCIP)", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Hipertensión intracraneal aguda (alternativa/complemento del manitol)",
+        "Hiponatremia sintomática grave (convulsiones, coma)",
+        "Bronquiolitis aguda nebulizado (uso individualizado, no rutinario)"
+      ],
+      contraindicaciones: [
+        "Hipernatremia",
+        "Hipervolemia / insuficiencia cardíaca congestiva (uso IV)",
+        "Corrección rápida de hiponatremia crónica (riesgo de mielinólisis)"
+      ],
+      precauciones: [
+        "Corregir la natremia despacio: máx. 8-10 mEq/L en 24 h (mielinólisis pontina)",
+        "Vía central preferente para infusiones repetidas (flebitis, osmolaridad)",
+        "Monitorización seriada de Na+ y osmolaridad",
+        "Nebulizado: vigilar broncoespasmo en lactantes",
+        "Sobrecarga de sodio y volumen: precaución en cardiópatas y nefrópatas"
+      ]
+    }
+  },
+
+  {
+    nombre: "SULFADIAZINA ARGÉNTICA",
+    categoria: "Dermatología",
+    sinonimos: ["silvederma", "flammazine", "sulfadiazina argentica", "sulfadiazina de plata"],
+    isoColor: ISO.antibiotico,
+    icono: "🧴",
+    vias: ["top"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP)",
+    intermitente: [
+      {
+        indicacion: "Quemaduras de 2.º y 3.er grado — profilaxis de infección",
+        via: "top",
+        dosis_fija_mg: 0,
+        intervalo_h: 12,
+        duracion: "Hasta epitelización (revaluar)",
+        nota: "Crema al 1% (10 mg/g). Aplicar una capa de **2-3 mm** sobre la quemadura limpia y desbridada, 1-2 veces al día, cubrir con apósito. Antiséptico de elección clásico en quemaduras para prevenir la infección. ⚠️ **Evitar en < 2 meses** (riesgo de kernicterus por la sulfamida) y en **déficit de G6PD** (hemólisis). Evitar la cara y superficies muy extensas (absorción). Puede retrasar levemente la epitelización; en quemaduras menores existen alternativas (apósitos hidrocoloides, tul graso).",
+        preparados: [
+          { nombre: "Silvederma crema 1% (10 mg/g)", conc_mg_ml: null },
+          { nombre: "Flammazine crema 1%", conc_mg_ml: null }
+        ]
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Quemaduras de 2.º y 3.er grado (profilaxis y tratamiento de infección)",
+        "Úlceras y heridas con riesgo de infección",
+        "Profilaxis de infección en pérdidas extensas de piel"
+      ],
+      contraindicaciones: [
+        "Lactantes < 2 meses (riesgo de kernicterus)",
+        "Déficit de glucosa-6-fosfato deshidrogenasa (G6PD)",
+        "Hipersensibilidad a sulfamidas o a la plata",
+        "Embarazo a término y lactancia (sobre zona amplia)"
+      ],
+      precauciones: [
+        "Leucopenia transitoria (frecuente, autolimitada): vigilar en uso extenso",
+        "Absorción sistémica de sulfamida en quemaduras extensas (vigilar función renal)",
+        "Argiria local (coloración grisácea) con uso muy prolongado",
+        "Puede retrasar la epitelización: revaluar según evolución",
+        "Evitar contacto con ojos y mucosas"
       ]
     }
   },
@@ -6236,6 +6972,56 @@ const farmacos = [
         "Reacciones anafilactoides con administración IV rápida — administrar lenta",
         "Sin contraindicación en lactancia materna",
         "Hiperbilirrubinemia con dosis altas en neonatos (especialmente prematuros)"
+      ]
+    }
+  },
+
+  // ── Z ─────────────────────────────────────────────────────
+  {
+    nombre: "ZINC ORAL",
+    categoria: "Digestivo",
+    sinonimos: ["zinc", "sulfato de zinc", "acetato de zinc", "zinc sulfato"],
+    isoColor: ISO.digestivo,
+    icono: "💊",
+    vias: ["oral"],
+    modos: ["intermitente"],
+    fuente: "Pediamécum (AEP) / OMS",
+    intermitente: [
+      {
+        indicacion: "Diarrea aguda en < 5 años (coadyuvante, recomendación OMS)",
+        via: "oral",
+        dosis_fija_mg: 20,
+        intervalo_h: 24,
+        duracion: "10-14 días",
+        nota: "Dosis expresada en zinc elemental. **< 6 meses: 10 mg/día; ≥ 6 meses: 20 mg/día** durante 10-14 días. Recomendación OMS/UNICEF junto con SRO en la diarrea aguda del menor de 5 años: reduce la duración y la gravedad del episodio y previene recurrencias en los meses siguientes. Mayor impacto demostrado en países de renta baja y en niños con riesgo de déficit de zinc; en países desarrollados con buen estado nutricional el beneficio es menor.",
+        preparados: [
+          { nombre: "Sulfato de zinc solución / sobres (fórmula magistral o registrada)", conc_mg_ml: null },
+          { nombre: "Acetato de zinc comprimidos (Wilzin — uso en enf. de Wilson)", conc_mg_ml: null }
+        ]
+      },
+      {
+        indicacion: "Acrodermatitis enteropática / déficit de zinc",
+        via: "oral",
+        dosis_mg_kg_dia: 1,
+        intervalo_h: 24,
+        nota: "Acrodermatitis enteropática (déficit congénito): 1-3 mg/kg/día de zinc elemental de mantenimiento. Déficit adquirido (nutrición parenteral prolongada, malabsorción, fibrosis quística): suplementar según niveles. Monitorizar zinc y cobre séricos en tratamientos prolongados (el zinc reduce la absorción de cobre)."
+      }
+    ],
+    info: {
+      indicaciones: [
+        "Diarrea aguda en < 5 años (coadyuvante de la rehidratación, OMS)",
+        "Acrodermatitis enteropática (déficit congénito de zinc)",
+        "Déficit de zinc adquirido (malabsorción, NP prolongada, fibrosis quística)",
+        "Enfermedad de Wilson (acetato de zinc, uso especializado)"
+      ],
+      contraindicaciones: [
+        "Hipersensibilidad a las sales de zinc"
+      ],
+      precauciones: [
+        "Náuseas y molestias gástricas (tomar con algo de alimento si hay intolerancia, aunque en ayunas se absorbe mejor)",
+        "El uso prolongado reduce la absorción de cobre: vigilar cobre sérico",
+        "Separar de la toma de hierro y de antibióticos (quinolonas, tetraciclinas): interfiere su absorción",
+        "El beneficio en diarrea es mayor en poblaciones con riesgo de déficit"
       ]
     }
   }

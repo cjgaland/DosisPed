@@ -19,6 +19,26 @@ const KEY_BIENV     = "dosisped-bienvenida-vista";
 const KEY_ULTIMO    = "dosisped-ultimo-farmaco";
 const KEY_HIST      = "dosisped-historial";
 const KEY_PAC_RX    = "dosisped-paciente-rx";
+const KEY_VERSION   = "dosisped-version-vista";
+
+// ── Versión y novedades (changelog) ────────────────────────
+// APP_VERSION = id de la versión más reciente (debe coincidir con NOVEDADES[0].version).
+// Al añadir una versión, insertar su entrada AL PRINCIPIO del array y actualizar APP_VERSION.
+const APP_VERSION = "2026.06";
+const NOVEDADES = [
+  {
+    version: "2026.06",
+    fecha: "Junio 2026",
+    titulo: "Búsqueda inteligente y 17 fármacos nuevos",
+    cambios: [
+      "Búsqueda por indicación: escribe «meningitis», «candidiasis» o «epistaxis» y verás los fármacos relevantes, no solo por su nombre.",
+      "La búsqueda ahora ignora acentos y ordena los resultados por relevancia, mostrando dónde coincide cada término.",
+      "Nuevo botón ✕ para limpiar la búsqueda al instante (o pulsa la tecla Escape).",
+      "17 fármacos nuevos: morfina, EMLA (anestésico para punciones), racecadotrilo, sales de rehidratación oral, ácido tranexámico, suero salino hipertónico 3 %, manitol, deflazacort, loratadina, lorazepam, naproxeno y más.",
+      "Ya son 148 fármacos, todos verificados con Pediamécum (AEP)."
+    ]
+  }
+];
 
 // ── Tema claro/oscuro ──────────────────────────────────────
 (function () {
@@ -209,8 +229,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Modal de bienvenida (primer arranque)
+  var bienvenidaVisible = false;
   if (!localStorage.getItem(KEY_BIENV)) {
     document.getElementById("modal-bienvenida").style.display = "flex";
+    bienvenidaVisible = true;
   }
 
   // Restaurar último fármaco abierto
@@ -224,6 +246,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Si la URL trae ?rx=... cargar prescripción compartida
   importarPrescripcionDesdeUrl();
+
+  // Novedades de versión (changelog)
+  bindNovedades();
+  gestionarNovedades(bienvenidaVisible);
 });
 
 // ============================================================
@@ -399,6 +425,91 @@ function bindModales() {
     fuentes.style.display = "none";
   });
   fuentes.addEventListener("click", function(e) { if (e.target === fuentes) fuentes.style.display = "none"; });
+
+  // Al abrir "Acerca de", pintar el historial de versiones
+  document.getElementById("btn-info-app").addEventListener("click", renderHistorialVersiones);
+}
+
+// ============================================================
+//  NOVEDADES / CHANGELOG
+// ============================================================
+function esUsuarioExistente() {
+  // Indica si el usuario ya había usado la app antes (tiene datos guardados)
+  return !!(localStorage.getItem(KEY_BIENV) || localStorage.getItem(KEY_TEMA) ||
+            localStorage.getItem(KEY_PESO) || localStorage.getItem(KEY_FAV) ||
+            localStorage.getItem(KEY_VERSION) || localStorage.getItem(KEY_HIST));
+}
+
+function bindNovedades() {
+  const campana = document.getElementById("btn-novedades");
+  if (campana) campana.addEventListener("click", function() { abrirModalNovedades(); });
+  const cerrar = document.getElementById("btn-cerrar-novedades");
+  if (cerrar) cerrar.addEventListener("click", cerrarModalNovedades);
+  const aceptar = document.getElementById("btn-novedades-ok");
+  if (aceptar) aceptar.addEventListener("click", cerrarModalNovedades);
+  const overlay = document.getElementById("modal-novedades");
+  if (overlay) overlay.addEventListener("click", function(e) { if (e.target === overlay) cerrarModalNovedades(); });
+}
+
+// Decide al arrancar si activar campana y/o mostrar el modal automáticamente
+function gestionarNovedades(bienvenidaVisible) {
+  const versionVista = localStorage.getItem(KEY_VERSION);
+  if (versionVista === APP_VERSION) return; // al día, sin novedades
+
+  if (!esUsuarioExistente()) {
+    // Usuario totalmente nuevo: no mostramos changelog (todo es nuevo para él)
+    localStorage.setItem(KEY_VERSION, APP_VERSION);
+    return;
+  }
+
+  // Usuario existente con novedades sin leer → campana encendida
+  activarCampana(true);
+  // Modal automático, salvo que coincida con el modal de bienvenida (no solapar)
+  if (!bienvenidaVisible) {
+    setTimeout(function() { abrirModalNovedades(); }, 400);
+  }
+}
+
+function activarCampana(activa) {
+  const campana = document.getElementById("btn-novedades");
+  if (!campana) return;
+  campana.classList.toggle("btn-novedades--activa", !!activa);
+  campana.style.display = activa ? "flex" : "none";
+}
+
+function abrirModalNovedades() {
+  const cont = document.getElementById("modal-novedades-body");
+  const nov = NOVEDADES[0];
+  if (cont && nov) {
+    cont.innerHTML =
+      '<div class="novedades-version">' + escHtml(nov.titulo) + '</div>' +
+      '<div class="novedades-fecha">Versión ' + escHtml(nov.version) + ' · ' + escHtml(nov.fecha) + '</div>' +
+      '<ul class="novedades-lista">' +
+        nov.cambios.map(function(c) { return '<li>' + escHtml(c) + '</li>'; }).join("") +
+      '</ul>';
+  }
+  document.getElementById("modal-novedades").style.display = "flex";
+}
+
+function cerrarModalNovedades() {
+  document.getElementById("modal-novedades").style.display = "none";
+  // Marcar como leído: apagar campana y registrar versión vista
+  localStorage.setItem(KEY_VERSION, APP_VERSION);
+  activarCampana(false);
+}
+
+// Pinta el historial completo de versiones en el modal "Acerca de"
+function renderHistorialVersiones() {
+  const cont = document.getElementById("historial-versiones");
+  if (!cont) return;
+  cont.innerHTML = NOVEDADES.map(function(nov) {
+    return '<div class="historial-version-item">' +
+      '<div class="historial-version-cab"><b>' + escHtml(nov.titulo) + '</b>' +
+        '<span class="historial-version-tag">v' + escHtml(nov.version) + ' · ' + escHtml(nov.fecha) + '</span></div>' +
+      '<ul class="historial-version-cambios">' +
+        nov.cambios.map(function(c) { return '<li>' + escHtml(c) + '</li>'; }).join("") +
+      '</ul></div>';
+  }).join("");
 }
 
 // ============================================================
@@ -1010,42 +1121,152 @@ function construirFiltros() {
   });
 }
 
+// Normaliza texto: minúsculas y sin acentos/diacríticos
+function normalizar(s) {
+  return (s == null ? "" : String(s)).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+}
+
+// Escapa HTML para insertar texto de datos de forma segura
+function escHtml(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// Extrae un fragmento de texto alrededor del término encontrado
+function extraerFragmento(texto, qNorm) {
+  var norm = normalizar(texto);
+  var idx = norm.indexOf(qNorm);
+  if (idx < 0) return texto.length > 70 ? texto.slice(0, 70) + "…" : texto;
+  var ini = Math.max(0, idx - 22);
+  var fin = Math.min(texto.length, idx + qNorm.length + 38);
+  return (ini > 0 ? "…" : "") + texto.slice(ini, fin) + (fin < texto.length ? "…" : "");
+}
+
+// Resalta el término dentro de un fragmento (sobre texto ya escapado)
+function resaltar(fragmento, qNorm) {
+  var safe = escHtml(fragmento);
+  var norm = normalizar(safe);
+  var idx = norm.indexOf(qNorm);
+  if (idx < 0 || !qNorm) return safe;
+  return safe.slice(0, idx) + "<mark>" + safe.slice(idx, idx + qNorm.length) + "</mark>" + safe.slice(idx + qNorm.length);
+}
+
+// Escapa caracteres especiales de regex
+function escapeRegex(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Coincidencia al INICIO de una palabra (evita falsos positivos como 'asma' en 'eritrasma').
+// Se usa en campos de texto clínico (indicaciones, notas, categoría).
+function matchInicioPalabra(textoNorm, qNorm) {
+  if (!qNorm) return true;
+  return new RegExp("(^|[^a-z0-9])" + escapeRegex(qNorm)).test(textoNorm);
+}
+
+// Busca el término en los campos "positivos" del fármaco (NO en contraindicaciones/precauciones).
+// Devuelve null si no hay coincidencia, o { tipo, texto } indicando dónde coincide.
+// Nombre/sinónimos/vías: substring (permite teclear parcial). Campos clínicos: inicio de palabra.
+function buscarEnFarmaco(f, qNorm) {
+  if (!qNorm) return { tipo: "nombre" };
+  // 1. Nombre (substring, sin etiqueta)
+  if (normalizar(f.nombre).indexOf(qNorm) >= 0) return { tipo: "nombre" };
+  // 2. Sinónimos / marcas comerciales (substring)
+  if (f.sinonimos) {
+    for (var i = 0; i < f.sinonimos.length; i++) {
+      if (normalizar(f.sinonimos[i]).indexOf(qNorm) >= 0) return { tipo: "sinonimo", texto: f.sinonimos[i] };
+    }
+  }
+  // 3. Indicaciones clínicas (info.indicaciones) — inicio de palabra
+  if (f.info && f.info.indicaciones) {
+    for (var j = 0; j < f.info.indicaciones.length; j++) {
+      if (matchInicioPalabra(normalizar(f.info.indicaciones[j]), qNorm)) return { tipo: "indicación", texto: f.info.indicaciones[j] };
+    }
+  }
+  // 4. Indicación de pautas intermitentes
+  if (f.intermitente) {
+    for (var k = 0; k < f.intermitente.length; k++) {
+      var p = f.intermitente[k];
+      if (p.indicacion && matchInicioPalabra(normalizar(p.indicacion), qNorm)) return { tipo: "indicación", texto: p.indicacion };
+    }
+  }
+  // 5. Carga / Puntual: descripción
+  if (f.carga && f.carga.descripcion && matchInicioPalabra(normalizar(f.carga.descripcion), qNorm)) return { tipo: "indicación", texto: f.carga.descripcion };
+  if (f.puntual && f.puntual.descripcion && matchInicioPalabra(normalizar(f.puntual.descripcion), qNorm)) return { tipo: "indicación", texto: f.puntual.descripcion };
+  // 6. Presentaciones (perfusión): label
+  if (f.presentaciones) {
+    for (var m = 0; m < f.presentaciones.length; m++) {
+      if (f.presentaciones[m].label && matchInicioPalabra(normalizar(f.presentaciones[m].label), qNorm)) return { tipo: "dilución", texto: f.presentaciones[m].label };
+    }
+  }
+  // 7. Categoría
+  if (matchInicioPalabra(normalizar(f.categoria), qNorm)) return { tipo: "categoría", texto: f.categoria };
+  // 8. Vías (substring)
+  if (f.vias) {
+    for (var v = 0; v < f.vias.length; v++) {
+      if (normalizar(f.vias[v]).indexOf(qNorm) >= 0) return { tipo: "vía", texto: f.vias[v] };
+    }
+  }
+  // 9. Notas clínicas (intermitente / carga / puntual) — inicio de palabra, último recurso
+  var notas = [];
+  if (f.intermitente) f.intermitente.forEach(function(p) { if (p.nota) notas.push(p.nota); });
+  if (f.carga && f.carga.nota) notas.push(f.carga.nota);
+  if (f.puntual && f.puntual.nota) notas.push(f.puntual.nota);
+  for (var n = 0; n < notas.length; n++) {
+    if (matchInicioPalabra(normalizar(notas[n]), qNorm)) return { tipo: "nota", texto: extraerFragmento(notas[n], qNorm) };
+  }
+  return null;
+}
+
 function renderizarLista(query) {
   if (query === undefined) query = "";
   const cont = document.getElementById("lista-farmacos");
   cont.innerHTML = "";
-  const q = query.toLowerCase().trim();
+  const qNorm = normalizar(query.trim());
 
-  const lista = farmacos.filter(function(f) {
-    if (categoriaFiltro === "Favoritos") {
-      var matchFav = favoritos.has(f.nombre);
-      var matchQFav = false;
-      if (matchFav) {
-        matchQFav = (!q || f.nombre.toLowerCase().indexOf(q) >= 0 || f.categoria.toLowerCase().indexOf(q) >= 0);
-      }
-      return matchFav && matchQFav;
-    }
-    const matchCat = (categoriaFiltro === "Todos" || f.categoria === categoriaFiltro);
-    var matchQ = false;
-    if (matchCat) {
-      matchQ = (!q || f.nombre.toLowerCase().indexOf(q) >= 0 || f.categoria.toLowerCase().indexOf(q) >= 0);
-      if (!matchQ && f.sinonimos) {
-        matchQ = f.sinonimos.some(function(s) { return s.toLowerCase().indexOf(q) >= 0; });
-      }
-    }
-    return matchCat && matchQ;
+  // Relevancia por tipo de coincidencia (menor = más relevante)
+  const PESO_MATCH = { "nombre": 0, "sinonimo": 1, "indicación": 2, "dilución": 3, "categoría": 4, "vía": 5, "nota": 6 };
+
+  // Construye lista de coincidencias con su motivo
+  const resultados = [];
+  farmacos.forEach(function(f) {
+    if (categoriaFiltro === "Favoritos" && !favoritos.has(f.nombre)) return;
+    if (categoriaFiltro !== "Favoritos" && categoriaFiltro !== "Todos" && f.categoria !== categoriaFiltro) return;
+    const match = buscarEnFarmaco(f, qNorm);
+    if (match) resultados.push({ f: f, match: match });
   });
 
-  if (lista.length === 0) {
+  // Ordena por relevancia del match (solo si hay búsqueda); dentro del mismo nivel, alfabético
+  if (qNorm) {
+    resultados.sort(function(a, b) {
+      const pa = PESO_MATCH[a.match.tipo] != null ? PESO_MATCH[a.match.tipo] : 9;
+      const pb = PESO_MATCH[b.match.tipo] != null ? PESO_MATCH[b.match.tipo] : 9;
+      if (pa !== pb) return pa - pb;
+      return a.f.nombre.localeCompare(b.f.nombre);
+    });
+  }
+
+  // Contador de resultados (solo si hay búsqueda activa)
+  const contador = document.getElementById("busqueda-contador");
+  if (contador) {
+    if (qNorm) {
+      contador.textContent = resultados.length + (resultados.length === 1 ? " fármaco" : " fármacos");
+      contador.classList.add("visible");
+    } else {
+      contador.classList.remove("visible");
+    }
+  }
+
+  if (resultados.length === 0) {
     if (categoriaFiltro === "Favoritos") {
       cont.innerHTML = '<p class="sin-resultados">No hay favoritos guardados.<br><small>Abre un fármaco y pulsa la estrella ☆</small></p>';
     } else {
-      cont.innerHTML = '<p class="sin-resultados">No se encontraron fármacos</p>';
+      cont.innerHTML = '<p class="sin-resultados">No se encontraron fármacos<br><small>Prueba con el principio activo, marca o una indicación</small></p>';
     }
     return;
   }
 
-  lista.forEach(function(f) {
+  resultados.forEach(function(r) {
+    const f = r.f;
+    const match = r.match;
     const card     = document.createElement("div");
     const esActiva = farmSeleccionado && farmSeleccionado.nombre === f.nombre;
     const esFav    = favoritos.has(f.nombre);
@@ -1056,12 +1277,20 @@ function renderizarLista(query) {
       return '<span class="farm-via-badge farm-via-badge--' + v.toLowerCase() + '">' + v.toUpperCase() + '</span>';
     }).join("");
 
+    // Etiqueta de coincidencia: solo si la búsqueda no coincidió por el nombre
+    var matchHtml = "";
+    if (qNorm && match.tipo !== "nombre" && match.texto) {
+      matchHtml = '<span class="farm-match"><span class="farm-match-tipo">' + match.tipo + ':</span> ' +
+        resaltar(match.texto, qNorm) + '</span>';
+    }
+
     card.innerHTML = '<div class="farm-iso-strip"></div>' +
       '<span class="farm-icono">' + (f.icono || "💊") + '</span>' +
       '<div class="farm-info">' +
         '<span class="farm-nombre">' + f.nombre + '</span>' +
         '<span class="farm-cat">' + f.categoria + '</span>' +
         (vias ? '<div class="farm-vias">' + vias + '</div>' : "") +
+        matchHtml +
       '</div>' +
       '<div class="farm-card-right">' +
         (esFav ? '<span class="farm-estrella">★</span>' : "") +
@@ -1083,9 +1312,36 @@ function labelModo(modo) {
 
 // ── Búsqueda ───────────────────────────────────────────────
 function bindBusqueda() {
-  document.getElementById("busqueda").addEventListener("input", function(e) {
+  const input = document.getElementById("busqueda");
+  const btnLimpiar = document.getElementById("busqueda-limpiar");
+
+  function actualizarBotonLimpiar() {
+    if (!btnLimpiar) return;
+    if (input.value.length > 0) btnLimpiar.classList.add("visible");
+    else btnLimpiar.classList.remove("visible");
+  }
+
+  function limpiarBusqueda() {
+    input.value = "";
+    actualizarBotonLimpiar();
+    renderizarLista("");
+    input.focus();
+  }
+
+  input.addEventListener("input", function(e) {
+    actualizarBotonLimpiar();
     renderizarLista(e.target.value);
   });
+
+  // Escape limpia la búsqueda
+  input.addEventListener("keydown", function(e) {
+    if (e.key === "Escape" && input.value) {
+      e.preventDefault();
+      limpiarBusqueda();
+    }
+  });
+
+  if (btnLimpiar) btnLimpiar.addEventListener("click", limpiarBusqueda);
 }
 
 // ============================================================
