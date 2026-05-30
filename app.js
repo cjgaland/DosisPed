@@ -24,8 +24,24 @@ const KEY_VERSION   = "dosisped-version-vista";
 // ── Versión y novedades (changelog) ────────────────────────
 // APP_VERSION = id de la versión más reciente (debe coincidir con NOVEDADES[0].version).
 // Al añadir una versión, insertar su entrada AL PRINCIPIO del array y actualizar APP_VERSION.
-const APP_VERSION = "2026.06";
+const APP_VERSION = "2026.07";
+
+// Clave de acceso de Web3Forms para el buzón de sugerencias.
+// Obtenida en web3forms.com con el correo del autor (el correo NO aparece aquí).
+const WEB3FORMS_KEY = "f57ce774-9fbd-471e-b52d-7c3aa180094e";
+
+// Changelog: entradas de la MÁS RECIENTE (arriba) a la más antigua.
+// Al publicar mejoras, añadir una entrada AL PRINCIPIO y actualizar APP_VERSION = NOVEDADES[0].version.
 const NOVEDADES = [
+  {
+    version: "2026.07",
+    fecha: "Junio 2026",
+    titulo: "Buzón de sugerencias",
+    cambios: [
+      "Nuevo buzón de sugerencias: desde «Acerca de» (botón ⓘ) puedes enviar comentarios, proponer fármacos o avisar de un posible error de dosis.",
+      "Puedes escribir de forma anónima o dejar tu email si quieres respuesta. No se recoge ningún dato del paciente."
+    ]
+  },
   {
     version: "2026.06",
     fecha: "Junio 2026",
@@ -250,6 +266,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Novedades de versión (changelog)
   bindNovedades();
   gestionarNovedades(bienvenidaVisible);
+
+  // Buzón de sugerencias
+  bindSugerencias();
 });
 
 // ============================================================
@@ -477,16 +496,38 @@ function activarCampana(activa) {
   campana.style.display = activa ? "flex" : "none";
 }
 
+// Devuelve las entradas de NOVEDADES más nuevas que la última versión vista.
+// Si no hay versión vista o no se reconoce, devuelve todas.
+function novedadesNoVistas(versionVista) {
+  if (!versionVista) return NOVEDADES.slice();
+  var idx = NOVEDADES.findIndex(function(n) { return n.version === versionVista; });
+  if (idx === -1) return NOVEDADES.slice();
+  return NOVEDADES.slice(0, idx);
+}
+
 function abrirModalNovedades() {
   const cont = document.getElementById("modal-novedades-body");
-  const nov = NOVEDADES[0];
-  if (cont && nov) {
-    cont.innerHTML =
-      '<div class="novedades-version">' + escHtml(nov.titulo) + '</div>' +
-      '<div class="novedades-fecha">Versión ' + escHtml(nov.version) + ' · ' + escHtml(nov.fecha) + '</div>' +
-      '<ul class="novedades-lista">' +
-        nov.cambios.map(function(c) { return '<li>' + escHtml(c) + '</li>'; }).join("") +
-      '</ul>';
+  const sub = document.querySelector("#modal-novedades .modal-subtitulo");
+  const versionVista = localStorage.getItem(KEY_VERSION);
+  // Mostrar todas las novedades acumuladas desde la última visita; si no hay, la más reciente
+  var lista = novedadesNoVistas(versionVista);
+  if (lista.length === 0) lista = [NOVEDADES[0]];
+
+  if (sub) {
+    sub.textContent = lista.length > 1
+      ? "Esto es lo nuevo desde tu última visita"
+      : "Gracias por mantener la app al día";
+  }
+  if (cont) {
+    cont.innerHTML = lista.map(function(nov) {
+      return '<div class="novedades-bloque">' +
+        '<div class="novedades-version">' + escHtml(nov.titulo) + '</div>' +
+        '<div class="novedades-fecha">Versión ' + escHtml(nov.version) + ' · ' + escHtml(nov.fecha) + '</div>' +
+        '<ul class="novedades-lista">' +
+          nov.cambios.map(function(c) { return '<li>' + escHtml(c) + '</li>'; }).join("") +
+        '</ul>' +
+      '</div>';
+    }).join("");
   }
   document.getElementById("modal-novedades").style.display = "flex";
 }
@@ -510,6 +551,96 @@ function renderHistorialVersiones() {
         nov.cambios.map(function(c) { return '<li>' + escHtml(c) + '</li>'; }).join("") +
       '</ul></div>';
   }).join("");
+}
+
+// ============================================================
+//  BUZÓN DE SUGERENCIAS (Web3Forms)
+// ============================================================
+function bindSugerencias() {
+  const abrir = document.getElementById("btn-abrir-sugerencias");
+  const cerrar = document.getElementById("btn-cerrar-sugerencias");
+  const overlay = document.getElementById("modal-sugerencias");
+  const form = document.getElementById("form-sugerencias");
+  const fuentes = document.getElementById("modal-fuentes");
+
+  if (abrir) abrir.addEventListener("click", function() {
+    if (fuentes) fuentes.style.display = "none"; // cerrar "Acerca de" si estaba abierto
+    abrirModalSugerencias();
+  });
+  if (cerrar) cerrar.addEventListener("click", cerrarModalSugerencias);
+  if (overlay) overlay.addEventListener("click", function(e) { if (e.target === overlay) cerrarModalSugerencias(); });
+  if (form) form.addEventListener("submit", enviarSugerencia);
+}
+
+function abrirModalSugerencias() {
+  const estado = document.getElementById("sug-estado");
+  if (estado) { estado.textContent = ""; estado.className = "sug-estado"; }
+  document.getElementById("modal-sugerencias").style.display = "flex";
+}
+function cerrarModalSugerencias() {
+  document.getElementById("modal-sugerencias").style.display = "none";
+}
+
+function enviarSugerencia(e) {
+  e.preventDefault();
+  const estado = document.getElementById("sug-estado");
+  const btn = document.getElementById("btn-enviar-sugerencia");
+  const mensaje = document.getElementById("sug-mensaje").value.trim();
+  const tipo = document.getElementById("sug-tipo").value;
+  const nombre = document.getElementById("sug-nombre").value.trim();
+  const email = document.getElementById("sug-email").value.trim();
+  const botcheck = document.getElementById("sug-botcheck").checked;
+
+  if (botcheck) return; // honeypot: bot detectado, ignorar en silencio
+  if (!mensaje) {
+    estado.textContent = "Por favor, escribe tu mensaje.";
+    estado.className = "sug-estado sug-estado--error";
+    return;
+  }
+  if (!WEB3FORMS_KEY || WEB3FORMS_KEY === "TU_ACCESS_KEY_AQUI") {
+    estado.textContent = "El buzón aún no está configurado. Inténtalo más tarde.";
+    estado.className = "sug-estado sug-estado--error";
+    return;
+  }
+
+  estado.textContent = "Enviando…";
+  estado.className = "sug-estado sug-estado--enviando";
+  btn.disabled = true;
+
+  const payload = {
+    access_key: WEB3FORMS_KEY,
+    subject: "DosisPed · " + tipo,
+    from_name: nombre || "Usuario de DosisPed",
+    // Campos del mensaje
+    Tipo: tipo,
+    Mensaje: mensaje,
+    Nombre: nombre || "(no indicado)",
+    Email_de_contacto: email || "(no facilitado)",
+    Version_app: APP_VERSION
+  };
+  if (email) payload.replyto = email; // permite responder directamente al remitente
+
+  fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify(payload)
+  })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data && data.success) {
+        estado.textContent = "¡Gracias! Tu mensaje se ha enviado correctamente.";
+        estado.className = "sug-estado sug-estado--ok";
+        document.getElementById("form-sugerencias").reset();
+        setTimeout(cerrarModalSugerencias, 1800);
+      } else {
+        throw new Error("respuesta no exitosa");
+      }
+    })
+    .catch(function() {
+      estado.textContent = "No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.";
+      estado.className = "sug-estado sug-estado--error";
+    })
+    .finally(function() { btn.disabled = false; });
 }
 
 // ============================================================
