@@ -618,7 +618,10 @@ function enviarSugerencia(e) {
     Email_de_contacto: email || "(no facilitado)",
     Version_app: APP_VERSION
   };
-  if (email) payload.replyto = email; // permite responder directamente al remitente
+  // Campo estándar 'email': Web3Forms lo usa como Reply-To del correo que recibe
+  // el autor. Esto permite que la autorespuesta automática (Google Apps Script)
+  // identifique y conteste al remitente. Solo se incluye si dejó su email.
+  if (email) payload.email = email;
 
   fetch("https://api.web3forms.com/submit", {
     method: "POST",
