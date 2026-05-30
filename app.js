@@ -24,7 +24,7 @@ const KEY_VERSION   = "dosisped-version-vista";
 // ── Versión y novedades (changelog) ────────────────────────
 // APP_VERSION = id de la versión más reciente (debe coincidir con NOVEDADES[0].version).
 // Al añadir una versión, insertar su entrada AL PRINCIPIO del array y actualizar APP_VERSION.
-const APP_VERSION = "2026.07";
+const APP_VERSION = "2026.08";
 
 // Clave de acceso de Web3Forms para el buzón de sugerencias.
 // Obtenida en web3forms.com con el correo del autor (el correo NO aparece aquí).
@@ -33,6 +33,16 @@ const WEB3FORMS_KEY = "f57ce774-9fbd-471e-b52d-7c3aa180094e";
 // Changelog: entradas de la MÁS RECIENTE (arriba) a la más antigua.
 // Al publicar mejoras, añadir una entrada AL PRINCIPIO y actualizar APP_VERSION = NOVEDADES[0].version.
 const NOVEDADES = [
+  {
+    version: "2026.08",
+    fecha: "Junio 2026",
+    titulo: "Alertas de edad y peso",
+    cambios: [
+      "Si el peso o la edad del paciente no encajan con el fármaco abierto, la dosis se resalta en color y aparece un aviso visible: ámbar (fuera del rango habitual) o rojo (no recomendado).",
+      "Pensado para detectar de un vistazo situaciones de riesgo, como un antihistamínico en un lactante demasiado pequeño. La información detallada sigue estando más abajo.",
+      "Implementado en un primer grupo de fármacos con límites claros; se irá ampliando al resto."
+    ]
+  },
   {
     version: "2026.07",
     fecha: "Junio 2026",
@@ -1525,6 +1535,65 @@ function limpiarCalc() {
 // ============================================================
 //  RENDER PANEL
 // ============================================================
+// ── Restricción por edad / peso ────────────────────────────
+// Formatea una edad en meses de forma legible
+function fmtEdadLimite(meses) {
+  if (meses == null) return "";
+  if (meses < 24) return meses + (meses === 1 ? " mes" : " meses");
+  if (meses % 12 === 0) return (meses / 12) + " años";
+  return (meses / 12).toFixed(1).replace(".", ",") + " años";
+}
+
+// Evalúa si el paciente actual queda fuera del rango de edad/peso del fármaco/pauta.
+// Lee límites de la pauta (prioridad) o del fármaco. Devuelve null o {nivel, motivos, texto}.
+function evaluarRestriccion(f, pauta) {
+  function lim(campo) {
+    if (pauta && pauta[campo] !== undefined && pauta[campo] !== null) return pauta[campo];
+    if (f && f[campo] !== undefined && f[campo] !== null) return f[campo];
+    return undefined;
+  }
+  var eMin = lim("edad_min_meses");
+  var eMax = lim("edad_max_meses");
+  var pMin = lim("peso_min_kg");
+  var pMax = lim("peso_max_kg");
+  var nivel = lim("restriccion_nivel") || "ambar";
+  var textoCustom = lim("restriccion_texto");
+
+  var edadM = edadEnMeses();
+  var motivos = [];
+  if (eMin !== undefined && edadM !== null && edadM < eMin) motivos.push("la edad mínima recomendada es " + fmtEdadLimite(eMin));
+  if (eMax !== undefined && edadM !== null && edadM > eMax) motivos.push("la edad máxima recomendada es " + fmtEdadLimite(eMax));
+  if (pMin !== undefined && pesoActual !== null && pesoActual < pMin) motivos.push("el peso mínimo recomendado es " + formatNum(pMin, 1) + " kg");
+  if (pMax !== undefined && pesoActual !== null && pesoActual > pMax) motivos.push("el peso máximo recomendado es " + formatNum(pMax, 1) + " kg");
+
+  if (motivos.length === 0) return null;
+  return { nivel: nivel, motivos: motivos, texto: textoCustom };
+}
+
+// Muestra/oculta el banner de alerta de restricción según la pauta activa
+function renderBannerRestriccion(f, pauta) {
+  const cont = document.getElementById("aviso-restriccion");
+  if (!cont) return;
+  const r = evaluarRestriccion(f, pauta);
+  if (!r) { cont.style.display = "none"; cont.innerHTML = ""; return; }
+  const icono = r.nivel === "rojo" ? "🛑" : "⚠️";
+  const titulo = r.nivel === "rojo" ? "No recomendado en este paciente" : "Fuera del rango habitual";
+  const msg = r.texto || ("Para este paciente, " + r.motivos.join(" y ") + ".");
+  cont.className = "aviso-restriccion aviso-restriccion--" + r.nivel;
+  cont.style.display = "flex";
+  cont.innerHTML = '<span class="aviso-restriccion-ico">' + icono + '</span>' +
+    '<span><b>' + titulo + ':</b> ' + escHtml(msg) + ' Verifica la indicación antes de prescribir.</span>';
+}
+
+// Devuelve la "pauta" activa según el modo (para evaluar la restricción)
+function pautaActivaSegunModo(f) {
+  if (modoAdmin === "intermitente" && f.intermitente) return f.intermitente[intIndex];
+  if (modoAdmin === "puntual") return f.puntual || null;
+  if (modoAdmin === "carga_mantenimiento") return f.carga || null;
+  if (modoAdmin === "perfusion" && f.presentaciones) return f.presentaciones[presIndex];
+  return null;
+}
+
 function renderPanel() {
   if (!farmSeleccionado) return;
   const f = farmSeleccionado;
@@ -1541,7 +1610,7 @@ function renderPanel() {
   renderTabsSegunModo(f);
 
   // Ocultar todo, luego mostrar según modo
-  ["dosis-int-box", "carga-box", "puntual-box", "calculadora-section", "info-collapse", "aviso-peso"].forEach(function(id) {
+  ["dosis-int-box", "carga-box", "puntual-box", "calculadora-section", "info-collapse", "aviso-peso", "aviso-restriccion"].forEach(function(id) {
     const el = document.getElementById(id);
     if (el) el.style.display = "none";
   });
@@ -1553,6 +1622,8 @@ function renderPanel() {
   else if (modoAdmin === "perfusion") renderModoPerfusion(f);
   else if (modoAdmin === "carga_mantenimiento") renderModoCargaMant(f);
   else if (modoAdmin === "puntual") renderModoPuntual(f);
+
+  renderBannerRestriccion(f, pautaActivaSegunModo(f));
 
   renderInfoClinica(f);
   document.getElementById("info-collapse").classList.remove("info-collapse--abierto");
@@ -1638,6 +1709,9 @@ function renderIntermitenteBox(f, pauta) {
   box.style.display = "block";
 
   const calc = calcularDosisIntermitente(pauta);
+  // Restricción por edad/peso: clase para colorear el número de dosis
+  const restr = evaluarRestriccion(f, pauta);
+  const claseRestr = restr ? (" dosis-int-val--restr-" + restr.nivel) : "";
 
   // Estado de alerta sobre dosis máxima
   var estado = "ok";
@@ -1731,7 +1805,7 @@ function renderIntermitenteBox(f, pauta) {
   var resHtml = "";
   if (calc.dosis !== null) {
     resHtml = '<div class="dosis-int-resultado">' +
-      '<span class="dosis-int-val' + (estado === "max" ? " dosis-int-val--alerta" : "") + '">' + formatNum(dosisFinal, dosisFinal < 1 ? 3 : dosisFinal < 10 ? 2 : 1) + '</span>' +
+      '<span class="dosis-int-val' + (estado === "max" ? " dosis-int-val--alerta" : "") + claseRestr + '">' + formatNum(dosisFinal, dosisFinal < 1 ? 3 : dosisFinal < 10 ? 2 : 1) + '</span>' +
       '<span class="dosis-int-unidad">mg / toma' + (factorInt !== 1 ? ' <span style="color:' + sliderColor + ';font-weight:600;">· ' + Math.round(factorInt*100) + '%</span>' : "") + '</span>' +
       (calc.calcTexto ? '<span class="dosis-int-calc">' + calc.calcTexto + (factorInt !== 1 ? " × " + factorInt.toFixed(2).replace(".",",") : "") + '</span>' : "") +
       (calc.dosisDia !== null ? '<div class="dosis-int-vol">' +

@@ -1209,6 +1209,34 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
   font-weight: 500;
 }
 
+/* ── Aviso de restricción por edad/peso ─────────────── */
+.aviso-restriccion {
+  display: none;
+  align-items: flex-start;
+  gap: 9px;
+  border-radius: var(--radius);
+  padding: 11px 13px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  font-weight: 500;
+}
+.aviso-restriccion-ico { font-size: 15px; flex-shrink: 0; line-height: 1.3; }
+.aviso-restriccion--ambar {
+  background: var(--amber-dim);
+  border: 1px solid var(--amber);
+  color: var(--amber);
+}
+.aviso-restriccion--rojo {
+  background: var(--red-dim);
+  border: 1px solid var(--red);
+  color: var(--red);
+  box-shadow: 0 0 0 1px var(--red-dim);
+}
+.aviso-restriccion b { font-weight: 700; }
+/* Número de dosis coloreado cuando el paciente está fuera de rango */
+.dosis-int-val--restr-ambar { color: var(--amber) !important; }
+.dosis-int-val--restr-rojo  { color: var(--red) !important; }
+
 /* ── DOSIS INTERMITENTE (modo principal pediátrico) ─── */
 .dosis-int-box {
   border-radius: var(--radius-lg);

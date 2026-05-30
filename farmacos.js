@@ -340,6 +340,7 @@ const farmacos = [
 
   {
     nombre: "ALBENDAZOL",
+    edad_min_meses: 12,
     categoria: "Antibiótico",
     sinonimos: ["eskazole", "albendazol"],
     isoColor: ISO.antibiotico,
@@ -675,6 +676,7 @@ const farmacos = [
 
   {
     nombre: "AZITROMICINA OFTÁLMICA",
+    edad_min_meses: 12,
     categoria: "Oftalmología",
     sinonimos: ["azydrop", "azitromicina oftalmica", "azitromicina colirio"],
     isoColor: ISO.antibiotico,
@@ -835,6 +837,7 @@ const farmacos = [
 
   {
     nombre: "BILASTINA",
+    edad_min_meses: 72,
     categoria: "Antihistamínico",
     sinonimos: ["bilaxten", "ibis", "bilastina"],
     isoColor: ISO.respiratorio,
@@ -1273,6 +1276,7 @@ const farmacos = [
 
   {
     nombre: "CETIRIZINA",
+    edad_min_meses: 6,
     categoria: "Antihistamínico",
     sinonimos: ["zyrtec", "cetirizina", "alercina"],
     isoColor: ISO.respiratorio,
@@ -1823,6 +1827,7 @@ const farmacos = [
 
   {
     nombre: "DESLORATADINA",
+    edad_min_meses: 6,
     categoria: "Antihistamínico",
     sinonimos: ["aerius", "azomyr", "desloratadina"],
     isoColor: ISO.respiratorio,
@@ -1926,6 +1931,8 @@ const farmacos = [
 
   {
     nombre: "DEXCLORFENIRAMINA",
+    edad_min_meses: 6,
+    restriccion_nivel: "rojo",
     categoria: "Antihistamínico",
     sinonimos: ["polaramine", "dexclorfeniramina"],
     isoColor: ISO.respiratorio,
@@ -1980,6 +1987,7 @@ const farmacos = [
 
   {
     nombre: "DEXKETOPROFENO",
+    edad_min_meses: 216,
     categoria: "Analgesia / Antitérmico",
     sinonimos: ["enantyum", "dexketoprofeno", "ketesse"],
     isoColor: ISO.analgesia,
@@ -2927,6 +2935,7 @@ const farmacos = [
 
   {
     nombre: "FEXOFENADINA",
+    edad_min_meses: 6,
     categoria: "Antihistamínico",
     sinonimos: ["telfast", "fexofenadina"],
     isoColor: ISO.respiratorio,
@@ -3021,6 +3030,7 @@ const farmacos = [
 
   {
     nombre: "FLUTICASONA FUROATO NASAL",
+    edad_min_meses: 24,
     categoria: "Respiratorio",
     sinonimos: ["avamys", "fluticasona nasal", "fluticasona furoato"],
     isoColor: ISO.respiratorio,
@@ -3060,6 +3070,7 @@ const farmacos = [
 
   {
     nombre: "FLUTICASONA PROPIONATO TÓPICO",
+    edad_min_meses: 12,
     categoria: "Dermatología",
     sinonimos: ["cutivate", "flunutrac", "fluticasona crema", "fluticasona topica"],
     isoColor: ISO.respiratorio,
@@ -3107,6 +3118,7 @@ const farmacos = [
 
   {
     nombre: "FORMOTEROL + BUDESONIDA",
+    edad_min_meses: 72,
     categoria: "Respiratorio",
     sinonimos: ["symbicort", "rilast", "duoresp spiromax", "formoterol budesonida"],
     isoColor: ISO.respiratorio,
@@ -3589,6 +3601,8 @@ const farmacos = [
 
   {
     nombre: "HIDROXIZINA",
+    edad_min_meses: 12,
+    restriccion_nivel: "rojo",
     categoria: "Antihistamínico",
     sinonimos: ["atarax", "hidroxizina"],
     isoColor: ISO.respiratorio,
@@ -3694,6 +3708,8 @@ const farmacos = [
   // ── I ─────────────────────────────────────────────────────
   {
     nombre: "IBUPROFENO",
+    edad_min_meses: 3,
+    restriccion_nivel: "rojo",
     categoria: "Analgesia / Antitérmico",
     sinonimos: ["ibuprofeno", "dalsy", "junifen"],
     isoColor: ISO.analgesia,
@@ -4120,6 +4136,7 @@ const farmacos = [
 
   {
     nombre: "LEVOCETIRIZINA",
+    edad_min_meses: 6,
     categoria: "Antihistamínico",
     sinonimos: ["xazal", "levocetirizina"],
     isoColor: ISO.respiratorio,
@@ -4213,6 +4230,7 @@ const farmacos = [
 
   {
     nombre: "LORATADINA",
+    edad_min_meses: 24,
     categoria: "Antihistamínico",
     sinonimos: ["clarityne", "loratadina", "civeran"],
     isoColor: ISO.respiratorio,
@@ -4370,6 +4388,7 @@ const farmacos = [
 
   {
     nombre: "MEBENDAZOL",
+    edad_min_meses: 24,
     categoria: "Antibiótico",
     sinonimos: ["lomper", "mebendazol", "vermin"],
     isoColor: ISO.antibiotico,
@@ -4518,6 +4537,9 @@ const farmacos = [
 
   {
     nombre: "METAMIZOL",
+    edad_min_meses: 3,
+    peso_min_kg: 5,
+    restriccion_nivel: "rojo",
     categoria: "Analgesia / Antitérmico",
     sinonimos: ["nolotil", "metalgial", "metamizol", "dipirona"],
     isoColor: ISO.analgesia,
@@ -4636,6 +4658,7 @@ const farmacos = [
 
   {
     nombre: "METILPREDNISOLONA ACEPONATO TÓPICO",
+    edad_min_meses: 4,
     categoria: "Dermatología",
     sinonimos: ["adventan", "lexxema", "metilprednisolona aceponato", "metilprednisolona crema"],
     isoColor: ISO.respiratorio,
@@ -4824,6 +4847,7 @@ const farmacos = [
 
   {
     nombre: "MOMETASONA FUROATO NASAL",
+    edad_min_meses: 24,
     categoria: "Respiratorio",
     sinonimos: ["nasonex", "mometasona nasal"],
     isoColor: ISO.respiratorio,
@@ -4865,6 +4889,7 @@ const farmacos = [
 
   {
     nombre: "MOMETASONA FUROATO TÓPICO",
+    edad_min_meses: 24,
     categoria: "Dermatología",
     sinonimos: ["elocom", "mometasona crema", "mometasona topica"],
     isoColor: ISO.respiratorio,
@@ -4912,6 +4937,7 @@ const farmacos = [
 
   {
     nombre: "MONTELUKAST",
+    edad_min_meses: 6,
     categoria: "Respiratorio",
     sinonimos: ["singulair", "montelukast"],
     isoColor: ISO.respiratorio,
@@ -5081,6 +5107,7 @@ const farmacos = [
 
   {
     nombre: "NAPROXENO",
+    edad_min_meses: 24,
     categoria: "Analgesia / Antitérmico",
     sinonimos: ["naproxeno", "antalgin", "naprosyn"],
     isoColor: ISO.analgesia,
@@ -5274,6 +5301,7 @@ const farmacos = [
 
   {
     nombre: "OLOPATADINA OFTÁLMICA",
+    edad_min_meses: 36,
     categoria: "Oftalmología",
     sinonimos: ["opatanol", "olopatadina"],
     isoColor: ISO.respiratorio,
@@ -5594,6 +5622,7 @@ const farmacos = [
 
   {
     nombre: "PERMETRINA TÓPICA",
+    edad_min_meses: 2,
     categoria: "Dermatología",
     sinonimos: ["sarcop", "permetrina", "permetrin"],
     isoColor: ISO.neutral,
@@ -5677,6 +5706,9 @@ const farmacos = [
 
   {
     nombre: "POVIDONA YODADA",
+    edad_min_meses: 6,
+    restriccion_nivel: "rojo",
+    restriccion_texto: "No usar de forma rutinaria en neonatos ni lactantes menores de 6 meses: la absorción cutánea de yodo puede causar hipotiroidismo transitorio. Preferir clorhexidina acuosa.",
     categoria: "Dermatología",
     sinonimos: ["betadine", "topionic", "povidona yodada", "povidona iodada"],
     isoColor: ISO.antibiotico,
@@ -5920,6 +5952,7 @@ const farmacos = [
   // ── R ─────────────────────────────────────────────────────
   {
     nombre: "RACECADOTRILO",
+    edad_min_meses: 3,
     categoria: "Digestivo",
     sinonimos: ["tiorfan", "racecadotrilo", "racecadotril"],
     isoColor: ISO.digestivo,
@@ -6047,6 +6080,8 @@ const farmacos = [
   // ── S ─────────────────────────────────────────────────────
   {
     nombre: "SACAROSA 24%",
+    peso_max_kg: 6,
+    restriccion_texto: "La sacarosa 24% solo está indicada como analgésico en lactantes de hasta 6 kg (su eficacia no está demostrada por encima de ese peso).",
     categoria: "Analgesia / Antitérmico",
     sinonimos: ["sacarosa", "sucrosa", "sucrose"],
     isoColor: ISO.neonatal,
@@ -6243,6 +6278,7 @@ const farmacos = [
 
   {
     nombre: "SALMETEROL + FLUTICASONA",
+    edad_min_meses: 48,
     categoria: "Respiratorio",
     sinonimos: ["seretide", "anasma", "plusvent", "inaladuo", "salmeterol fluticasona"],
     isoColor: ISO.respiratorio,
@@ -6458,6 +6494,7 @@ const farmacos = [
 
   {
     nombre: "SUMATRIPTÁN",
+    edad_min_meses: 144,
     categoria: "Analgesia / Antitérmico",
     sinonimos: ["sumatriptan", "imigran", "imitrex"],
     isoColor: ISO.analgesia,
@@ -6542,6 +6579,7 @@ const farmacos = [
   // ── T ─────────────────────────────────────────────────────
   {
     nombre: "TACROLIMUS TÓPICO",
+    edad_min_meses: 24,
     categoria: "Dermatología",
     sinonimos: ["protopic", "tacrolimus pomada", "tacrolimus topico"],
     isoColor: ISO.respiratorio,
