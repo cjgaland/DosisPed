@@ -2,7 +2,7 @@
 
 > Calculadora pediátrica de dosis y perfusiones para urgencias, planta, UCI pediátrica, neonatología y consultas externas.
 
-**DosisPed** es una herramienta clínica de apoyo diseñada para pediatras y enfermería pediátrica. Calcula dosis intermitentes (oral, IV, IM, rectal, nebulizada…), perfusiones continuas en UCIP, dosis de carga, dosis puntuales y volúmenes según los preparados comerciales españoles. Incluye un módulo neonatal con dosificación por edad gestacional y edad postnatal.
+**DosisPed** es una herramienta clínica de apoyo diseñada para profesionales que atienden a pacientes pediátricos (urgencias, pediatría, enfermería). Calcula dosis intermitentes (oral, IV, IM, rectal, nebulizada…), perfusiones continuas en UCIP, dosis de carga, dosis puntuales y volúmenes según los preparados comerciales españoles. Incluye un módulo neonatal con dosificación por edad gestacional y edad postnatal.
 
 ## ✨ Características
 
@@ -55,7 +55,7 @@ DosisPed es una **herramienta de apoyo clínico**, no un sustituto del juicio pr
 
 ## 👤 Autor
 
-**Carlos J. Galán Doval** — Pediatra
+**Carlos J. Galán Doval** — Especialista en Urgencias y en Medicina Familiar y Comunitaria
 
 ---
 

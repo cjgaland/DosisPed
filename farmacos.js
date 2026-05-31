@@ -1184,6 +1184,9 @@ const farmacos = [
 
   {
     nombre: "CEFTRIAXONA",
+    edad_min_meses: 1,
+    restriccion_nivel: "rojo",
+    restriccion_texto: "Evitar en neonatos (< 28 días), sobre todo con ictericia o que reciban calcio intravenoso (riesgo de encefalopatía bilirrubínica y precipitación). En el neonato preferir cefotaxima.",
     categoria: "Antibiótico",
     sinonimos: ["rocefalin", "ceftriaxona"],
     isoColor: ISO.antibiotico,
@@ -1233,6 +1236,7 @@ const farmacos = [
 
   {
     nombre: "CEFUROXIMA AXETILO",
+    edad_min_meses: 3,
     categoria: "Antibiótico",
     sinonimos: ["zinnat", "cefuroxima"],
     isoColor: ISO.antibiotico,
@@ -1629,6 +1633,7 @@ const farmacos = [
 
   {
     nombre: "CIPROFLOXACINO + FLUOCINOLONA ÓTICO",
+    edad_min_meses: 6,
     categoria: "Otorrinolaringología",
     sinonimos: ["cetraxal plus", "cetraxal otico plus", "ciprofloxacino fluocinolona"],
     isoColor: ISO.antibiotico,
@@ -1726,6 +1731,9 @@ const farmacos = [
 
   {
     nombre: "COTRIMOXAZOL (TRIMETOPRIM-SULFAMETOXAZOL)",
+    edad_min_meses: 2,
+    restriccion_nivel: "rojo",
+    restriccion_texto: "Contraindicado en menores de 2 meses por riesgo de kernicterus (desplaza la bilirrubina). Precaución también en déficit de G6PD.",
     categoria: "Antibiótico",
     sinonimos: ["septrin", "septrim", "cotrimoxazol", "trimetoprim-sulfametoxazol", "bactrim"],
     isoColor: ISO.antibiotico,
@@ -2348,6 +2356,8 @@ const farmacos = [
   // ── E ─────────────────────────────────────────────────────
   {
     nombre: "EMLA (LIDOCAÍNA + PRILOCAÍNA)",
+    edad_min_meses: 3,
+    restriccion_texto: "En lactantes menores de 3 meses, riesgo de metahemoglobinemia (prilocaína): limitar mucho la dosis y la superficie. Contraindicado en prematuros (< 37 semanas).",
     categoria: "Analgesia / Sedación",
     sinonimos: ["emla", "lidocaina prilocaina", "anestesico topico", "crema anestesica"],
     isoColor: ISO.neuro,
@@ -2497,6 +2507,9 @@ const farmacos = [
 
   {
     nombre: "ERITROMICINA",
+    edad_min_meses: 0.5,
+    restriccion_nivel: "rojo",
+    restriccion_texto: "Riesgo de estenosis hipertrófica del píloro en menores de 2 semanas; en lactantes pequeños preferir azitromicina.",
     categoria: "Antibiótico",
     sinonimos: ["eritromicina", "pantomicina"],
     isoColor: ISO.antibiotico,
@@ -4310,6 +4323,7 @@ const farmacos = [
 
   {
     nombre: "MALATIÓN 0,5%",
+    edad_min_meses: 24,
     categoria: "Dermatología",
     sinonimos: ["malation", "malatión", "filvit malation"],
     isoColor: ISO.neutral,
@@ -5656,6 +5670,7 @@ const farmacos = [
 
   {
     nombre: "POLIETILENGLICOL",
+    edad_min_meses: 6,
     categoria: "Digestivo",
     sinonimos: ["movicol", "polietilenglicol", "casenglicol", "macrogol"],
     isoColor: ISO.digestivo,
@@ -6413,6 +6428,9 @@ const farmacos = [
 
   {
     nombre: "SULFADIAZINA ARGÉNTICA",
+    edad_min_meses: 2,
+    restriccion_nivel: "rojo",
+    restriccion_texto: "Evitar en menores de 2 meses (riesgo de kernicterus) y en déficit de G6PD. No aplicar en la cara ni en superficies muy extensas.",
     categoria: "Dermatología",
     sinonimos: ["silvederma", "flammazine", "sulfadiazina argentica", "sulfadiazina de plata"],
     isoColor: ISO.antibiotico,
@@ -6752,6 +6770,8 @@ const farmacos = [
   // ── V ─────────────────────────────────────────────────────
   {
     nombre: "VALPROATO (ÁCIDO VALPROICO)",
+    edad_min_meses: 24,
+    restriccion_texto: "Riesgo elevado de hepatotoxicidad grave en menores de 2 años, sobre todo con polifarmacia antiepiléptica o sospecha de enfermedad metabólica. Valorar cuidadosamente la indicación.",
     categoria: "Antiepiléptico / Sedante",
     sinonimos: ["depakine", "valproico", "valproato"],
     isoColor: ISO.neuro,

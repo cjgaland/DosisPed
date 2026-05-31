@@ -3,7 +3,7 @@
 //  Estrategia network-first con fallback a caché para uso offline.
 // ============================================================
 
-const CACHE_NAME = "dosisped-v16";
+const CACHE_NAME = "dosisped-v17";
 
 const ASSETS = [
   "./index.html",
