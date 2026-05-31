@@ -1578,7 +1578,7 @@ function renderBannerRestriccion(f, pauta) {
   if (!r) { cont.style.display = "none"; cont.innerHTML = ""; return; }
   const icono = r.nivel === "rojo" ? "🛑" : "⚠️";
   const titulo = r.nivel === "rojo" ? "No recomendado en este paciente" : "Fuera del rango habitual";
-  const msg = r.texto || ("Para este paciente, " + r.motivos.join(" y ") + ".");
+  const msg = r.texto || ("Para este fármaco, " + r.motivos.join(" y ") + ".");
   cont.className = "aviso-restriccion aviso-restriccion--" + r.nivel;
   cont.style.display = "flex";
   cont.innerHTML = '<span class="aviso-restriccion-ico">' + icono + '</span>' +
