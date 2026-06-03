@@ -66,6 +66,19 @@ const NOVEDADES = [
   }
 ];
 
+// Año derivado de la versión actual (APP_VERSION = "AAAA.NN").
+const APP_ANIO = APP_VERSION.split(".")[0];
+
+// Rellena la versión en los puntos visibles (pantalla principal y pie del
+// modal "Acerca de") desde una única fuente: APP_VERSION. Así nunca quedan dispares.
+function pintarVersion() {
+  const linea = "DosisPed · v" + APP_VERSION + " · " + APP_ANIO;
+  const elPrincipal = document.getElementById("app-version");
+  const elModal     = document.getElementById("modal-version-linea");
+  if (elPrincipal) elPrincipal.textContent = "Versión " + APP_VERSION + " · " + APP_ANIO;
+  if (elModal)     elModal.textContent = linea;
+}
+
 // ── Tema claro/oscuro ──────────────────────────────────────
 (function () {
   const btnTema   = document.getElementById("btn-tema");
@@ -129,6 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bindNeonato();
   bindBusqueda();
   bindModales();
+  pintarVersion();
 
   document.getElementById("btn-calcular").addEventListener("click", calcular);
   document.getElementById("btn-limpiar").addEventListener("click", limpiarCalc);
