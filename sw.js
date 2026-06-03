@@ -3,7 +3,7 @@
 //  Estrategia network-first con fallback a caché para uso offline.
 // ============================================================
 
-const CACHE_NAME = "dosisped-v17";
+const CACHE_NAME = "dosisped-v18";
 
 const ASSETS = [
   "./index.html",
@@ -11,9 +11,12 @@ const ASSETS = [
   "./app.js",
   "./farmacos.js",
   "./manifest.json",
-  "./icon-192.svg",
-  "./icon-512.svg",
-  "./icon-180.svg"
+  "./icon-192.png",
+  "./icon-512.png",
+  "./icon-180.png",
+  "./favicon-32.png",
+  "./favicon-16.png",
+  "./icon-512.svg"
 ];
 
 self.addEventListener("install", event => {
