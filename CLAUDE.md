@@ -582,7 +582,7 @@ El usuario trabaja en un hospital concreto con fórmulas magistrales específica
 
 El proyecto está publicado en **https://cjgaland.github.io/DosisPed/** desde el repositorio **github.com/cjgaland/DosisPed** (rama `main`).
 
-El working directory local (`/Users/Trabajo/Desktop/Pediatría/DosisPed/`) está conectado al remoto `origin` (`https://github.com/cjgaland/DosisPed.git`).
+El working directory local (`/Users/Trabajo/Desktop/Utilidades Clínicas/Pediatría/DosisPed/`) está conectado al remoto `origin` (`https://github.com/cjgaland/DosisPed.git`).
 
 ### Comando "despliega"
 
