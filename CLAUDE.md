@@ -56,7 +56,7 @@ DosisPed/
 ├── sw.js               → Service Worker (network-first; precarga `ASSETS` en install; versión en `CACHE_NAME`)
 ├── icon-{180,192,512}.png → Iconos PWA reales (los usan manifest.json, index.html y la precarga del SW); favicon-{16,32}.png
 ├── icon-{180,192,512}.svg → SVG de origen de los iconos (solo icon-512.svg está en la precarga del SW)
-├── README.md           → Presentación pública del repositorio (ojo: dice «91 fármacos», desfasado; real 149)
+├── README.md           → Presentación pública del repositorio (149 fármacos; actualizado el 24/11/2026)
 ├── autorespuesta-gmail.gs → Apps Script de la autorespuesta a sugerencias (vive en la cuenta Gmail del autor, no se carga en la web)
 ├── DosisPed-Manual.docx / .pdf → Manual de usuario (reexportado el 31/05/2026; su script generador NO está en la carpeta)
 ├── app(copy 1).js      → Copia ANTIGUA de app.js (1848 líneas; sin versión/novedades/sugerencias). NO se carga desde index.html, no está en git (sin seguimiento). No usar
@@ -309,7 +309,7 @@ Usuario cambia preparado comercial (modo intermitente)
 
 **Notas verificadas en el código (24/11/2026):**
 - `isoColor` NO es 1:1 con la categoría (p. ej. Dermatología usa `antibiotico`, `neutral` y `respiratorio` según el fármaco).
-- Qué usa cada modo: `intermitente` → array `intermitente`; `perfusion` → `presentaciones`; `carga_mantenimiento` → `carga` **y** `presentaciones` (el mantenimiento en perfusión); `puntual` → objeto `puntual`. La interfaz solo ofrece los modos listados en `modos`: 5 fármacos (cafeína citrato, digoxina, fenitoína, fenobarbital, valproato) tienen además un array `intermitente` pero su `modos` es solo `["carga_mantenimiento"]`, así que esas pautas no son accesibles desde la UI.
+- Qué usa cada modo: `intermitente` → array `intermitente`; `perfusion` → `presentaciones`; `carga_mantenimiento` → `carga` **y** `presentaciones` (el mantenimiento en perfusión); `puntual` → objeto `puntual`. La interfaz solo ofrece los modos listados en `modos`: si un fármaco tiene array `intermitente`, `modos` debe incluir `"intermitente"` o esas pautas quedan ocultas. Desde el 24/11/2026 (decisión del usuario) cafeína citrato, digoxina, fenitoína, fenobarbital y valproato tienen `modos: ["carga_mantenimiento", "intermitente"]`, como ya tenía levetiracetam: su mantenimiento aparece en la pestaña «Dosis intermitente». Hoy no queda ninguna pauta oculta.
 - El objeto `puntual` puede llevar `preparados` (3 fármacos) y `dosis_mcg_kg`; `carga` admite `dosis_mg_kg` o `dosis_mcg_kg`.
 - La lista `categorias` se genera sola en `farmacos.js`: `[...new Set(farmacos.map(f => f.categoria))].sort()`.
 
@@ -322,6 +322,7 @@ Usuario cambia preparado comercial (modo intermitente)
 | `"mcg_kg_min"` | Sí | mcg/kg/min | `(dosis × peso × 60) / concUgMl` |
 | `"mcg_kg_h"` | Sí | mcg/kg/h | `(dosis × peso) / concUgMl` |
 | `"mg_kg_h"` | Sí | mg/kg/h | `(dosis × peso) / concMgMl` |
+| `"mg_kg_min"` | Sí | mg/kg/min (o UI/kg/min) | `(dosis × peso × 60) / concMgMl` |
 | `"mcg_min"` | No | mcg/min | `(dosis × 60) / concUgMl` |
 | `"mcg_h"` | No | mcg/h | `dosis / concUgMl` |
 | `"mg_h"` | No | mg/h | `dosis / concMgMl` |
@@ -329,7 +330,9 @@ Usuario cambia preparado comercial (modo intermitente)
 
 Implementadas en `calcMlH()` y `calcDosis()` en `app.js`. **No añadir nuevos `calcTipo` sin añadir el caso en ambas funciones.**
 
-> Verificado 24/11/2026: VASOPRESINA (`farmacos.js`, línea ~6942) usa `calcTipo: "mg_kg_min"` (unidad UI/kg/min), valor que NO existe en `calcMlH()`/`calcDosis()` (devuelven `null` → la app muestra «Error en el cálculo»), y que tampoco está en la lista `necesitaPeso` (`["mcg_kg_min","mcg_kg_h","mg_kg_h"]`, repetida en `calcular()`, `renderModoPerfusion()` y `renderModoCargaMant()`). Pendiente de decisión; no se ha tocado.
+> Corregido 24/11/2026: VASOPRESINA usa `calcTipo: "mg_kg_min"` (unidad UI/kg/min, UI tratadas como mg en `concMgMl`). Ese caso no existía y la app mostraba «Error en el cálculo»; ahora está en `calcMlH()`/`calcDosis()` y en las tres listas `necesitaPeso` (`calcular()`, `renderModoPerfusion()`, `renderModoCargaMant()`). Comprobado: 0,0005 UI/kg/min × 10 kg con 0,4 UI/ml → 0,75 ml/h.
+>
+> Unidades en UI (heparina, vasopresina): si `unidad` empieza por «UI», `calcConcentracion()` muestra «UI/ml» en vez de «mg/ml». Valores muy pequeños (< 0,01): `decimalesMin()` amplía los decimales de «Dosis real» y de las marcas del deslizador de seguridad para no redondear a otra cifra, y el deslizador usa paso 0,0001 si su rango es ≤ 0,05 (hoy solo afecta a vasopresina).
 
 ---
 
@@ -360,6 +363,7 @@ La clase `modo-claro` se añade a `<html>` desde JS. Se persiste en `localStorag
 | `--radius` (10px), `--radius-lg` (16px), `--radius-xl` (20px) | Bordes redondeados |
 | `--font` (Inter), `--mono` (JetBrains Mono) | Fuentes |
 | `--header-h` (62/54px), `--panel-w` (440/380/100%) | Geometría responsive |
+| `--neo-h` | Altura real de la franja neonatal (0 si está oculta). La fija `bindNeonato()` con un `ResizeObserver`; la usan `#panel-detalle` (top) y `.app-content` (height) para que el panel no tape la franja ni la página se desborde |
 | `--safe-zone`, `--soft-stop`, `--hard-stop` | Gradiente del slider de seguridad |
 
 ### Naming CSS
@@ -418,7 +422,7 @@ El **volumen** del preparado se calcula como `dosisFinal / preparado.conc_mg_ml`
 
 Notas verificadas en el código (24/11/2026):
 - El tope por toma (`dosis_max_mg`) se aplica en `renderIntermitenteBox()` (tras el factor de ajuste fino), no dentro de `calcularDosisIntermitente()`; el tope diario (`dosis_max_dia_mg`) sí se aplica dentro de la función (`dosisDiaFinal`).
-- `renderIntermitenteBox()` (≈ línea 1766) divide por `conc_mg_ml` sin comprobar `null`; 160 de los 249 preparados de pautas intermitentes tienen `conc_mg_ml: null` (comprimidos, cremas, inhaladores…), de modo que el código, tal como está, no filtra esos casos. Conviene comprobarlo en pantalla antes de tocarlo.
+- Corregido 24/11/2026: 160 de los 249 preparados de pautas intermitentes tienen `conc_mg_ml: null` (comprimidos, cremas, inhaladores…). `renderIntermitenteBox()` y `onAjusteFinoInput()` ya no dividen por `null`: esos preparados muestran «forma sólida / sin concentración líquida» y un «—» en lugar del volumen.
 
 ---
 
@@ -460,7 +464,7 @@ Aparece bajo el resultado en modo intermitente cuando la dosis se calcula por pe
 - `oninput` (arrastre): NO llama a `renderPanel()` — re-renderizar destruiría el slider y mataría el arrastre. En su lugar actualiza directamente vía DOM: dosis por toma, total día, volúmenes de preparados, header del slider
 - `onchange` (al soltar): `renderPanel()` completo para re-sincronizar el resto de la UI
 - Topes (`dosis_max_mg`) se aplican después del factor: el tope sigue siendo absoluto
-- Matiz verificado (24/11/2026): el tope diario (`dosis_max_dia_mg`) se aplica ANTES del factor (`calcularDosisIntermitente()` devuelve `dosisDiaFinal` ya topado y luego se multiplica por `factorInt`, app.js ≈ líneas 1751-1752 y 1927), así que con factor > 1 el «Total día» puede superar el tope diario. No corregido.
+- El tope diario (`dosis_max_dia_mg`) también se aplica DESPUÉS del factor (corregido 24/11/2026; antes se aplicaba antes y con factor > 1 el «Total día» podía superarlo). `renderIntermitenteBox()` y `onAjusteFinoInput()` parten de `calc.dosisDia` (sin topar), multiplican por `factorInt` y después topan. Ejemplo: paracetamol 60 kg al 150 % → 1000 mg/toma y 4000 mg/día.
 - Visualmente: gradiente cyan-verde-ámbar en el track marcando "menos / estándar / más"; etiqueta con porcentaje en color del rango activo
 
 Implementado en `renderIntermitenteBox()` (HTML del slider y multiplicación de `dosisFinal`/`dosisDiaConFactor`) y funciones globales `onAjusteFinoInput()` / `onAjusteFino()`.
@@ -523,7 +527,7 @@ Al seleccionar un fármaco se guarda su nombre en `localStorage` (`dosisped-ulti
 ## 10. PWA
 
 - `manifest.json` declara nombre, colores tema, `id: "/DosisPed/"`, `start_url: "./index.html"`, iconos PNG (192, 512, 180 y 512 maskable, con `?v=18` para romper caché; el mismo `?v=18` está en `index.html`) y categorías médicas.
-- `sw.js` con estrategia **network-first** + fallback caché. Versión en constante `CACHE_NAME` (valor a 24/11/2026: `"dosisped-v19"`) — **incrementar al hacer cambios significativos** (`dosisped-v2`, etc.) para forzar invalidación.
+- `sw.js` con estrategia **network-first** + fallback caché. Versión en constante `CACHE_NAME` (valor a 24/11/2026: `"dosisped-v20"`) — **incrementar al hacer cambios significativos** (`dosisped-v2`, etc.) para forzar invalidación.
 - Iconos (PNG finales + SVG de origen) en gradiente turquesa→coral con la silueta del corazón pediátrico y la cruz.
 - `app.js` registra el SW y recarga automáticamente al recibir nuevo controlador (`controllerchange`). El SW NO llama a `skipWaiting()` al instalarse: queda en espera y la app muestra el banner «Nueva versión disponible · Actualizar», que envía el mensaje `SKIP_WAITING` (`mostrarBannerActualizacion()`).
 - La precarga (`ASSETS` en `sw.js`) incluye index.html, styles.css, app.js, farmacos.js, manifest.json, los PNG de iconos/favicons e icon-512.svg. Las fuentes Inter y JetBrains Mono se cargan por `@import` de Google Fonts en `styles.css` (sin conexión se usa la tipografía de reserva).
@@ -649,7 +653,7 @@ Cuando el usuario diga **"despliega"**, **"sube los cambios"**, **"actualiza el 
 
 4. **Stage selectivo** (importante: NO tocar `Perfusiones/`):
    ```bash
-   git add app.js farmacos.js styles.css index.html sw.js manifest.json README.md CLAUDE.md DESPLIEGUE.md .gitignore icon-*.svg
+   git add app.js farmacos.js styles.css index.html sw.js manifest.json README.md CLAUDE.md .gitignore icon-*.svg
    ```
    Si hay archivos nuevos relevantes, añadirlos también. Notas verificadas (24/11/2026): `DESPLIEGUE.md` no existe en el repo; los iconos vigentes son `icon-*.png` y `favicon-*.png` y no están en esa lista (añadirlos solo si cambian); `autorespuesta-gmail.gs`, `DosisPed-Manual.*` y `AGENTS.md` van aparte; `app(copy 1).js` y `AGENTS.md` figuran sin seguimiento en git (no añadir `app(copy 1).js`). NO usar `git add -A` (podría arrastrar archivos no deseados o modificaciones de Perfusiones).
 
@@ -717,7 +721,7 @@ bash /Users/Trabajo/.claude/skills/app-copia_seguridad/scripts/copia_seguridad.s
 
 ## 13. Estado actual (mayo 2026)
 
-> **Verificación contra el código (24/11/2026).** Versión de la app `APP_VERSION = "2026.08"` (junio 2026); Service Worker `CACHE_NAME = "dosisped-v19"`. Datos: **149 fármacos** y **19 categorías**; 107 con array `intermitente` (165 pautas, 249 preparados), 21 con `presentaciones` (25), 13 con `carga`, 36 con `puntual`, unos 40 con límites de edad/peso. Tamaños: `app.js` 2393 líneas, `farmacos.js` 7132, `styles.css` 2884, `index.html` 533. Último commit: `52a342d` (23/10/2026, solo cambió CLAUDE.md). Hay 5 fármacos que rompen el orden alfabético estricto (AMIODARONA, ANFOTERICINA B, CICLOPENTOLATO, FAMOTIDINA, FEXOFENADINA). La EG/EPN del modo neonato solo se guardan (rangos de entrada: EG 22–45 sem, EPN 0–60 d) y se muestran/imprimen/comparten; ningún cálculo de dosis las usa y `farmacos.js` no tiene campos por EG/EPN. El texto del changelog 2026.06 dice «Ya son 148 fármacos» (histórico; hoy son 149) y `README.md` dice «91 fármacos».
+> **Verificación contra el código (24/11/2026).** Versión de la app `APP_VERSION = "2026.09"` (noviembre 2026, publicada el 24/11/2026 con las correcciones del análisis); Service Worker `CACHE_NAME = "dosisped-v20"`. Datos: **149 fármacos** y **19 categorías**; 107 con array `intermitente` (165 pautas, 249 preparados), 21 con `presentaciones` (25), 13 con `carga`, 36 con `puntual`, unos 40 con límites de edad/peso. Tamaños: `app.js` 2393 líneas, `farmacos.js` 7132, `styles.css` 2884, `index.html` 533. Último commit: `52a342d` (23/10/2026, solo cambió CLAUDE.md). En `farmacos.js` hay fármacos fuera de su sitio alfabético (AMIODARONA, ANFOTERICINA B, ATROPINA, CICLOPENTOLATO, FAMOTIDINA, FEXOFENADINA), pero desde el 24/11/2026 `renderizarLista()` ordena siempre por nombre (`localeCompare(…, "es")`), también sin búsqueda, así que en pantalla salen en orden; al añadir fármacos se sigue insertando en orden alfabético. La EG/EPN del modo neonato solo se guardan (rangos de entrada: EG 22–45 sem, EPN 0–60 d) y se muestran/imprimen/comparten; ningún cálculo de dosis las usa y `farmacos.js` no tiene campos por EG/EPN. Por decisión del usuario (24/11/2026), la franja neonatal lo avisa (`.neonato-aviso`: «Solo informativo… contrasta con Neofax / SEN») y el README ya no promete ajuste por EG/EPN. El changelog 2026.06 dice «Ya son 148 fármacos»: es histórico (era la cifra de esa versión) y no se cambia.
 
 - **149 fármacos** en `farmacos.js`, orden alfabético
 - Categorías ampliadas con **Oftalmología** y **Dermatología**

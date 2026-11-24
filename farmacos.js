@@ -970,7 +970,7 @@ const farmacos = [
     isoColor: ISO.neonatal,
     icono: "👶",
     vias: ["iv", "oral"],
-    modos: ["carga_mantenimiento"],
+    modos: ["carga_mantenimiento", "intermitente"],
     fuente: "Neofax / SEN",
     carga: {
       descripcion: "Apnea del prematuro — Dosis de carga",
@@ -2136,7 +2136,7 @@ const farmacos = [
     isoColor: ISO.cardio,
     icono: "🫀",
     vias: ["oral", "iv"],
-    modos: ["carga_mantenimiento"],
+    modos: ["carga_mantenimiento", "intermitente"],
     fuente: "Pediamécum",
     carga: {
       descripcion: "Digitalización en insuficiencia cardíaca",
@@ -2759,7 +2759,7 @@ const farmacos = [
     isoColor: ISO.neuro,
     icono: "🧠",
     vias: ["iv", "oral"],
-    modos: ["carga_mantenimiento"],
+    modos: ["carga_mantenimiento", "intermitente"],
     fuente: "SEUP / Pediamécum",
     carga: {
       descripcion: "Estatus epiléptico refractario a benzodiacepinas",
@@ -2809,7 +2809,7 @@ const farmacos = [
     isoColor: ISO.neuro,
     icono: "🧠",
     vias: ["iv", "oral", "im"],
-    modos: ["carga_mantenimiento"],
+    modos: ["carga_mantenimiento", "intermitente"],
     fuente: "Neofax / SEUP / Pediamécum",
     carga: {
       descripcion: "Crisis convulsiva neonatal / Estatus refractario",
@@ -6777,7 +6777,7 @@ const farmacos = [
     isoColor: ISO.neuro,
     icono: "🧠",
     vias: ["oral", "iv"],
-    modos: ["carga_mantenimiento"],
+    modos: ["carga_mantenimiento", "intermitente"],
     fuente: "SEUP / Pediamécum",
     carga: {
       descripcion: "Estatus epiléptico",

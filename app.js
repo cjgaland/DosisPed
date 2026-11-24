@@ -24,7 +24,7 @@ const KEY_VERSION   = "dosisped-version-vista";
 // ── Versión y novedades (changelog) ────────────────────────
 // APP_VERSION = id de la versión más reciente (debe coincidir con NOVEDADES[0].version).
 // Al añadir una versión, insertar su entrada AL PRINCIPIO del array y actualizar APP_VERSION.
-const APP_VERSION = "2026.08";
+const APP_VERSION = "2026.09";
 
 // Clave de acceso de Web3Forms para el buzón de sugerencias.
 // Obtenida en web3forms.com con el correo del autor (el correo NO aparece aquí).
@@ -33,6 +33,18 @@ const WEB3FORMS_KEY = "f57ce774-9fbd-471e-b52d-7c3aa180094e";
 // Changelog: entradas de la MÁS RECIENTE (arriba) a la más antigua.
 // Al publicar mejoras, añadir una entrada AL PRINCIPIO y actualizar APP_VERSION = NOVEDADES[0].version.
 const NOVEDADES = [
+  {
+    version: "2026.09",
+    fecha: "Noviembre 2026",
+    titulo: "Correcciones de cálculo y modo neonato",
+    cambios: [
+      "Vasopresina en perfusión ya calcula el ritmo de bomba, con su dosis en UI/kg/min mostrada sin redondeos engañosos. La concentración de heparina y vasopresina se muestra en UI/ml.",
+      "El tope de dosis diaria se respeta también al subir el ajuste fino: el «Total día» nunca supera el máximo.",
+      "Cafeína, digoxina, fenitoína, fenobarbital y valproato muestran ahora su dosis de mantenimiento en la pestaña «Dosis intermitente».",
+      "Modo neonato: aviso de que la edad gestacional y postnatal son informativas (no ajustan la dosis), y los datos neonatales ya no quedan tapados al abrir un fármaco.",
+      "Comprimidos, cremas e inhaladores ya no muestran un volumen sin sentido, y la lista de fármacos sale siempre en orden alfabético."
+    ]
+  },
   {
     version: "2026.08",
     fecha: "Junio 2026",
@@ -388,6 +400,14 @@ function bindNeonato() {
   const cerrar = document.getElementById("btn-cerrar-neo");
   const egInp = document.getElementById("eg-input");
   const epnInp = document.getElementById("epn-input");
+
+  // --neo-h = altura real de la franja neonatal (0 si está oculta): el CSS la
+  // usa para que el panel del fármaco no la tape y la página no se desborde
+  const ajustarNeoH = function() {
+    document.documentElement.style.setProperty("--neo-h", panel.offsetHeight + "px");
+  };
+  if (window.ResizeObserver) new ResizeObserver(ajustarNeoH).observe(panel);
+  ajustarNeoH();
 
   btn.addEventListener("click", function() {
     modoNeonato = !modoNeonato;
@@ -1392,13 +1412,19 @@ function renderizarLista(query) {
     if (match) resultados.push({ f: f, match: match });
   });
 
-  // Ordena por relevancia del match (solo si hay búsqueda); dentro del mismo nivel, alfabético
+  // Con búsqueda: ordena por relevancia del match y, a igualdad, alfabético.
+  // Sin búsqueda: siempre alfabético (no depende del orden del array; corrige
+  // cualquier fármaco mal colocado en farmacos.js).
   if (qNorm) {
     resultados.sort(function(a, b) {
       const pa = PESO_MATCH[a.match.tipo] != null ? PESO_MATCH[a.match.tipo] : 9;
       const pb = PESO_MATCH[b.match.tipo] != null ? PESO_MATCH[b.match.tipo] : 9;
       if (pa !== pb) return pa - pb;
-      return a.f.nombre.localeCompare(b.f.nombre);
+      return a.f.nombre.localeCompare(b.f.nombre, "es");
+    });
+  } else {
+    resultados.sort(function(a, b) {
+      return a.f.nombre.localeCompare(b.f.nombre, "es");
     });
   }
 
@@ -1748,10 +1774,17 @@ function renderIntermitenteBox(f, pauta) {
   // Aplicar factor de ajuste fino
   var dosisFinal = calc.dosis;
   if (dosisFinal !== null) dosisFinal = dosisFinal * factorInt;
-  var dosisDiaConFactor = calc.dosisDiaFinal;
-  if (dosisDiaConFactor !== null) dosisDiaConFactor = dosisDiaConFactor * factorInt;
+  // Tope diario: se aplica DESPUÉS del factor (el tope es un techo absoluto,
+  // igual que el tope por toma; con factor > 1 el total/día no debe superarlo)
+  var dosisDiaConFactor = calc.dosisDia;
+  if (dosisDiaConFactor !== null) {
+    dosisDiaConFactor = dosisDiaConFactor * factorInt;
+    if (pauta.dosis_max_dia_mg && dosisDiaConFactor > pauta.dosis_max_dia_mg) {
+      dosisDiaConFactor = pauta.dosis_max_dia_mg;
+    }
+  }
 
-  // Aplicar tope absoluto tras factor
+  // Aplicar tope absoluto por toma tras factor
   var topeAplicado = false;
   if (dosisFinal !== null && pauta.dosis_max_mg && dosisFinal > pauta.dosis_max_mg) {
     dosisFinal = pauta.dosis_max_mg;
@@ -1766,13 +1799,20 @@ function renderIntermitenteBox(f, pauta) {
       '<div class="dosis-int-preparados-label">Preparados comerciales · volumen por toma</div>' +
       '<div class="dosis-int-prep-list">' +
         preparados.map(function(p, i) {
-          const vol = dosisFinal / p.conc_mg_ml;
+          const tieneConc = p.conc_mg_ml !== null && p.conc_mg_ml !== undefined && p.conc_mg_ml > 0;
+          const vol = tieneConc ? (dosisFinal / p.conc_mg_ml) : null;
+          const concHtml = tieneConc
+            ? formatNum(p.conc_mg_ml, 2) + ' mg/ml'
+            : 'forma sólida / sin concentración líquida';
+          const volHtml = tieneConc
+            ? formatNum(vol, 2) + ' ml'
+            : '<span style="color:var(--text-3);">—</span>';
           return '<div class="dosis-int-prep-item' + (i === prepIndex ? " dosis-int-prep-item--activo" : "") + '" onclick="seleccionarPreparado(' + i + ')">' +
             '<div style="flex:1;min-width:0;">' +
               '<div class="dosis-int-prep-nombre">' + p.nombre + '</div>' +
-              '<div class="dosis-int-prep-conc">' + formatNum(p.conc_mg_ml, 2) + ' mg/ml</div>' +
+              '<div class="dosis-int-prep-conc">' + concHtml + '</div>' +
             '</div>' +
-            '<div class="dosis-int-prep-vol">' + formatNum(vol, 2) + ' ml</div>' +
+            '<div class="dosis-int-prep-vol">' + volHtml + '</div>' +
           '</div>';
         }).join("") +
       '</div>' +
@@ -1897,7 +1937,8 @@ function onAjusteFinoInput(slider) {
   var dosisFinal = calc.dosis * factorInt;
   var topeOk = true;
   if (pauta.dosis_max_mg && dosisFinal > pauta.dosis_max_mg) { dosisFinal = pauta.dosis_max_mg; topeOk = false; }
-  const dosisDia = calc.dosisDiaFinal !== null ? calc.dosisDiaFinal * factorInt : null;
+  var dosisDia = calc.dosisDia !== null ? calc.dosisDia * factorInt : null;
+  if (dosisDia !== null && pauta.dosis_max_dia_mg && dosisDia > pauta.dosis_max_dia_mg) dosisDia = pauta.dosis_max_dia_mg;
 
   // Actualizar header del slider
   const pct = Math.round(factorInt * 100);
@@ -1932,7 +1973,11 @@ function onAjusteFinoInput(slider) {
     const p = preps[i];
     if (!p) return;
     const volEl = item.querySelector(".dosis-int-prep-vol");
-    if (volEl) volEl.textContent = formatNum(dosisFinal / p.conc_mg_ml, 2) + " ml";
+    if (volEl) {
+      const tieneConc = p.conc_mg_ml !== null && p.conc_mg_ml !== undefined && p.conc_mg_ml > 0;
+      if (tieneConc) volEl.textContent = formatNum(dosisFinal / p.conc_mg_ml, 2) + " ml";
+      else volEl.innerHTML = '<span style="color:var(--text-3);">—</span>';
+    }
   });
 }
 function onAjusteFino(slider) {
@@ -1947,7 +1992,7 @@ function onAjusteFino(slider) {
 function renderModoPerfusion(f) {
   if (!f.presentaciones || f.presentaciones.length === 0) return;
   const pres = f.presentaciones[presIndex];
-  const necesitaPeso = ["mcg_kg_min", "mcg_kg_h", "mg_kg_h"].indexOf(pres.calcTipo) >= 0;
+  const necesitaPeso = ["mcg_kg_min", "mcg_kg_h", "mg_kg_h", "mg_kg_min"].indexOf(pres.calcTipo) >= 0;
   document.getElementById("aviso-peso").style.display = (necesitaPeso && !pesoActual) ? "flex" : "none";
 
   document.getElementById("calculadora-section").style.display = "flex";
@@ -2019,7 +2064,7 @@ function calcular() {
   if (!pres) return;
   const inputStr = document.getElementById("valor-input").value.replace(",", ".");
   const valor    = parseFloat(inputStr);
-  const necesitaPeso = ["mcg_kg_min", "mcg_kg_h", "mg_kg_h"].indexOf(pres.calcTipo) >= 0;
+  const necesitaPeso = ["mcg_kg_min", "mcg_kg_h", "mg_kg_h", "mg_kg_min"].indexOf(pres.calcTipo) >= 0;
   const box = document.getElementById("resultado-box");
 
   if (isNaN(valor) || valor <= 0) { mostrarError(box, "Introduce un valor numérico válido."); return; }
@@ -2048,6 +2093,7 @@ function calcMlH(pres, dosis, peso) {
     case "mcg_kg_min": return (dosis * peso * 60) / concUg;
     case "mcg_kg_h":   return (dosis * peso)       / concUg;
     case "mg_kg_h":    return (dosis * peso)        / concMg;
+    case "mg_kg_min":  return (dosis * peso * 60)  / concMg;
     case "mcg_min":    return (dosis * 60)          / concUg;
     case "mcg_h":      return  dosis                / concUg;
     case "mg_h":       return  dosis                / concMg;
@@ -2062,6 +2108,7 @@ function calcDosis(pres, mlH, peso) {
     case "mcg_kg_min": return (mlH * concUg) / (peso * 60);
     case "mcg_kg_h":   return (mlH * concUg) / peso;
     case "mg_kg_h":    return (mlH * concMg) / peso;
+    case "mg_kg_min":  return (mlH * concMg) / (peso * 60);
     case "mcg_min":    return (mlH * concUg) / 60;
     case "mcg_h":      return  mlH * concUg;
     case "mg_h":       return  mlH * concMg;
@@ -2101,7 +2148,7 @@ function mostrarResultado(box, pres, mlH, dosis, alertaDosis) {
     const hardPct   = hardMax ? (hardMax / sliderMax) * 100 : null;
     const sliderVal = Math.min(dosis, sliderMax);
     const range     = sliderMax;
-    const step      = range <= 2 ? 0.01 : range <= 20 ? 0.1 : 1;
+    const step      = range <= 0.05 ? 0.0001 : range <= 2 ? 0.01 : range <= 20 ? 0.1 : 1;
 
     var gradient = "";
     if (safePct && hardPct) {
@@ -2124,16 +2171,16 @@ function mostrarResultado(box, pres, mlH, dosis, alertaDosis) {
         '<span class="res-safety-etiqueta res-safety-etiqueta--' + (alertaDosis || "ok") + '">' + etiq + '</span>' +
       '</div>' +
       '<input type="range" class="safety-slider"' +
-        'min="0" max="' + sliderMax.toFixed(3) + '"' +
-        'value="' + sliderVal.toFixed(3) + '"' +
+        'min="0" max="' + sliderMax.toFixed(6) + '"' +
+        'value="' + sliderVal.toFixed(6) + '"' +
         'step="' + step + '"' +
         'style="--slider-gradient: ' + gradient + '"' +
         'oninput="onSafetySliderInput(this)"' +
         'onchange="onSafetySlider(this)">' +
       '<div class="res-safety-zones">' +
         '<span>0</span>' +
-        (softMax ? '<span>' + formatNum(softMax, 2) + '</span>' : "") +
-        (hardMax ? '<span>' + formatNum(hardMax, 2) + '</span>' : "") +
+        (softMax ? '<span>' + formatNum(softMax, decimalesMin(softMax, 2)) + '</span>' : "") +
+        (hardMax ? '<span>' + formatNum(hardMax, decimalesMin(hardMax, 2)) + '</span>' : "") +
       '</div>' +
     '</div>';
   }
@@ -2155,7 +2202,7 @@ function mostrarResultado(box, pres, mlH, dosis, alertaDosis) {
       '<div class="res-divider"></div>' +
       '<div class="res-item">' +
         '<span class="res-label">Dosis real</span>' +
-        '<span class="res-valor ' + alertaValClass + '">' + formatNum(dosis, 3) + '</span>' +
+        '<span class="res-valor ' + alertaValClass + '">' + formatNum(dosis, decimalesMin(dosis, 3)) + '</span>' +
         '<span class="res-unit">' + pres.unidad + '</span>' +
       '</div>' +
     '</div>' +
@@ -2188,7 +2235,7 @@ function renderModoCargaMant(f) {
   if (f.carga) renderCargaBox(f);
   if (f.presentaciones && f.presentaciones.length > 0) {
     const pres = f.presentaciones[presIndex];
-    const necesitaPeso = ["mcg_kg_min", "mcg_kg_h", "mg_kg_h"].indexOf(pres.calcTipo) >= 0;
+    const necesitaPeso = ["mcg_kg_min", "mcg_kg_h", "mg_kg_h", "mg_kg_min"].indexOf(pres.calcTipo) >= 0;
     document.getElementById("aviso-peso").style.display = (necesitaPeso && !pesoActual) ? "flex" : "none";
     document.getElementById("calculadora-section").style.display = "flex";
     document.getElementById("info-collapse").style.display = "flex";
@@ -2331,8 +2378,11 @@ function renderContenidoClinica() {
 //  UTILIDADES
 // ============================================================
 function calcConcentracion(pres) {
+  // Fármacos dosificados en UI (heparina, vasopresina) guardan la concentración
+  // en concMgMl, pero son UI/ml: la etiqueta debe decirlo
+  const enUI = !!(pres.unidad && pres.unidad.indexOf("UI") === 0);
   if (pres.concMgMl !== undefined)
-    return { valor: pres.concMgMl, texto: formatNum(pres.concMgMl, 3) + " mg/ml" };
+    return { valor: pres.concMgMl, texto: formatNum(pres.concMgMl, 3) + (enUI ? " UI/ml" : " mg/ml") };
   if (pres.concUgMl !== undefined)
     return { valor: pres.concUgMl, texto: formatNum(pres.concUgMl, 2) + " mcg/ml" };
   return { valor: 0, texto: "—" };
@@ -2344,6 +2394,14 @@ function tiempoRestante(volMl, mlH) {
   if (horas >= 1)  return Math.floor(horas) + "h " + Math.round((horas % 1) * 60) + "min";
   return Math.round(horas * 60) + " min";
 }
+// Decimales suficientes para que un valor muy pequeño (< 0,01, p. ej. vasopresina
+// en UI/kg/min) no se redondee a otra cifra. Con valores normales devuelve `base`.
+function decimalesMin(n, base) {
+  var d = base;
+  if (!n || !isFinite(n)) return d;
+  while (d < 6 && Math.abs(n) < Math.pow(10, -d + 1)) d++;
+  return d;
+}
 function formatNum(n, decimals) {
   if (decimals === undefined) decimals = 2;
   if (n === null || isNaN(n)) return "—";
@@ -2354,7 +2412,8 @@ function onSafetySliderInput(slider) {
   const val      = parseFloat(slider.value);
   const step     = parseFloat(slider.step);
   var decimals = 2;
-  if (step < 0.05) decimals = 2;
+  if (step < 0.001) decimals = 4;
+  else if (step < 0.05) decimals = 2;
   else if (step < 1) decimals = 1;
   else decimals = 0;
   const rounded  = parseFloat(val.toFixed(decimals));
@@ -2364,7 +2423,8 @@ function onSafetySlider(slider) {
   const val      = parseFloat(slider.value);
   const step     = parseFloat(slider.step);
   var decimals = 2;
-  if (step < 0.05) decimals = 2;
+  if (step < 0.001) decimals = 4;
+  else if (step < 0.05) decimals = 2;
   else if (step < 1) decimals = 1;
   else decimals = 0;
   const rounded  = parseFloat(val.toFixed(decimals));

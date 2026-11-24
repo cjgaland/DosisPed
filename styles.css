@@ -59,6 +59,7 @@
 
   --panel-w:     440px;
   --header-h:    62px;
+  --neo-h:       0px;   /* altura de la franja neonatal; la fija app.js (0 si está oculta) */
 }
 
 /* ── Variables — Modo CLARO ─────────────────────────────── */
@@ -276,6 +277,8 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
 
 /* ── Panel modo neonato ────────────────────────────────── */
 .neonato-panel {
+  position: relative;
+  z-index: 55;            /* por encima del velo móvil (50), por debajo del panel (60) */
   background: var(--bg-2);
   border-bottom: 1px solid var(--border);
   padding: 8px 18px 10px;
@@ -309,6 +312,16 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
   flex: 1;
   flex-wrap: wrap;
 }
+.neonato-aviso {
+  flex: 1 1 260px;
+  min-width: 0;
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--text-2);
+}
+.neonato-aviso b { color: var(--amber); }
+.neonato-aviso-ico { color: var(--amber); font-weight: 700; }
 .btn-cerrar-neo {
   background: var(--bg-4);
   border: 1px solid var(--border);
@@ -714,7 +727,7 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
 .app-content {
   display: grid;
   grid-template-columns: 320px 1fr;
-  height: calc(100vh - var(--header-h));
+  height: calc(100vh - var(--header-h) - var(--neo-h));
   overflow: hidden;
 }
 
@@ -1005,7 +1018,7 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
 /* ── Panel de detalle ──────────────────────────────────── */
 #panel-detalle {
   position: fixed;
-  top: var(--header-h); right: 0; bottom: 0;
+  top: calc(var(--header-h) + var(--neo-h)); right: 0; bottom: 0;
   width: var(--panel-w);
   background: var(--bg-2);
   border-left: 1px solid var(--border);
@@ -1962,9 +1975,15 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
   .app-content {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
-    height: calc(100vh - var(--header-h));
+    height: calc(100vh - var(--header-h) - var(--neo-h));
     overflow: hidden;
   }
+
+  /* Franja neonatal compacta: título / EG + EPN + ✕ / aviso */
+  .neonato-panel       { padding: 6px 12px 8px; }
+  .neonato-panel-inner { gap: 4px 10px; }
+  .neonato-fields      { flex: 1 1 100%; gap: 6px 10px; }
+  .neonato-aviso       { order: 5; flex: 1 1 100%; font-size: 11px; }
 
   .sidebar {
     border-right: none;
@@ -2017,7 +2036,7 @@ body, .app-header, .sidebar, #panel-detalle, .farm-card,
   .empty-sub   { font-size: 11px; max-width: none; }
 
   #panel-detalle {
-    top: var(--header-h); right: 0; bottom: 0; left: 0;
+    top: calc(var(--header-h) + var(--neo-h)); right: 0; bottom: 0; left: 0;
     width: 100%;
     border-left: none;
     border-top: 3px solid var(--cyan);

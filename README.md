@@ -2,13 +2,13 @@
 
 > Calculadora pediátrica de dosis y perfusiones para urgencias, planta, UCI pediátrica, neonatología y consultas externas.
 
-**DosisPed** es una herramienta clínica de apoyo diseñada para profesionales que atienden a pacientes pediátricos (urgencias, pediatría, enfermería). Calcula dosis intermitentes (oral, IV, IM, rectal, nebulizada…), perfusiones continuas en UCIP, dosis de carga, dosis puntuales y volúmenes según los preparados comerciales españoles. Incluye un módulo neonatal con dosificación por edad gestacional y edad postnatal.
+**DosisPed** es una herramienta clínica de apoyo diseñada para profesionales que atienden a pacientes pediátricos (urgencias, pediatría, enfermería). Calcula dosis intermitentes (oral, IV, IM, rectal, nebulizada…), perfusiones continuas en UCIP, dosis de carga, dosis puntuales y volúmenes según los preparados comerciales españoles. Incluye un modo neonato que registra la edad gestacional y la edad postnatal (de momento solo informativas: las dosis no se ajustan según ellas).
 
 ## ✨ Características
 
-- **91 fármacos** en orden alfabético, todos validados según Pediamécum (AEP), SEUP, Neofax/SEN, AEMPS y Harriet Lane
+- **149 fármacos** en orden alfabético, todos validados según Pediamécum (AEP), SEUP, Neofax/SEN, AEMPS y Harriet Lane
 - **4 modos de administración**: intermitente, perfusión continua, carga + mantenimiento, dosis puntual
-- **Paciente**: peso, edad (años / meses / días) y modo neonato con edad gestacional + edad postnatal
+- **Paciente**: peso, edad (años / meses / días) y modo neonato con edad gestacional + edad postnatal (informativas; no modifican el cálculo)
 - **Preparados comerciales españoles** con cálculo automático de volumen del jarabe
 - **Topes absolutos** de dosis máxima por toma y por día con alertas no bloqueantes
 - **Slider de seguridad** en perfusiones (gradiente verde/ámbar/rojo)
