@@ -13,7 +13,7 @@ Guía de referencia para el desarrollo asistido por IA de este proyecto.
 - **Planta de hospitalización** — pautas habituales en niños ingresados
 - **Consulta Externa de Pediatria** — pautas habituales en niños vistos en consulta hospitalaria de Pediatría
 - **UCI pediátrica (UCIP)** — perfusiones continuas, cargas, vasoactivos, sedoanalgesia
-- **Neonatología** — dosificación por edad gestacional + edad postnatal, fórmulas magistrales
+- **Neonatología** — dosificación por edad gestacional + edad postnatal, fórmulas magistrales (estado real del código: la EG y la EPN se registran y se muestran, pero NO modifican ningún cálculo; ver §13)
 
 ### Contexto clínico relevante
 
@@ -48,17 +48,28 @@ Cada fármaco lleva campo `fuente:` con la(s) referencia(s) usada(s).
 
 ```
 DosisPed/
-├── index.html          → Estructura HTML + modales bienvenida/fuentes
+├── index.html          → Estructura HTML + modales (bienvenida, fuentes/«Acerca de», novedades, sugerencias, vista paciente) + vista de impresión `#print-view`
 ├── styles.css          → CSS completo con tokens, modo claro/oscuro, responsive
 ├── app.js              → Lógica: estado, render, cálculos, modales, paciente
 ├── farmacos.js         → Base de datos de fármacos (datos puros, sin lógica)
 ├── manifest.json       → Manifest PWA
-├── sw.js               → Service Worker (network-first)
-├── icon-{180,192,512}.svg → Iconos PWA
+├── sw.js               → Service Worker (network-first; precarga `ASSETS` en install; versión en `CACHE_NAME`)
+├── icon-{180,192,512}.png → Iconos PWA reales (los usan manifest.json, index.html y la precarga del SW); favicon-{16,32}.png
+├── icon-{180,192,512}.svg → SVG de origen de los iconos (solo icon-512.svg está en la precarga del SW)
+├── README.md           → Presentación pública del repositorio (ojo: dice «91 fármacos», desfasado; real 149)
+├── autorespuesta-gmail.gs → Apps Script de la autorespuesta a sugerencias (vive en la cuenta Gmail del autor, no se carga en la web)
+├── DosisPed-Manual.docx / .pdf → Manual de usuario (reexportado el 31/05/2026; su script generador NO está en la carpeta)
+├── app(copy 1).js      → Copia ANTIGUA de app.js (1848 líneas; sin versión/novedades/sugerencias). NO se carga desde index.html, no está en git (sin seguimiento). No usar
+├── Perfusiones/        → Ver nota debajo (ya no contiene código)
+├── Backup/             → Copias de seguridad locales (ver «Copias de seguridad locales»); ignorada por git
+├── .claude/            → launch.json (vista previa en local), serve.js (servidor, puerto 8765), settings.local.json; ignorada por git
+├── AGENTS.md            → Copia de este archivo para Codex (solo cambian el título y las menciones a Claude/Codex)
 └── CLAUDE.md           → Este archivo
 ```
 
 Convivimos con la carpeta hermana `Perfusiones/` (NO editar — proyecto independiente). Solo se consulta como referencia.
+
+> Verificado 24/11/2026: hoy `DosisPed/Perfusiones/` solo contiene `.claude/` (launch.json y settings.local.json) y `assets/` (carpeta `favicons`, sin ficheros) más `.DS_Store`: no hay código de Perfusiones UCI en esta carpeta, y no está en git (el commit `7a03cf3` «Delete Perfusiones directory» la quitó del repositorio).
 
 ### Relaciones entre archivos
 
@@ -90,6 +101,10 @@ index.html
   <div id="panel-overlay">             ← overlay móvil
   <div id="modal-bienvenida">          ← modal inicial (primer arranque)
   <div id="modal-fuentes">             ← modal "Acerca de"
+  <div id="modal-paciente">            ← vista paciente (prescripción multi-fármaco)
+  <div id="modal-novedades">           ← changelog de versiones
+  <div id="modal-sugerencias">         ← buzón de sugerencias (Web3Forms)
+  <div id="print-view">                ← vista de impresión de la prescripción (solo @media print)
   <div id="toast-container">           ← toasts (copia, errores)
 ```
 
@@ -109,6 +124,7 @@ index.html
 | `prepIndex` | `number` | Índice de preparado comercial activo |
 | `modoCalculo` | `"dosis" \| "ml"` | Dirección del cálculo en perfusión |
 | `modoAdmin` | `"intermitente" \| "perfusion" \| "carga_mantenimiento" \| "puntual"` | Modo de administración |
+| `factorInt` | `number` | Factor de ajuste fino de la dosis intermitente (0,5–1,5; 1,0 por defecto), ver §9.2 |
 | `categoriaFiltro` | `string` | Categoría activa o `"Todos"` o `"Favoritos"` |
 | `clinicaTab` | `"indicaciones" \| "precauciones" \| "contraindicaciones"` | Tab clínica activa |
 | `clinicaAbierta` | `boolean` | Si la sección clínica está abierta |
@@ -131,6 +147,7 @@ Todo el estado relevante se persiste en `localStorage` con claves `dosisped-*`.
 | `dosisped-bienvenida-vista` | `"1"` (si el usuario marcó no repetir) |
 | `dosisped-ultimo-farmaco` | `string` (nombre del fármaco abierto — persistencia entre recargas) |
 | `dosisped-paciente-rx` | `JSON.stringify([{nombre, modoAdmin, intIndex, presIndex, prepIndex, factor, pesoSnapshot, edadSnapshot, ts}, ...])` — prescripción del paciente actual |
+| `dosisped-version-vista` | `string` — última `APP_VERSION` cuyas novedades vio el usuario (ver §13, sistema de novedades) |
 
 **sessionStorage** (solo durante la sesión del navegador):
 
@@ -172,7 +189,7 @@ Usuario cambia preparado comercial (modo intermitente)
   sinonimos: ["marca", "alias"],            // array de strings para búsqueda fuzzy
   isoColor: ISO.categoria,                  // referencia a constante ISO
   icono: "emoji",                           // un emoji
-  vias: ["oral", "iv", "im", "io", "rectal", "neb", "sc", "sl"],  // primera = preferida
+  vias: ["oral", "iv", "im", "io", "rectal", "neb", "sc", "sl", "oft", "top", "in", "inh", "it"],  // primera = preferida; todas las vías usadas en farmacos.js, cada una con badge CSS `.farm-via-badge--<vía>`
   modos: ["intermitente", "perfusion", "carga_mantenimiento", "puntual"],
   fuente: "Pediamécum / SEUP",              // referencia citada al pie de info clínica
 
@@ -267,8 +284,9 @@ Usuario cambia preparado comercial (modo intermitente)
 3. **`dosis_max_mg` y `dosis_max_dia_mg`** son críticos. Inclúyelos siempre que existan topes adulto (paracetamol 1000/4000, amoxi 1000/3000, etc.). La UI aplica el tope automáticamente y muestra alerta.
 4. **`preparados` debe reflejar la realidad española**: nombres comerciales reales (Apiretal, Dalsy, Augmentine, Estilsona, Ventolin...) con `conc_mg_ml` correcto. Si es comprimido/cápsula, `conc_mg_ml: null`.
 5. **Fórmulas magistrales hospitalarias**: incluir como preparado con sufijo "— fórmula magistral hospital" o "— hospital" (ej. metilprednisolona 1 mg/mL, ondansetrón 0,8 mg/mL).
-6. **Categorías existentes** (no inventar nuevas sin razón):
+6. **Categorías existentes** (19 a 24/11/2026; no inventar nuevas sin razón):
    - Analgesia / Antitérmico
+   - Analgesia / Sedación
    - Antibiótico
    - Antiepiléptico / Sedante
    - Antiemético
@@ -276,15 +294,24 @@ Usuario cambia preparado comercial (modo intermitente)
    - Antivírico
    - Cardiología
    - Corticoide
+   - Dermatología
    - Digestivo
    - Diurético
    - Endocrino
    - Hematología
    - Neonatos
+   - Oftalmología
+   - Otorrinolaringología
    - Reanimación / UCIP
    - Respiratorio
 7. **`sinonimos`** sirve para búsqueda fuzzy: incluye marcas comerciales (`"nolotil"`, `"metalgial"`), aliases (`"epinefrina"`) y errores frecuentes (`"fenitoina"` sin tilde).
 8. **`fuente`** debe ser conciso: `"Pediamécum (AEP)"`, `"SEUP / Pediamécum"`, `"Neofax / SEN"`, etc.
+
+**Notas verificadas en el código (24/11/2026):**
+- `isoColor` NO es 1:1 con la categoría (p. ej. Dermatología usa `antibiotico`, `neutral` y `respiratorio` según el fármaco).
+- Qué usa cada modo: `intermitente` → array `intermitente`; `perfusion` → `presentaciones`; `carga_mantenimiento` → `carga` **y** `presentaciones` (el mantenimiento en perfusión); `puntual` → objeto `puntual`. La interfaz solo ofrece los modos listados en `modos`: 5 fármacos (cafeína citrato, digoxina, fenitoína, fenobarbital, valproato) tienen además un array `intermitente` pero su `modos` es solo `["carga_mantenimiento"]`, así que esas pautas no son accesibles desde la UI.
+- El objeto `puntual` puede llevar `preparados` (3 fármacos) y `dosis_mcg_kg`; `carga` admite `dosis_mg_kg` o `dosis_mcg_kg`.
+- La lista `categorias` se genera sola en `farmacos.js`: `[...new Set(farmacos.map(f => f.categoria))].sort()`.
 
 ---
 
@@ -302,6 +329,8 @@ Usuario cambia preparado comercial (modo intermitente)
 
 Implementadas en `calcMlH()` y `calcDosis()` en `app.js`. **No añadir nuevos `calcTipo` sin añadir el caso en ambas funciones.**
 
+> Verificado 24/11/2026: VASOPRESINA (`farmacos.js`, línea ~6942) usa `calcTipo: "mg_kg_min"` (unidad UI/kg/min), valor que NO existe en `calcMlH()`/`calcDosis()` (devuelven `null` → la app muestra «Error en el cálculo»), y que tampoco está en la lista `necesitaPeso` (`["mcg_kg_min","mcg_kg_h","mg_kg_h"]`, repetida en `calcular()`, `renderModoPerfusion()` y `renderModoCargaMant()`). Pendiente de decisión; no se ha tocado.
+
 ---
 
 ## 5. Sistema de variables CSS
@@ -313,7 +342,7 @@ Implementadas en `calcMlH()` y `calcDosis()` en `app.js`. **No añadir nuevos `c
 :root.modo-claro { } /* Overrides para modo claro */
 ```
 
-La clase `modo-claro` se añade a `<html>` desde JS. Se persiste en `localStorage` con clave `dosisped-tema`.
+La clase `modo-claro` se añade a `<html>` desde JS. Se persiste en `localStorage` con clave `dosisped-tema`; si no hay tema guardado, JS aplica el del sistema (`prefers-color-scheme`).
 
 ### Tokens principales
 
@@ -358,6 +387,7 @@ La clase `modo-claro` se añade a `<html>` desde JS. Se persiste en `localStorag
 | `≤ 900px` y `> 640px` | Tablet: sidebar 250px, panel más estrecho, paciente compacto |
 | `≤ 640px` | Móvil: layout vertical, panel slide desde abajo, paciente baja al panel |
 | `≤ 360px` | Móvil muy pequeño: ajustes de grid |
+| `print` | Vista de impresión de la prescripción (`#print-view`) |
 
 ---
 
@@ -386,6 +416,10 @@ Después de calcular:
 
 El **volumen** del preparado se calcula como `dosisFinal / preparado.conc_mg_ml` y se muestra en una lista interactiva (clic = preparado activo).
 
+Notas verificadas en el código (24/11/2026):
+- El tope por toma (`dosis_max_mg`) se aplica en `renderIntermitenteBox()` (tras el factor de ajuste fino), no dentro de `calcularDosisIntermitente()`; el tope diario (`dosis_max_dia_mg`) sí se aplica dentro de la función (`dosisDiaFinal`).
+- `renderIntermitenteBox()` (≈ línea 1766) divide por `conc_mg_ml` sin comprobar `null`; 160 de los 249 preparados de pautas intermitentes tienen `conc_mg_ml: null` (comprimidos, cremas, inhaladores…), de modo que el código, tal como está, no filtra esos casos. Conviene comprobarlo en pantalla antes de tocarlo.
+
 ---
 
 ## 8. Modales
@@ -396,7 +430,8 @@ El **volumen** del preparado se calcula como `dosisFinal / preparado.conc_mg_ml`
   - Lista completa de fuentes con URLs (Pediamécum, SEUP, Neofax, AEMPS, Harriet Lane, Lexicomp)
   - Aviso legal y limitación de responsabilidad completos
   - Uso racional del medicamento (5 puntos)
-  - Metadata: versión y fecha
+  - Metadata: versión y fecha; la línea de versión (`#modal-version-linea`) y la de la pantalla principal (`#app-version`) las rellena `pintarVersion()` desde `APP_VERSION`
+  - Historial de versiones (`#historial-versiones`) y botón «Escribir una sugerencia» (`#btn-abrir-sugerencias`)
 
 Ambos comparten estilos `.modal-*` con animación `modalIn` y son responsive (bottom-sheet en móvil).
 
@@ -425,6 +460,7 @@ Aparece bajo el resultado en modo intermitente cuando la dosis se calcula por pe
 - `oninput` (arrastre): NO llama a `renderPanel()` — re-renderizar destruiría el slider y mataría el arrastre. En su lugar actualiza directamente vía DOM: dosis por toma, total día, volúmenes de preparados, header del slider
 - `onchange` (al soltar): `renderPanel()` completo para re-sincronizar el resto de la UI
 - Topes (`dosis_max_mg`) se aplican después del factor: el tope sigue siendo absoluto
+- Matiz verificado (24/11/2026): el tope diario (`dosis_max_dia_mg`) se aplica ANTES del factor (`calcularDosisIntermitente()` devuelve `dosisDiaFinal` ya topado y luego se multiplica por `factorInt`, app.js ≈ líneas 1751-1752 y 1927), así que con factor > 1 el «Total día» puede superar el tope diario. No corregido.
 - Visualmente: gradiente cyan-verde-ámbar en el track marcando "menos / estándar / más"; etiqueta con porcentaje en color del rango activo
 
 Implementado en `renderIntermitenteBox()` (HTML del slider y multiplicación de `dosisFinal`/`dosisDiaConFactor`) y funciones globales `onAjusteFinoInput()` / `onAjusteFino()`.
@@ -467,6 +503,8 @@ Si el fármaco ya está en la Rx con la misma combinación de modo/pauta/present
 **Acciones**:
 - **Quitar** un fármaco: botón ✕ en la tarjeta → `quitarDePaciente(i)`
 - **Copiar Rx** (📋): genera texto plano formateado con todos los datos + advertencia legal, lo copia al portapapeles
+- **Imprimir** (`imprimirPrescripcion()`): rellena la vista `#print-view` y usa `@media print` (con espacio para firma)
+- **Compartir enlace** (`compartirPrescripcionUrl()`): codifica paciente + Rx en base64 dentro de `?rx=` y lo copia; al abrir un enlace así `importarPrescripcionDesdeUrl()` pide confirmación, restaura paciente y Rx y abre la vista paciente
 - **Vaciar Rx**: borra todas las prescripciones, mantiene peso/edad
 - **Nuevo paciente**: borra peso, edad, modo neonato, EG, EPN y la prescripción. Limpia inputs del DOM.
 
@@ -484,10 +522,11 @@ Al seleccionar un fármaco se guarda su nombre en `localStorage` (`dosisped-ulti
 
 ## 10. PWA
 
-- `manifest.json` declara nombre, colores tema, iconos SVG (180/192/512), categorías médicas.
-- `sw.js` con estrategia **network-first** + fallback caché. Versión en constante `CACHE_NAME = "dosisped-v1"` — **incrementar al hacer cambios significativos** (`dosisped-v2`, etc.) para forzar invalidación.
-- Iconos SVG en gradiente turquesa→coral con la silueta del corazón pediátrico y la cruz.
-- `app.js` registra el SW y recarga automáticamente al recibir nuevo controlador (`controllerchange`).
+- `manifest.json` declara nombre, colores tema, `id: "/DosisPed/"`, `start_url: "./index.html"`, iconos PNG (192, 512, 180 y 512 maskable, con `?v=18` para romper caché; el mismo `?v=18` está en `index.html`) y categorías médicas.
+- `sw.js` con estrategia **network-first** + fallback caché. Versión en constante `CACHE_NAME` (valor a 24/11/2026: `"dosisped-v19"`) — **incrementar al hacer cambios significativos** (`dosisped-v2`, etc.) para forzar invalidación.
+- Iconos (PNG finales + SVG de origen) en gradiente turquesa→coral con la silueta del corazón pediátrico y la cruz.
+- `app.js` registra el SW y recarga automáticamente al recibir nuevo controlador (`controllerchange`). El SW NO llama a `skipWaiting()` al instalarse: queda en espera y la app muestra el banner «Nueva versión disponible · Actualizar», que envía el mensaje `SKIP_WAITING` (`mostrarBannerActualizacion()`).
+- La precarga (`ASSETS` en `sw.js`) incluye index.html, styles.css, app.js, farmacos.js, manifest.json, los PNG de iconos/favicons e icon-512.svg. Las fuentes Inter y JetBrains Mono se cargan por `@import` de Google Fonts en `styles.css` (sin conexión se usa la tipografía de reserva).
 
 ---
 
@@ -582,7 +621,7 @@ El usuario trabaja en un hospital concreto con fórmulas magistrales específica
 
 El proyecto está publicado en **https://cjgaland.github.io/DosisPed/** desde el repositorio **github.com/cjgaland/DosisPed** (rama `main`).
 
-El working directory local (`/Users/Trabajo/Desktop/Utilidades Clínicas/Pediatría/DosisPed/`) está conectado al remoto `origin` (`https://github.com/cjgaland/DosisPed.git`).
+El working directory local (`/Users/Trabajo/Desktop/Utilidades Clínicas/Pediatría/DosisPed/`) está conectado al remoto `origin` (remoto SSH `git@github.com:cjgaland/DosisPed.git`).
 
 ### Comando "despliega"
 
@@ -612,7 +651,7 @@ Cuando el usuario diga **"despliega"**, **"sube los cambios"**, **"actualiza el 
    ```bash
    git add app.js farmacos.js styles.css index.html sw.js manifest.json README.md CLAUDE.md DESPLIEGUE.md .gitignore icon-*.svg
    ```
-   Si hay archivos nuevos relevantes, añadirlos también. NO usar `git add -A` (podría arrastrar archivos no deseados o modificaciones de Perfusiones).
+   Si hay archivos nuevos relevantes, añadirlos también. Notas verificadas (24/11/2026): `DESPLIEGUE.md` no existe en el repo; los iconos vigentes son `icon-*.png` y `favicon-*.png` y no están en esa lista (añadirlos solo si cambian); `autorespuesta-gmail.gs`, `DosisPed-Manual.*` y `AGENTS.md` van aparte; `app(copy 1).js` y `AGENTS.md` figuran sin seguimiento en git (no añadir `app(copy 1).js`). NO usar `git add -A` (podría arrastrar archivos no deseados o modificaciones de Perfusiones).
 
 5. **Commit** con mensaje descriptivo (resumir los cambios reales del turno):
    ```bash
@@ -645,6 +684,10 @@ Tras un push exitoso, indicar al usuario:
 - Tiempo estimado de propagación: 30-60 s
 - Si tiene la PWA instalada en móvil: cerrar y reabrir para que el SW recoja la nueva versión
 
+### Cómo se ve en local
+
+`.claude/launch.json` define la configuración «dosisped»: `node .claude/serve.js` en el puerto **8765** (http://localhost:8765). `.claude/serve.js` es un servidor estático mínimo con la ruta del proyecto escrita a mano en `ROOT` (`/Users/Trabajo/Desktop/Utilidades Clínicas/Pediatría/DosisPed`): si la carpeta se mueve, hay que actualizarla. Abrir `index.html` con doble clic también funciona (README, opción B), pero con `file://` el Service Worker no se registra.
+
 ### Permisos del harness (para despliegue sin prompts)
 
 Los diálogos "¿Permitir que Claude ejecute…?" NO los controla este `CLAUDE.md` — son del sistema de permisos de Claude Code. Para que el despliegue corra sin interrupciones, en `.claude/settings.local.json` hay una allowlist con reglas **amplias por comodín** (no comandos exactos, que vuelven a preguntar al variar): `Bash(git *)`, `Bash(node -c *)`, `Bash(node -e *)`, `Bash(grep *)`, etc. Si en el futuro un comando nuevo del flujo vuelve a pedir permiso, **añadir su regla con comodín** a ese archivo (no el comando exacto). Recordar que el bump del SW se hace con `Edit`, no con `sed` (ver paso 2), precisamente para no disparar un prompt no allowlistable.
@@ -658,11 +701,27 @@ GitHub puede pedir credenciales en la primera vez. Indicarle al usuario que:
 
 ---
 
+## 12ter. Copias de seguridad locales
+
+- Carpeta `Backup/` en la raíz del proyecto (ya creada y ya en `.gitignore`, no se sube a GitHub).
+- Cada copia es el proyecto completo sin `.git`: `Backup/Copia_Seguridad_DosisPed_DD_MM_YYYY-HH_MM`.
+- Se conservan **solo las 5 más recientes**; al crear una nueva se borra la más antigua.
+- **OBLIGATORIO** hacer una copia **antes de modificar la app** y otra **en cada commit + push**.
+- Comando:
+
+```bash
+bash /Users/Trabajo/.claude/skills/app-copia_seguridad/scripts/copia_seguridad.sh --root "/Users/Trabajo/Desktop/Utilidades Clínicas/Pediatría/DosisPed" --name DosisPed
+```
+
+---
+
 ## 13. Estado actual (mayo 2026)
+
+> **Verificación contra el código (24/11/2026).** Versión de la app `APP_VERSION = "2026.08"` (junio 2026); Service Worker `CACHE_NAME = "dosisped-v19"`. Datos: **149 fármacos** y **19 categorías**; 107 con array `intermitente` (165 pautas, 249 preparados), 21 con `presentaciones` (25), 13 con `carga`, 36 con `puntual`, unos 40 con límites de edad/peso. Tamaños: `app.js` 2393 líneas, `farmacos.js` 7132, `styles.css` 2884, `index.html` 533. Último commit: `52a342d` (23/10/2026, solo cambió CLAUDE.md). Hay 5 fármacos que rompen el orden alfabético estricto (AMIODARONA, ANFOTERICINA B, CICLOPENTOLATO, FAMOTIDINA, FEXOFENADINA). La EG/EPN del modo neonato solo se guardan (rangos de entrada: EG 22–45 sem, EPN 0–60 d) y se muestran/imprimen/comparten; ningún cálculo de dosis las usa y `farmacos.js` no tiene campos por EG/EPN. El texto del changelog 2026.06 dice «Ya son 148 fármacos» (histórico; hoy son 149) y `README.md` dice «91 fármacos».
 
 - **149 fármacos** en `farmacos.js`, orden alfabético
 - Categorías ampliadas con **Oftalmología** y **Dermatología**
-- Nuevas vías con badge propio: `oft` (oftálmica), `top` (tópica), `in` (intranasal)
+- Nuevas vías con badge propio: `oft` (oftálmica), `top` (tópica), `in` (intranasal); también existen `inh` (inhalada) e `it` (intratecal)
 - **Lotes ya realizados**:
   - **Lote 1** (35): núcleo de urgencias/planta/UCIP esencial
   - **Lote 2** (24): antibióticos (gentamicina, clinda, meropenem, fosfo, cotrimoxazol), neuro (fenitoína, fenobarbital, valproato), cardio (adenosina, amiodarona, atropina, digoxina, milrinona), neonatos (cafeína, prostaglandina E1, vit K), respiratorio (montelukast), antihistamínicos (cetirizina, dexclorfeniramina), digestivo (lactulosa, polietilenglicol), hematología (enoxaparina), sedación (propofol)
@@ -675,7 +734,7 @@ GitHub puede pedir credenciales en la primera vez. Indicarle al usuario que:
   - Nueva categoría añadida: **Otorrinolaringología** (gotas óticas).
   - **Lote 9** (17): analgesia (morfina/cloruro mórfico, EMLA lidocaína+prilocaína, naproxeno, dexketoprofeno), digestivo GEA (racecadotrilo/Tiorfan, sales de rehidratación oral, zinc oral, domperidona con aviso AEMPS de QT), urgencias/UCIP (ácido tranexámico, suero salino hipertónico 3%, manitol, cloruro potásico con aviso de no-bolo), otros (deflazacort/Zamene, loratadina, lorazepam, sulfadiazina argéntica/Silvederma, fenazona+lidocaína ótica/Otitex).
   - **Mejora de búsqueda**: full-text en indicaciones/notas/categoría/vías (NO contraindicaciones), normalización sin acentos, botón limpiar (✕), tecla Escape, contador de resultados, etiqueta de coincidencia con resaltado, y orden por relevancia (indicación antes que nota). Implementado en `renderizarLista()` con `normalizar()`, `buscarEnFarmaco()`, `matchInicioPalabra()`.
-  - **Alerta de edad/peso fuera de rango**: campos opcionales `edad_min_meses`, `edad_max_meses`, `peso_min_kg`, `peso_max_kg`, `restriccion_nivel` ("ambar" por defecto o "rojo"), `restriccion_texto`, a nivel de fármaco o de pauta (la pauta tiene prioridad). Funciones en `app.js`: `evaluarRestriccion(f, pauta)`, `renderBannerRestriccion()`, `pautaActivaSegunModo(f)`, `fmtEdadLimite()`. En `renderPanel()` se evalúa la pauta activa según el modo y se muestra el banner `#aviso-restriccion` (ámbar/rojo) encima del resultado; en intermitente además se colorea el número (`.dosis-int-val--restr-ambar/rojo`). Solo alerta si el usuario ha introducido edad/peso. **Revisión completa de los 149 contra Pediamécum/AEMPS (mayo 2026): ~40 fármacos con límites; solo se ponen donde hay restricción real — la mayoría se usan a cualquier edad o desde el periodo neonatal y quedan sin límite a propósito para evitar falsos positivos.** Rojos destacados: ibuprofeno <3m, metamizol <3m/<5kg, ceftriaxona <28d, cotrimoxazol <2m, eritromicina <2sem, sulfadiazina argéntica <2m, povidona yodada <6m. Ámbares: bilastina/naproxeno/montelukast/valproato/malatión, cefuroxima <3m, EMLA <3m, PEG/cipro+fluocinolona ótico <6m, sacarosa >6kg. **Al añadir/editar un fármaco con restricción de edad o peso conocida, rellenar estos campos.**
+  - **Alerta de edad/peso fuera de rango**: campos opcionales `edad_min_meses`, `edad_max_meses`, `peso_min_kg`, `peso_max_kg`, `restriccion_nivel` ("ambar" por defecto o "rojo"), `restriccion_texto`, a nivel de fármaco o de pauta (la pauta tiene prioridad). Funciones en `app.js`: `evaluarRestriccion(f, pauta)`, `renderBannerRestriccion()`, `pautaActivaSegunModo(f)`, `fmtEdadLimite()`. En `renderPanel()` se evalúa la pauta activa según el modo y se muestra el banner `#aviso-restriccion` (ámbar/rojo) encima del resultado; en intermitente además se colorea el número (`.dosis-int-val--restr-ambar/rojo`). Solo alerta si el usuario ha introducido edad/peso. **Revisión completa de los 149 contra Pediamécum/AEMPS (mayo 2026): ~40 fármacos con límites; solo se ponen donde hay restricción real — la mayoría se usan a cualquier edad o desde el periodo neonatal y quedan sin límite a propósito para evitar falsos positivos.** Rojos destacados: ibuprofeno <3m, metamizol <3m/<5kg, ceftriaxona <28d, cotrimoxazol <2m, eritromicina <2sem, sulfadiazina argéntica <2m, povidona yodada <6m (también en rojo: dexclorfeniramina e hidroxizina). Ámbares: bilastina/naproxeno/montelukast/valproato/malatión, cefuroxima <3m, EMLA <3m, PEG/cipro+fluocinolona ótico <6m, sacarosa >6kg. **Al añadir/editar un fármaco con restricción de edad o peso conocida, rellenar estos campos.**
   - **Sistema de novedades / changelog**: constante `APP_VERSION` + array `NOVEDADES` (changelog) en `app.js`. Tras actualizar, los usuarios EXISTENTES ven una vez el modal `#modal-novedades` (elegante, estilo bienvenida) y una **campana 🔔** en el header (`#btn-novedades`) que brilla (`btn-novedades--activa`) hasta leerlas; al leer se apaga y se guarda `dosisped-version-vista`. Los usuarios NUEVOS solo ven la bienvenida (se registra la versión silenciosamente). El modal muestra **todas las novedades acumuladas** desde la última versión vista (`novedadesNoVistas()`), no solo la más reciente — así quien se saltó varias versiones ve un resumen de todas. Historial completo de versiones en el modal "Acerca de" (`#historial-versiones`, `renderHistorialVersiones()`). Funciones: `gestionarNovedades()`, `abrirModalNovedades()`, `cerrarModalNovedades()`, `activarCampana()`, `esUsuarioExistente()`, `novedadesNoVistas()`. **Para añadir una versión**: insertar entrada al PRINCIPIO de `NOVEDADES` y actualizar `APP_VERSION` para que coincida con `NOVEDADES[0].version`.
   - **Buzón de sugerencias** (Web3Forms): botón "Escribir una sugerencia" en el modal "Acerca de" → abre `#modal-sugerencias` con formulario (tipo, mensaje, nombre opc., email opc., honeypot anti-spam). Envío por `fetch` POST a `https://api.web3forms.com/submit` con `WEB3FORMS_KEY` (clave pública; el correo del autor NO aparece en el código). Funciones: `bindSugerencias()`, `abrirModalSugerencias()`, `enviarSugerencia()`. Si algún día se superan los 250 mensajes/mes del plan gratuito, alternativa: Google Forms ilimitado (cambiar el botón por un enlace al formulario).
     - **IMPORTANTE — payload del formulario**: incluye el campo estándar `email` (solo si el usuario lo proporciona) además de `Email_de_contacto`. El campo `email` hace que Web3Forms ponga ese correo como **Reply-To** del mensaje que recibe el autor, lo cual es **imprescindible** para que la autorespuesta automática (ver abajo) identifique al remitente. El asunto siempre es `"DosisPed · " + tipo` (p. ej. "DosisPed · Agradecimiento") — el tipo en el asunto es lo que usa el script para decidir la plantilla de respuesta. **No cambiar el formato del asunto ni el campo `email` sin actualizar también `autorespuesta-gmail.gs`.**
@@ -683,7 +742,8 @@ GitHub puede pedir credenciales en la primera vez. Indicarle al usuario que:
 
 - **Funcionalidades implementadas**:
   - 4 modos de administración (intermitente, perfusión, carga+mant, puntual)
-  - Paciente: peso + edad (años/meses/días) + modo neonato (EG + EPN)
+  - Paciente: peso + edad (años/meses/días) + modo neonato (EG + EPN; solo informativos, no entran en el cálculo)
+  - Vista paciente con imprimir y compartir por enlace (`?rx=`), alerta de edad/peso, novedades con campana, buzón de sugerencias (ver arriba)
   - Búsqueda por nombre, categoría y sinónimos
   - Filtros por categoría + favoritos
   - Preparados comerciales con cálculo automático de volumen
@@ -701,6 +761,8 @@ GitHub puede pedir credenciales en la primera vez. Indicarle al usuario que:
 ---
 
 ## 14. Próximos pasos sugeridos (no comprometidos)
+
+> Nota 24/11/2026: ya están hechos en el código — heparina, propranolol, captopril, enalapril, dexmedetomidina, rocuronio, succinilcolina, fluconazol, anfotericina B, famotidina/ranitidina, sumatriptán, hierro, ácido fólico, vitamina D, melatonina, bicarbonato, calcio, octreotido (Lote 4); persistencia del fármaco abierto, historial, vista paciente, imprimir/copiar y publicación en GitHub Pages. Se conserva el texto como historial; lo pendiente de verdad es «comparar preparados» y el dominio personalizado.
 
 **Más fármacos** (lotes futuros):
 - Cardio: heparina sódica, propranolol, captopril, enalapril

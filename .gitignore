@@ -19,3 +19,6 @@ package-lock.json
 # Backups y logs
 *.bak
 *.log
+
+# Copias de seguridad locales (rotación de 5)
+Backup/
